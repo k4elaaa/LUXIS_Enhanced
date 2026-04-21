@@ -3,10 +3,12 @@ import { Calendar, CheckCircle, Clock, Star, AlertCircle, ChevronLeft, ChevronRi
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
-import livingRoomImage from "../../components/assets/images/LivingRoom1.png";
-import kitchenImage from "../../components/assets/images/Kitchen.png";
-import masterBedroomImage from "../../components/assets/images/MasterBedroom.png";
-import bathroomImage from "../../components/assets/images/Bathroom.jpg";
+import eliteBeforeImage from "../../components/assets/images/lilymess.jpg";
+import eliteAfterImage from "../../components/assets/images/lilymessafter.jpg";
+import luxuryBeforeImage from "../../components/assets/images/MessyRoom.png";
+import luxuryAfterImage from "../../components/assets/images/CleanRoom.png";
+import grandHotelBeforeImage from "../../components/assets/images/HotelBefore.png";
+import grandHotelAfterImage from "../../components/assets/images/HotelAfter.png";
 
 export default function ClientDashboard() {
   const [currentBooking, setCurrentBooking] = useState<any>(null);
@@ -14,31 +16,29 @@ export default function ClientDashboard() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
   const [isPhotoViewerOpen, setIsPhotoViewerOpen] = useState(false);
+  const [galleryView, setGalleryView] = useState<"before" | "after">("before");
 
   const completedBookingPhotos = [
     {
       id: 1,
-      title: "Living Room - Deep Clean",
-      date: "Apr 10, 2026",
-      image: livingRoomImage,
+      title: "Business Center - Deep Cleaning",
+      date: "Apr 15, 2026",
+      beforeImage: eliteBeforeImage,
+      afterImage: eliteAfterImage,
     },
     {
       id: 2,
-      title: "Kitchen - Sparkling Clean",
-      date: "Apr 8, 2026",
-      image: kitchenImage,
+      title: "Condo Turnover - Bedroom and Bath",
+      date: "Apr 14, 2026",
+      beforeImage: luxuryBeforeImage,
+      afterImage: luxuryAfterImage,
     },
     {
       id: 3,
-      title: "Master Bedroom - Fresh Look",
-      date: "Apr 5, 2026",
-      image: masterBedroomImage,
-    },
-    {
-      id: 4,
-      title: "Bathroom - Pristine Condition",
-      date: "Apr 1, 2026",
-      image: bathroomImage,
+      title: "Residential Deep Clean - Hotel Ready",
+      date: "Apr 13, 2026",
+      beforeImage: grandHotelBeforeImage,
+      afterImage: grandHotelAfterImage,
     },
   ];
 
@@ -210,8 +210,8 @@ export default function ClientDashboard() {
                   className="relative h-80 w-full rounded-xl overflow-hidden border border-[#2a2a2a] flex items-center justify-center text-left group"
                 >
                   <img
-                    src={completedBookingPhotos[slideIndex].image}
-                    alt={completedBookingPhotos[slideIndex].title}
+                    src={galleryView === "before" ? completedBookingPhotos[slideIndex].beforeImage : completedBookingPhotos[slideIndex].afterImage}
+                    alt={`${completedBookingPhotos[slideIndex].title} ${galleryView}`}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-[#191919]/50" />
@@ -222,6 +222,11 @@ export default function ClientDashboard() {
                     </div>
                     <h3 className="text-xl text-[#fffefe] font-bold">{completedBookingPhotos[slideIndex].title}</h3>
                     <p className="text-[#fffefe]/60 text-sm mt-2">{completedBookingPhotos[slideIndex].date}</p>
+                    <p className="text-xs mt-2">
+                      <span className={`${galleryView === "before" ? "bg-[#fcb316] text-[#191919]" : "bg-green-500 text-white"} px-2 py-1 rounded-full`}>
+                        {galleryView === "before" ? "Before" : "After"}
+                      </span>
+                    </p>
                     <p className="text-[#fffefe] text-xs mt-4 opacity-90">Click image to enlarge</p>
                   </div>
 
@@ -245,6 +250,25 @@ export default function ClientDashboard() {
                     className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-[#fcb316]/20 hover:bg-[#fcb316]/40 text-[#fcb316] rounded-full transition-all"
                   >
                     <ChevronRight size={24} />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 mt-4">
+                  <button
+                    type="button"
+                    onClick={() => setGalleryView("before")}
+                    className={`rounded-md overflow-hidden border transition-colors ${galleryView === "before" ? "border-[#fcb316]" : "border-[#2a2a2a] hover:border-[#fcb316]/60"}`}
+                  >
+                    <img src={completedBookingPhotos[slideIndex].beforeImage} alt="Before preview" className="h-20 w-full object-cover" />
+                    <p className="text-xs py-1 bg-[#1e1e1e] text-[#fffefe]/80">Before</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGalleryView("after")}
+                    className={`rounded-md overflow-hidden border transition-colors ${galleryView === "after" ? "border-green-500" : "border-[#2a2a2a] hover:border-green-500/60"}`}
+                  >
+                    <img src={completedBookingPhotos[slideIndex].afterImage} alt="After preview" className="h-20 w-full object-cover" />
+                    <p className="text-xs py-1 bg-[#1e1e1e] text-[#fffefe]/80">After</p>
                   </button>
                 </div>
 
@@ -279,10 +303,28 @@ export default function ClientDashboard() {
                   <X size={24} />
                 </button>
                 <img
-                  src={completedBookingPhotos[slideIndex].image}
+                  src={galleryView === "before" ? completedBookingPhotos[slideIndex].beforeImage : completedBookingPhotos[slideIndex].afterImage}
                   alt={completedBookingPhotos[slideIndex].title}
-                  className="w-full max-h-[82vh] object-contain rounded-lg border border-white/20"
+                  className="hidden"
                 />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="rounded-lg border border-[#fcb316]/50 overflow-hidden">
+                    <img
+                      src={completedBookingPhotos[slideIndex].beforeImage}
+                      alt={`${completedBookingPhotos[slideIndex].title} before`}
+                      className="w-full max-h-[70vh] object-contain bg-black/30"
+                    />
+                    <p className="text-center text-xs text-[#191919] bg-[#fcb316] py-1 font-semibold">BEFORE</p>
+                  </div>
+                  <div className="rounded-lg border border-green-500/50 overflow-hidden">
+                    <img
+                      src={completedBookingPhotos[slideIndex].afterImage}
+                      alt={`${completedBookingPhotos[slideIndex].title} after`}
+                      className="w-full max-h-[70vh] object-contain bg-black/30"
+                    />
+                    <p className="text-center text-xs text-white bg-green-500 py-1 font-semibold">AFTER</p>
+                  </div>
+                </div>
                 <div className="mt-3 text-center">
                   <p className="text-white font-semibold">{completedBookingPhotos[slideIndex].title}</p>
                   <p className="text-white/70 text-sm">{completedBookingPhotos[slideIndex].date}</p>
