@@ -20,7 +20,7 @@ interface Message {
 export default function ClientProfile() {
   const [userData, setUserData] = useState<UserData>({
     name: 'Mikaela Villegas',
-    email: 'mikaela.villegas@luxisclean.com',
+    email: 'mikaela.villegas@neatclean.com',
     phone: '+63 917 234 5678',
     memberSince: '2024-01-15'
   });

@@ -6,13 +6,13 @@
   --font-subheading: 'Montserrat', sans-serif;
   --font-body: 'Inter', sans-serif;
   
-  /* LUXIS Brand Colors */
-  --luxis-base: #191919;
-  --luxis-gold: #fcb316;
-  --luxis-gold-dark: #de950c;
-  --luxis-surface: #fffefe;
-  --luxis-dark-card: #222222;
-  --luxis-darker-card: #1e1e1e;
+  /* NEAT Brand Colors */
+  --neat-base: #191919;
+  --neat-gold: #fcb316;
+  --neat-gold-dark: #de950c;
+  --neat-surface: #fffefe;
+  --neat-dark-card: #222222;
+  --neat-darker-card: #1e1e1e;
   
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);

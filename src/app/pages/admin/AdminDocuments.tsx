@@ -1,5 +1,5 @@
-﻿import AdminSidebar from "../../components/AdminSidebar";
-import { FileText, Download, Eye, Trash2, ArrowLeft } from "lucide-react";
+import AdminSidebar from "../../components/AdminSidebar";
+import { FileText, Download, Eye, Trash2, X, ArrowLeft } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState } from "react";
 
@@ -27,11 +27,11 @@ type OtherDocument = {
 };
 
 const receipts = [
-  { id: 1, name: "Receipt – BK-3401 – Maria Santos.pdf", client: "Maria Santos", amount: "₱4,500", date: "Apr 16, 2026", service: "Luxe Package 2", size: "1.2 MB" },
-  { id: 2, name: "Receipt – BK-3400 – Jose Reyes.pdf", client: "Jose Reyes", amount: "₱3,200", date: "Apr 15, 2026", service: "Condominiums and Houses", size: "1.1 MB" },
-  { id: 3, name: "Receipt – BK-3398 – Carlos Mendoza.pdf", client: "Carlos Mendoza", amount: "₱3,200", date: "Apr 15, 2026", service: "Luxe Package 1", size: "1.0 MB" },
-  { id: 4, name: "Receipt – BK-3397 – Elena Torres.pdf", client: "Elena Torres", amount: "₱7,800", date: "Apr 14, 2026", service: "Post-Construction", size: "1.3 MB" },
-  { id: 5, name: "Receipt – BK-3395 – Ana Cruz.pdf", client: "Ana Cruz", amount: "₱2,600", date: "Apr 13, 2026", service: "Offices", size: "980 KB" },
+  { id: 1, name: "Receipt � BK-3401 � Maria Santos.pdf", client: "Maria Santos", amount: "?4,500", date: "Apr 16, 2026", service: "Luxe Package 2", size: "1.2 MB" },
+  { id: 2, name: "Receipt � BK-3400 � Jose Reyes.pdf", client: "Jose Reyes", amount: "?3,200", date: "Apr 15, 2026", service: "Condominiums and Houses", size: "1.1 MB" },
+  { id: 3, name: "Receipt � BK-3398 � Carlos Mendoza.pdf", client: "Carlos Mendoza", amount: "?3,200", date: "Apr 15, 2026", service: "Luxe Package 1", size: "1.0 MB" },
+  { id: 4, name: "Receipt � BK-3397 � Elena Torres.pdf", client: "Elena Torres", amount: "?7,800", date: "Apr 14, 2026", service: "Post-Construction", size: "1.3 MB" },
+  { id: 5, name: "Receipt � BK-3395 � Ana Cruz.pdf", client: "Ana Cruz", amount: "?2,600", date: "Apr 13, 2026", service: "Offices", size: "980 KB" },
 ];
 
 const contracts: OtherDocument[] = [
@@ -235,7 +235,7 @@ export default function AdminDocuments() {
           </button>
           <div className="max-w-2xl mx-auto bg-[#222222] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-2xl">
             <div className="bg-[#fcb316] p-6">
-              <h2 className="text-2xl text-[#191919]" style={{ fontFamily: 'var(--font-headline)' }}>LUXIS Receipt</h2>
+              <h2 className="text-2xl text-[#191919]" style={{ fontFamily: 'var(--font-headline)' }}>NEAT Receipt</h2>
               <p className="text-[#191919]/70 text-sm mt-1">Premium Field Service Management</p>
             </div>
             <div className="p-8 space-y-6">
@@ -259,7 +259,7 @@ export default function AdminDocuments() {
                 </div>
                 <div className="mt-4 border-t border-[#2a2a2a] pt-4 flex justify-between">
                   <p className="text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>Transportation Fee</p>
-                  <p className="text-[#fffefe]">₱600</p>
+                  <p className="text-[#fffefe]">?600</p>
                 </div>
                 <div className="mt-4 border-t border-[#fcb316]/30 pt-4 flex justify-between">
                   <p className="text-xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>Total</p>

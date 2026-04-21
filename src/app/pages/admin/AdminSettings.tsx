@@ -1,4 +1,4 @@
-﻿import AdminSidebar from "../../components/AdminSidebar";
+import AdminSidebar from "../../components/AdminSidebar";
 import { Shield, Users, Bell, Lock, Activity, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Switch } from "../../components/ui/switch";
@@ -6,11 +6,11 @@ import { Label } from "../../components/ui/label";
 import { useState } from "react";
 
 const activityLogs = [
-  { time: "Apr 16, 2026 10:45 AM", user: "admin@luxis.com", action: "Updated staff permissions", ip: "192.168.1.100" },
-  { time: "Apr 16, 2026 09:30 AM", user: "admin@luxis.com", action: "Modified client record CL-1001", ip: "192.168.1.100" },
-  { time: "Apr 15, 2026 04:20 PM", user: "manager@luxis.com", action: "Assigned staff to job #2847", ip: "192.168.1.105" },
-  { time: "Apr 15, 2026 02:15 PM", user: "admin@luxis.com", action: "Exported financial report", ip: "192.168.1.100" },
-  { time: "Apr 15, 2026 11:00 AM", user: "admin@luxis.com", action: "Created new staff account ST-2007", ip: "192.168.1.100" },
+  { time: "Apr 16, 2026 10:45 AM", user: "admin@neat.com", action: "Updated staff permissions", ip: "192.168.1.100" },
+  { time: "Apr 16, 2026 09:30 AM", user: "admin@neat.com", action: "Modified client record CL-1001", ip: "192.168.1.100" },
+  { time: "Apr 15, 2026 04:20 PM", user: "manager@neat.com", action: "Assigned staff to job #2847", ip: "192.168.1.105" },
+  { time: "Apr 15, 2026 02:15 PM", user: "admin@neat.com", action: "Exported financial report", ip: "192.168.1.100" },
+  { time: "Apr 15, 2026 11:00 AM", user: "admin@neat.com", action: "Created new staff account ST-2007", ip: "192.168.1.100" },
 ];
 
 const roles = [
@@ -133,7 +133,7 @@ export default function AdminSettings() {
                         <Lock className="text-[#fcb316]" size={16} />
                       </div>
                       <div className="flex items-center gap-4 text-sm text-[#fffefe]/60">
-                        <span>{log.time}</span><span>•</span><span>{log.user}</span>
+                        <span>{log.time}</span><span>�</span><span>{log.user}</span>
                       </div>
                       <p className="text-xs text-[#fffefe]/40 mt-1">IP: {log.ip}</p>
                     </div>

@@ -1,11 +1,22 @@
-﻿import { useState } from "react";
-import { Star, Send, AlertCircle, CheckCircle, Download, Image as ImageIcon } from "lucide-react";
+import { useState } from "react";
+import {
+  Star,
+  Send,
+  AlertCircle,
+  CheckCircle,
+  Download,
+  Image as ImageIcon,
+  MapPin,
+  CalendarDays,
+  Package as PackageIcon,
+  Ticket
+} from "lucide-react";
 import ClientSidebar from "../../components/ClientSidebar";
 import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 
-const luxisPackages = {
+const neatPackages = {
   "Package 1": {
     duration: "2 hours cleaning",
     team: "2 cleaners",
@@ -34,7 +45,7 @@ const serviceHistory = [
     totalAmount: 3200,
     package: "Package 1",
     status: "Completed",
-    address: "Alabang, Muntinlupa City, Metro Manila",
+    address: "123 Ayala Avenue, Makati City, Metro Manila",
     duration: "2 hours",
     team: "2 cleaners",
     staffName: "Maria Garcia",
@@ -52,7 +63,7 @@ const serviceHistory = [
     totalAmount: 4500,
     package: "Package 2",
     status: "Completed",
-    address: "Makati City, Metro Manila, Philippines",
+    address: "456 Bonifacio Global City, Taguig City, Metro Manila",
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
     staffName: "John Smith",
@@ -70,7 +81,7 @@ const serviceHistory = [
     totalAmount: 3200,
     package: "Package 1",
     status: "Completed",
-    address: "Quezon City, Metro Manila, Philippines",
+    address: "789 Tomas Morato Avenue, Quezon City, Metro Manila",
     duration: "2 hours",
     team: "2 cleaners",
     staffName: "Sarah Johnson",
@@ -88,7 +99,7 @@ const serviceHistory = [
     totalAmount: 4500,
     package: "Package 2",
     status: "Completed",
-    address: "Mandaluyong City, Metro Manila, Philippines",
+    address: "321 Shaw Boulevard, Mandaluyong City, Metro Manila",
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
     staffName: "Michael Brown",
@@ -184,7 +195,7 @@ export default function ClientFeedback() {
     ctx.font = "bold 40px 'Segoe UI', sans-serif";
     ctx.fillStyle = "#191919";
     ctx.textAlign = "center";
-    ctx.fillText("LUXIS", width / 2, 45);
+    ctx.fillText("NEAT", width / 2, 45);
 
     ctx.font = "bold 14px 'Segoe UI', sans-serif";
     ctx.fillText("PREMIUM CLEANING SERVICES", width / 2, 75);
@@ -197,7 +208,7 @@ export default function ClientFeedback() {
       ctx.font = "bold 12px 'Segoe UI', sans-serif";
       ctx.fillStyle = "#fcb316";
       ctx.textAlign = "left";
-      ctx.fillText(`◆ ${title}`, 30, yPos);
+      ctx.fillText(`- ${title}`, 30, yPos);
       yPos += 25;
 
       // Items
@@ -257,7 +268,7 @@ export default function ClientFeedback() {
     ctx.font = "bold 12px 'Segoe UI', sans-serif";
     ctx.fillStyle = "#fcb316";
     ctx.textAlign = "left";
-    ctx.fillText("◆ PRICING BREAKDOWN", 30, yPos);
+    ctx.fillText("- PRICING BREAKDOWN", 30, yPos);
     yPos += 25;
 
     // Price box background
@@ -273,12 +284,12 @@ export default function ClientFeedback() {
 
     ctx.fillText("Service Charge", 50, yPos + 15);
     ctx.textAlign = "right";
-    ctx.fillText(`₱${service.amount.toLocaleString("en-PH")}`, width - 50, yPos + 15);
+    ctx.fillText(`PHP ${service.amount.toLocaleString("en-PH")}`, width - 50, yPos + 15);
 
     ctx.textAlign = "left";
     ctx.fillText("Transport Fee", 50, yPos + 40);
     ctx.textAlign = "right";
-    ctx.fillText(`₱${service.transportFee.toLocaleString("en-PH")}`, width - 50, yPos + 40);
+    ctx.fillText(`PHP ${service.transportFee.toLocaleString("en-PH")}`, width - 50, yPos + 40);
 
     // Total
     ctx.font = "bold 16px 'Segoe UI', sans-serif";
@@ -287,7 +298,7 @@ export default function ClientFeedback() {
     ctx.fillText("TOTAL AMOUNT", 50, yPos + 70);
     ctx.textAlign = "right";
     ctx.font = "bold 24px 'Segoe UI', sans-serif";
-    ctx.fillText(`₱${service.totalAmount.toLocaleString("en-PH")}`, width - 50, yPos + 70);
+    ctx.fillText(`PHP ${service.totalAmount.toLocaleString("en-PH")}`, width - 50, yPos + 70);
 
     yPos += 120;
 
@@ -301,7 +312,7 @@ export default function ClientFeedback() {
       month: "long",
       day: "numeric"
     });
-    ctx.fillText(`Generated: ${dateStr} • www.luxisclean.com`, width / 2, yPos);
+    ctx.fillText(`Generated: ${dateStr} | www.neatclean.com`, width / 2, yPos);
 
     // Download
     canvas.toBlob((blob) => {
@@ -309,7 +320,7 @@ export default function ClientFeedback() {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `LUXIS-Receipt-${service.bookingId}.png`;
+        link.download = `NEAT-Receipt-${service.bookingId}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -385,8 +396,12 @@ export default function ClientFeedback() {
                           <h3 className="text-lg font-bold text-[#fffefe]">{service.service}</h3>
                           <span className="text-xs px-3 py-1 bg-green-500/20 text-green-400 rounded-full font-semibold">{service.status}</span>
                         </div>
-                        <p className="text-[#fffefe]/60 text-sm mb-2">{service.address}</p>
-                        <div className="flex flex-wrap gap-4 text-[#fffefe]/50 text-xs"><span>{service.bookingId}</span><span>•</span><span className="text-[#fcb316] font-semibold">{service.package}</span><span>•</span><span>{service.date}</span></div>
+                        <p className="text-[#fffefe]/60 text-sm mb-2 flex items-center gap-2"><MapPin size={14} className="text-[#fcb316]" />{service.address}</p>
+                        <div className="flex flex-wrap gap-4 text-[#fffefe]/50 text-xs">
+                          <span className="flex items-center gap-1"><Ticket size={13} className="text-[#fcb316]" />{service.bookingId}</span>
+                          <span className="flex items-center gap-1"><PackageIcon size={13} className="text-[#fcb316]" />{service.package}</span>
+                          <span className="flex items-center gap-1"><CalendarDays size={13} className="text-[#fcb316]" />{service.date}</span>
+                        </div>
                       </div>
                       <button onClick={() => setSelectedService(service.id)} className="px-4 py-2 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] text-sm font-semibold rounded-lg">Leave Feedback</button>
                     </div>
@@ -395,7 +410,7 @@ export default function ClientFeedback() {
                   {expandedService === service.id && (
                     <div className="p-6 space-y-6 bg-[#191919]/50 border-t border-[#2a2a2a]">
                       <div className="grid sm:grid-cols-2 gap-4">
-                        <div><p className="text-[#fffefe]/60 text-xs font-semibold mb-1">PACKAGE</p><p className="text-[#fffefe] font-semibold">{service.package}</p><p className="text-[#fffefe]/60 text-xs mt-1">{luxisPackages[service.package as keyof typeof luxisPackages].description}</p></div>
+                        <div><p className="text-[#fffefe]/60 text-xs font-semibold mb-1">PACKAGE</p><p className="text-[#fffefe] font-semibold">{service.package}</p><p className="text-[#fffefe]/60 text-xs mt-1">{neatPackages[service.package as keyof typeof neatPackages].description}</p></div>
                         <div><p className="text-[#fffefe]/60 text-xs font-semibold mb-1">TEAM</p><p className="text-[#fffefe] font-semibold">{service.team}</p><p className="text-[#fffefe]/60 text-xs mt-1">Led by {service.staffName}</p></div>
                       </div>
                       <div><p className="text-[#fffefe] font-semibold mb-4 flex items-center gap-2"><ImageIcon size={18} className="text-[#fcb316]" /> Before & After</p><div className="grid sm:grid-cols-2 gap-4"><div className="space-y-2"><p className="text-[#fffefe]/60 text-xs">Before</p><div className="relative aspect-video bg-gradient-to-br rounded-lg overflow-hidden border border-[#2a2a2a]"><img src={service.beforeImage} alt="Before" className="w-full h-full object-cover" /></div></div><div className="space-y-2"><p className="text-[#fffefe]/60 text-xs">After</p><div className="relative aspect-video bg-gradient-to-br rounded-lg overflow-hidden border border-[#2a2a2a]"><img src={service.afterImage} alt="After" className="w-full h-full object-cover" /></div></div></div></div>

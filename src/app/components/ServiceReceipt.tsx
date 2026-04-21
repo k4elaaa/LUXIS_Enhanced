@@ -47,7 +47,7 @@ export default function ServiceReceipt({ service, onClose }: ServiceReceiptProps
           {/* Header */}
           <div className="text-center border-b border-[#2a2a2a] pb-4">
             <h2 className="text-2xl text-[#fcb316] font-light" style={{ fontFamily: 'var(--font-headline)' }}>
-              LUXIS PREMIUM
+              NEAT PREMIUM
             </h2>
             <p className="text-[#fffefe]/60 text-xs mt-1">Professional Cleaning Services</p>
           </div>
@@ -124,7 +124,7 @@ export default function ServiceReceipt({ service, onClose }: ServiceReceiptProps
           {/* Footer */}
           <div className="border-t border-[#2a2a2a] pt-4 text-center">
             <p className="text-[#fffefe]/50 text-xs">
-              Thank you for using LUXIS Premium Services
+              Thank you for using NEAT Premium Services
             </p>
             <p className="text-[#fffefe]/40 text-xs mt-2">
               Receipt generated on {new Date().toLocaleDateString()}

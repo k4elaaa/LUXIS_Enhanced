@@ -6,7 +6,7 @@ const profileData = {
   id: "ST-2001",
   name: "Ana Madrigal",
   role: "Senior Cleaner",
-  email: "anamadrigal22@luxis.com",
+  email: "anamadrigal22@neat.com",
   phone: "0967-123-4567",
   location: "Mandaluyong, Metro Manila, Philippines",
   joinDate: "Jan 15, 2024",

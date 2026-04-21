@@ -22,7 +22,7 @@ export default function ManagerFeedback() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `LUXIS_Feedback_April_2026.csv`;
+    a.download = `NEAT_Feedback_April_2026.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };

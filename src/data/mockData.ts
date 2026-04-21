@@ -1,5 +1,5 @@
 /**
- * Mock Data for LUXIS Cleaning Service Platform
+ * Mock Data for NEAT Cleaning Service Platform
  * Frontend-only data structure (no backend)
  */
 
@@ -127,7 +127,7 @@ export const mockStaff: Record<string, StaffMember> = {
   "staff-1": {
     id: "staff-1",
     name: "Lisa Wong",
-    email: "lisa.wong@luxis.com",
+    email: "lisa.wong@neat.com",
     phone: "+63 917 020 0201",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lisa",
     skills: ["residential", "deep-clean", "window-cleaning"],
@@ -139,7 +139,7 @@ export const mockStaff: Record<string, StaffMember> = {
   "staff-2": {
     id: "staff-2",
     name: "James Anderson",
-    email: "james.anderson@luxis.com",
+    email: "james.anderson@neat.com",
     phone: "+63 917 020 0202",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
     skills: ["commercial", "carpet-cleaning", "floor-polishing"],
@@ -151,7 +151,7 @@ export const mockStaff: Record<string, StaffMember> = {
   "staff-3": {
     id: "staff-3",
     name: "Maria Garcia",
-    email: "maria.garcia@luxis.com",
+    email: "maria.garcia@neat.com",
     phone: "+63 917 020 0203",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria",
     skills: ["residential", "move-in", "move-out"],
@@ -163,7 +163,7 @@ export const mockStaff: Record<string, StaffMember> = {
   "staff-4": {
     id: "staff-4",
     name: "David Park",
-    email: "david.park@luxis.com",
+    email: "david.park@neat.com",
     phone: "+63 917 020 0204",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
     skills: ["commercial", "office-cleaning", "sanitization"],
@@ -175,7 +175,7 @@ export const mockStaff: Record<string, StaffMember> = {
   "staff-5": {
     id: "staff-5",
     name: "Sofia Martinez",
-    email: "sofia.martinez@luxis.com",
+    email: "sofia.martinez@neat.com",
     phone: "+63 917 020 0205",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sofia",
     skills: ["residential", "apartment", "detailed-cleaning"],

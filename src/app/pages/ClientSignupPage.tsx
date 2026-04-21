@@ -168,7 +168,7 @@ export default function ClientSignupPage() {
             className="text-3xl text-center mb-2 text-[#fffefe]"
             style={{ fontFamily: "var(--font-headline)" }}
           >
-            Welcome to LUXIS
+            Welcome to NEAT
           </h2>
           <p className="text-center mb-8 text-[#fffefe]/60" style={{ fontFamily: "var(--font-body)" }}>
             {step === "contact" && "Sign up for your account"}

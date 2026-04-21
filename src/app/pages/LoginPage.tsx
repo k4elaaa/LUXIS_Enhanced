@@ -86,7 +86,7 @@ export default function LoginPage() {
         <div className="border rounded-lg p-8 shadow-2xl bg-[#222222] border-[#2a2a2a]">
           <div className="text-center mb-8">
             <p className="text-4xl text-[#fcb316] tracking-[0.2em]" style={{ fontFamily: 'var(--font-headline)' }}>
-              LUXIS
+              NEAT
             </p>
           </div>
 
@@ -94,7 +94,7 @@ export default function LoginPage() {
             Welcome Back
           </h2>
           <p className="text-center mb-8 text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>
-            Sign in to your LUXIS account
+            Sign in to your NEAT account
           </p>
 
           <Tabs value={activeRole} onValueChange={setActiveRole} className="mb-6">

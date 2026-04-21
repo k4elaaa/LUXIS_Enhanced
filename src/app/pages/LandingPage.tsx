@@ -115,7 +115,7 @@ export default function LandingPage() {
               <span className="text-[#fcb316]">Seamlessly Managed</span>
             </h1>
             <p className="text-xl text-[#fffefe]/80 mb-4" style={{ fontFamily: 'var(--font-subheading)' }}>
-              <span className="text-[#fcb316]">LUXIS</span> — Luxurious Unified Xcelerated Integrated Systems
+              <span className="text-[#fcb316]">NEAT</span> — Network for Easy and Accessible Transactions
             </p>
             <p className="text-lg text-[#fffefe]/70 mb-8" style={{ fontFamily: 'var(--font-body)' }}>
               Premium FSM platform with built-in CRM for high-end cleaning businesses
@@ -166,7 +166,7 @@ export default function LandingPage() {
       <section id="features" className="py-24 bg-[#191919]">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-5xl text-center mb-16 text-[#fffefe]" style={{ fontFamily: 'var(--font-headline)' }}>
-            Why Choose <span className="text-[#fcb316]">LUXIS</span>
+            Why Choose <span className="text-[#fcb316]">NEAT</span>
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -362,7 +362,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-[#222222] pt-8 text-center text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>
-            © 2026 LUXIS. All rights reserved.
+            © 2026 NEAT. All rights reserved.
           </div>
         </div>
       </footer>

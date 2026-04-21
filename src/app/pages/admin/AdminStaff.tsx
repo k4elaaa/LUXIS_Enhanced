@@ -6,12 +6,12 @@ import { Label } from "../../components/ui/label";
 import { useState } from "react";
 
 const staffData = [
-  { id: "ST-2001", name: "Sarah Johnson", role: "Senior Cleaner", status: "On Duty", rating: 4.9, jobs: 124, phone: "+63 917 111 2222", email: "sarah.j@luxis.com", address: "Makati City, Metro Manila", joined: "Jan 15, 2024", availability: "Mon-Fri, 8AM-6PM" },
-  { id: "ST-2002", name: "Mike Chen", role: "Team Lead", status: "Available", rating: 4.8, jobs: 156, phone: "+63 917 222 3333", email: "mike.c@luxis.com", address: "BGC, Taguig City", joined: "Mar 10, 2023", availability: "Mon-Sat, 7AM-7PM" },
-  { id: "ST-2003", name: "Emily Davis", role: "Specialist", status: "On Duty", rating: 5.0, jobs: 98, phone: "+63 917 333 4444", email: "emily.d@luxis.com", address: "Quezon City, Metro Manila", joined: "Jun 01, 2024", availability: "Tue-Sun, 9AM-5PM" },
-  { id: "ST-2004", name: "James Wilson", role: "Cleaner", status: "Off Duty", rating: 4.7, jobs: 87, phone: "+63 917 444 5555", email: "james.w@luxis.com", address: "Pasig City, Metro Manila", joined: "Sep 20, 2023", availability: "Mon-Fri, 8AM-5PM" },
-  { id: "ST-2005", name: "Lisa Martinez", role: "Senior Cleaner", status: "On Duty", rating: 4.9, jobs: 142, phone: "+63 917 555 6666", email: "lisa.m@luxis.com", address: "Mandaluyong City", joined: "Feb 14, 2023", availability: "Mon-Sat, 8AM-6PM" },
-  { id: "ST-2006", name: "David Brown", role: "Team Lead", status: "Available", rating: 4.8, jobs: 167, phone: "+63 917 666 7777", email: "david.b@luxis.com", address: "Ortigas, Pasig City", joined: "Dec 01, 2022", availability: "Mon-Sun, 7AM-8PM" },
+  { id: "ST-2001", name: "Sarah Johnson", role: "Senior Cleaner", status: "On Duty", rating: 4.9, jobs: 124, phone: "+63 917 111 2222", email: "sarah.j@neat.com", address: "Makati City, Metro Manila", joined: "Jan 15, 2024", availability: "Mon-Fri, 8AM-6PM" },
+  { id: "ST-2002", name: "Mike Chen", role: "Team Lead", status: "Available", rating: 4.8, jobs: 156, phone: "+63 917 222 3333", email: "mike.c@neat.com", address: "BGC, Taguig City", joined: "Mar 10, 2023", availability: "Mon-Sat, 7AM-7PM" },
+  { id: "ST-2003", name: "Emily Davis", role: "Specialist", status: "On Duty", rating: 5.0, jobs: 98, phone: "+63 917 333 4444", email: "emily.d@neat.com", address: "Quezon City, Metro Manila", joined: "Jun 01, 2024", availability: "Tue-Sun, 9AM-5PM" },
+  { id: "ST-2004", name: "James Wilson", role: "Cleaner", status: "Off Duty", rating: 4.7, jobs: 87, phone: "+63 917 444 5555", email: "james.w@neat.com", address: "Pasig City, Metro Manila", joined: "Sep 20, 2023", availability: "Mon-Fri, 8AM-5PM" },
+  { id: "ST-2005", name: "Lisa Martinez", role: "Senior Cleaner", status: "On Duty", rating: 4.9, jobs: 142, phone: "+63 917 555 6666", email: "lisa.m@neat.com", address: "Mandaluyong City", joined: "Feb 14, 2023", availability: "Mon-Sat, 8AM-6PM" },
+  { id: "ST-2006", name: "David Brown", role: "Team Lead", status: "Available", rating: 4.8, jobs: 167, phone: "+63 917 666 7777", email: "david.b@neat.com", address: "Ortigas, Pasig City", joined: "Dec 01, 2022", availability: "Mon-Sun, 7AM-8PM" },
 ];
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -186,7 +186,7 @@ export default function AdminStaff() {
               </div>
               <div>
                 <Label className="text-[#fffefe] mb-2 block">Email</Label>
-                <Input type="email" placeholder="email@luxis.com" value={newStaff.email} onChange={e => setNewStaff({...newStaff, email: e.target.value})} className="bg-[#1e1e1e] border-[#2a2a2a] text-[#fffefe] focus:border-[#fcb316]" />
+                <Input type="email" placeholder="email@neat.com" value={newStaff.email} onChange={e => setNewStaff({...newStaff, email: e.target.value})} className="bg-[#1e1e1e] border-[#2a2a2a] text-[#fffefe] focus:border-[#fcb316]" />
               </div>
               <div>
                 <Label className="text-[#fffefe] mb-2 block">Address</Label>
