@@ -1,5 +1,5 @@
 import AdminSidebar from "../../components/AdminSidebar";
-import { FileText, Download, Eye, Trash2, X, ArrowLeft } from "lucide-react";
+import { FileText, Download, Eye, Trash2, ArrowLeft, Receipt, FileSignature, ShieldCheck, BarChart3 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState } from "react";
 
@@ -27,11 +27,11 @@ type OtherDocument = {
 };
 
 const receipts = [
-  { id: 1, name: "Receipt � BK-3401 � Maria Santos.pdf", client: "Maria Santos", amount: "?4,500", date: "Apr 16, 2026", service: "Luxe Package 2", size: "1.2 MB" },
-  { id: 2, name: "Receipt � BK-3400 � Jose Reyes.pdf", client: "Jose Reyes", amount: "?3,200", date: "Apr 15, 2026", service: "Condominiums and Houses", size: "1.1 MB" },
-  { id: 3, name: "Receipt � BK-3398 � Carlos Mendoza.pdf", client: "Carlos Mendoza", amount: "?3,200", date: "Apr 15, 2026", service: "Luxe Package 1", size: "1.0 MB" },
-  { id: 4, name: "Receipt � BK-3397 � Elena Torres.pdf", client: "Elena Torres", amount: "?7,800", date: "Apr 14, 2026", service: "Post-Construction", size: "1.3 MB" },
-  { id: 5, name: "Receipt � BK-3395 � Ana Cruz.pdf", client: "Ana Cruz", amount: "?2,600", date: "Apr 13, 2026", service: "Offices", size: "980 KB" },
+  { id: 1, name: "Receipt - BK-3401 - Maria Santos.pdf", client: "Maria Santos", amount: "PHP 4,500", date: "Apr 16, 2026", service: "Luxe Package 2", size: "1.2 MB" },
+  { id: 2, name: "Receipt - BK-3400 - Jose Reyes.pdf", client: "Jose Reyes", amount: "PHP 3,200", date: "Apr 15, 2026", service: "Condominiums and Houses", size: "1.1 MB" },
+  { id: 3, name: "Receipt - BK-3398 - Carlos Mendoza.pdf", client: "Carlos Mendoza", amount: "PHP 3,200", date: "Apr 15, 2026", service: "Luxe Package 1", size: "1.0 MB" },
+  { id: 4, name: "Receipt - BK-3397 - Elena Torres.pdf", client: "Elena Torres", amount: "PHP 7,800", date: "Apr 14, 2026", service: "Post-Construction", size: "1.3 MB" },
+  { id: 5, name: "Receipt - BK-3395 - Ana Cruz.pdf", client: "Ana Cruz", amount: "PHP 2,600", date: "Apr 13, 2026", service: "Offices", size: "980 KB" },
 ];
 
 const contracts: OtherDocument[] = [
@@ -45,7 +45,7 @@ const contracts: OtherDocument[] = [
     template: {
       summary: "Service agreement for recurring residential deep cleaning.",
       sections: [
-        { title: "Parties", content: "LUXIS Services Inc. and Maria Santos." },
+        { title: "Parties", content: "NEAT Services Inc. and Maria Santos." },
         { title: "Scope", content: "Twice-monthly deep cleaning for kitchen, bathrooms, and bedrooms." },
         { title: "Payment", content: "Monthly fee payable every 5th of the month via bank transfer." },
       ],
@@ -78,7 +78,7 @@ const contracts: OtherDocument[] = [
       summary: "Office cleaning agreement with weekly schedule and consumables.",
       sections: [
         { title: "Schedule", content: "Monday, Wednesday, Friday from 7:00 PM to 10:00 PM." },
-        { title: "Materials", content: "Eco-friendly cleaning materials provided by LUXIS." },
+        { title: "Materials", content: "Eco-friendly cleaning materials provided by NEAT." },
         { title: "Term", content: "Six-month initial contract with 30-day termination notice." },
       ],
     },
@@ -220,6 +220,12 @@ export default function AdminDocuments() {
   const [previewReceipt, setPreviewReceipt] = useState<Receipt | null>(null);
   const [previewDocument, setPreviewDocument] = useState<OtherDocument | null>(null);
 
+  const getTypeIcon = (type: DocumentType) => {
+    if (type === "Contract") return <FileSignature size={16} className="text-[#191919]" />;
+    if (type === "Policy") return <ShieldCheck size={16} className="text-[#191919]" />;
+    return <BarChart3 size={16} className="text-[#191919]" />;
+  };
+
   if (previewReceipt) {
     return (
       <div className="flex min-h-screen bg-[#191919]">
@@ -259,7 +265,7 @@ export default function AdminDocuments() {
                 </div>
                 <div className="mt-4 border-t border-[#2a2a2a] pt-4 flex justify-between">
                   <p className="text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>Transportation Fee</p>
-                  <p className="text-[#fffefe]">?600</p>
+                  <p className="text-[#fffefe]">PHP 600</p>
                 </div>
                 <div className="mt-4 border-t border-[#fcb316]/30 pt-4 flex justify-between">
                   <p className="text-xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>Total</p>
@@ -295,7 +301,10 @@ export default function AdminDocuments() {
 
           <div className="max-w-3xl mx-auto bg-[#222222] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-2xl">
             <div className="bg-[#fcb316] p-6">
-              <p className="text-[#191919]/70 text-sm mb-1">{previewDocument.type} Template</p>
+              <div className="flex items-center gap-2 text-[#191919]/80 text-sm mb-1">
+                {getTypeIcon(previewDocument.type)}
+                <span>{previewDocument.type} File Preview</span>
+              </div>
               <h2 className="text-2xl text-[#191919]" style={{ fontFamily: 'var(--font-headline)' }}>{previewDocument.name}</h2>
             </div>
 
@@ -311,38 +320,94 @@ export default function AdminDocuments() {
                 </div>
               </div>
 
-              <div className="border-t border-[#2a2a2a] pt-6">
-                <h3 className="text-[#fcb316] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Summary</h3>
-                <p className="text-[#fffefe]/80 leading-relaxed">{previewDocument.template.summary}</p>
-              </div>
-
-              <div className="space-y-4">
-                {previewDocument.template.sections.map((section) => (
-                  <div key={section.title} className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
-                    <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>{section.title}</h4>
-                    <p className="text-[#fffefe]/75 text-sm leading-relaxed">{section.content}</p>
+              {previewDocument.type === "Contract" && (
+                <>
+                  <div className="border-t border-[#2a2a2a] pt-6">
+                    <h3 className="text-[#fcb316] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Service Agreement</h3>
+                    <p className="text-[#fffefe]/80 leading-relaxed">
+                      This contract is executed between NEAT Services Inc. and the named client for the delivery of cleaning services according to the terms below.
+                    </p>
                   </div>
-                ))}
-              </div>
-
-              {previewDocument.type === "Report" && previewDocument.template.staffChecklist && (
-                <div className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
-                  <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Staff Checklist</h4>
-                  <ul className="space-y-2">
-                    {previewDocument.template.staffChecklist.map((item) => (
-                      <li key={item} className="text-[#fffefe]/75 text-sm leading-relaxed flex items-start gap-2">
-                        <span className="text-[#fcb316] mt-[2px]">•</span>
-                        <span>{item}</span>
-                      </li>
+                  <div className="space-y-4">
+                    {previewDocument.template.sections.map((section, index) => (
+                      <div key={section.title} className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                        <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Clause {index + 1}: {section.title}</h4>
+                        <p className="text-[#fffefe]/75 text-sm leading-relaxed">{section.content}</p>
+                      </div>
                     ))}
-                  </ul>
-                </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                      <p className="text-[#fffefe]/60 text-xs mb-2">Client Signature</p>
+                      <div className="border-b border-[#fffefe]/30 h-8" />
+                    </div>
+                    <div className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                      <p className="text-[#fffefe]/60 text-xs mb-2">Authorized NEAT Representative</p>
+                      <div className="border-b border-[#fffefe]/30 h-8" />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {previewDocument.type === "Policy" && (
+                <>
+                  <div className="border-t border-[#2a2a2a] pt-6">
+                    <h3 className="text-[#fcb316] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Policy Statement</h3>
+                    <p className="text-[#fffefe]/80 leading-relaxed">{previewDocument.template.summary}</p>
+                  </div>
+                  <div className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                    <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Applicability</h4>
+                    <p className="text-[#fffefe]/75 text-sm">Applies to all NEAT staff, managers, and contractors handling on-site operations and client data.</p>
+                  </div>
+                  <div className="space-y-4">
+                    {previewDocument.template.sections.map((section, index) => (
+                      <div key={section.title} className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                        <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Section {index + 1}: {section.title}</h4>
+                        <p className="text-[#fffefe]/75 text-sm leading-relaxed">{section.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                    <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Review and Enforcement</h4>
+                    <p className="text-[#fffefe]/75 text-sm leading-relaxed">Policy compliance is monitored by department leads. Violations are escalated to Admin and HR for corrective action.</p>
+                  </div>
+                </>
+              )}
+
+              {previewDocument.type === "Report" && (
+                <>
+                  <div className="border-t border-[#2a2a2a] pt-6">
+                    <h3 className="text-[#fcb316] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Executive Summary</h3>
+                    <p className="text-[#fffefe]/80 leading-relaxed">{previewDocument.template.summary}</p>
+                  </div>
+                  <div className="space-y-4">
+                    {previewDocument.template.sections.map((section) => (
+                      <div key={section.title} className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                        <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>{section.title}</h4>
+                        <p className="text-[#fffefe]/75 text-sm leading-relaxed">{section.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {previewDocument.template.staffChecklist && (
+                    <div className="border border-[#2a2a2a] rounded-xl p-4 bg-[#1e1e1e]">
+                      <h4 className="text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>Staff Checklist</h4>
+                      <ul className="space-y-2">
+                        {previewDocument.template.staffChecklist.map((item) => (
+                          <li key={item} className="text-[#fffefe]/75 text-sm leading-relaxed flex items-start gap-2">
+                            <span className="text-[#fcb316] mt-[2px]">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </>
               )}
 
               <div className="flex gap-3 mt-6">
                 <Button className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919]">
                   <Download size={16} className="mr-2" />
-                  Download Template
+                  Download {previewDocument.type}
                 </Button>
               </div>
             </div>
@@ -386,7 +451,7 @@ export default function AdminDocuments() {
                     <tr key={r.id} className="border-t border-[#2a2a2a] hover:bg-[#1e1e1e] transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <FileText className="text-[#fcb316]" size={20} />
+                          <Receipt className="text-[#fcb316]" size={20} />
                           <span className="text-[#fffefe] text-sm">{r.name}</span>
                         </div>
                       </td>
