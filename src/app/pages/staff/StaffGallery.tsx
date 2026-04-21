@@ -33,10 +33,10 @@ const galleryJobs: GalleryJob[] = [
   {
     id: 1,
     jobRef: "JOB-2845",
-    client: "Elite Residences",
-    location: "Los Angeles, CA",
+    client: "HYT Business Center",
+    location: "55 Natividad St., Brgy. Paltok, Philippines",
     date: "Apr 15, 2026",
-    service: "Luxury Home Deep Cleaning",
+    service: "Deep Cleaning",
     beforeUrl: eliteBeforeImage,
     afterUrl: eliteAfterImage,
     improvement: "Dust-heavy surfaces restored, polished finish across all living areas.",
@@ -44,21 +44,21 @@ const galleryJobs: GalleryJob[] = [
   {
     id: 2,
     jobRef: "JOB-2842",
-    client: "Luxury Estates Ltd",
-    location: "Manhattan, NY",
+    client: "SMDC Residences",
+    location: "Pasig City, Metro Manila, Philippines",
     date: "Apr 14, 2026",
     service: "Move-out Condo Turnover",
     beforeUrl: luxuryBeforeImage,
     afterUrl: luxuryAfterImage,
-    improvement: "Sanitized kitchen and bathroom zones, clear mirrors and glass finishes.",
+    improvement: "Organize bedroom and sanitize bathroom area, clear mirrors and glass finishes.",
   },
   {
     id: 3,
     jobRef: "JOB-2840",
-    client: "Grand Hotel Group",
-    location: "Miami, FL",
+    client: "San Lorenzo Residences",
+    location: "Makati City, Metro Manila, Philippines",
     date: "Apr 13, 2026",
-    service: "Post-event Room Reset",
+    service: "Deep Cleaning",
     beforeUrl: grandHotelBeforeImage,
     afterUrl: grandHotelAfterImage,
     improvement: "Floor care and furniture reset completed with hotel-ready presentation.",
@@ -126,9 +126,9 @@ export default function StaffGallery() {
                         <h3 className="text-[#fffefe] text-xl" style={{ fontFamily: 'var(--font-subheading)' }}>{job.client}</h3>
                         <p className="text-[#fffefe]/60 text-sm mt-1">{job.service}</p>
                       </div>
-                      <div className="text-right text-sm text-[#fffefe]/65">
-                        <p className="inline-flex items-center gap-1"><Calendar size={14} /> {job.date}</p>
-                        <p className="inline-flex items-center gap-1 mt-1"><MapPin size={14} /> {job.location}</p>
+                      <div className="flex flex-col items-end gap-1 text-right text-sm text-[#fffefe]/65 leading-tight">
+                        <p className="flex items-center justify-end gap-1 w-full"><Calendar size={14} /> {job.date}</p>
+                        <p className="flex items-center justify-end gap-1 w-full"><MapPin size={14} /> {job.location}</p>
                       </div>
                     </div>
                   </div>

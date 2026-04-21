@@ -4,11 +4,11 @@ import Logo from "../../components/Logo";
 
 const profileData = {
   id: "ST-2001",
-  name: "Sarah Johnson",
+  name: "Ana Madrigal",
   role: "Senior Cleaner",
-  email: "sarah.johnson@luxis.com",
-  phone: "+1 (555) 111-2222",
-  location: "Manhattan, NY",
+  email: "anamadrigal22@luxis.com",
+  phone: "0967-123-4567",
+  location: "Mandaluyong, Metro Manila, Philippines",
   joinDate: "Jan 15, 2024",
   totalJobs: 124,
   rating: 4.9,

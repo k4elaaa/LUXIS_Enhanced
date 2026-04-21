@@ -333,18 +333,16 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <h4 className="text-[#fffefe] mb-4" style={{ fontFamily: 'var(--font-subheading)' }}>Services</h4>
+              <h4 className="text-[#fffefe] mb-4" style={{ fontFamily: 'var(--font-subheading)' }}>Location</h4>
               <div className="space-y-2 text-[#fffefe]/60 text-sm">
-                <p>Residential Cleaning</p>
-                <p>Commercial Cleaning</p>
-                <p>Deep Cleaning</p>
+                <p>Suite 1004 Atlanta Center, Annapolis St., San Juan City, Metro Manila, Philippines</p>
               </div>
             </div>
             <div>
               <h4 className="text-[#fffefe] mb-4" style={{ fontFamily: 'var(--font-subheading)' }}>Contact</h4>
               <div className="space-y-2 text-[#fffefe]/60 text-sm">
-                <p>support@luxis.com</p>
-                <p>1-800-LUXIS-99</p>
+                <p>luxuriouscleaning@gmail.com</p>
+                <p>0919 002 4136</p>
               </div>
             </div>
           </div>
