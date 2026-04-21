@@ -248,10 +248,10 @@ export const mockBookings: Record<string, Booking> = {
     propertyType: "office",
     squareFootage: 5000,
     address: {
-      street: "456 Business Plaza",
-      city: "Cebu City",
-      state: "Cebu",
-      zipCode: "6000",
+      street: "456 Bonifacio High Street",
+      city: "Taguig City",
+      state: "Metro Manila",
+      zipCode: "1634",
       country: "Philippines"
     },
     scheduledDate: "2026-04-21",
@@ -275,10 +275,10 @@ export const mockBookings: Record<string, Booking> = {
     propertyType: "house",
     squareFootage: 3500,
     address: {
-      street: "789 Sunset Boulevard",
-      city: "Davao City",
-      state: "Davao del Sur",
-      zipCode: "8000",
+      street: "789 Tomas Morato Avenue",
+      city: "Quezon City",
+      state: "Metro Manila",
+      zipCode: "1103",
       country: "Philippines"
     },
     scheduledDate: "2026-04-22",
@@ -302,10 +302,10 @@ export const mockBookings: Record<string, Booking> = {
     propertyType: "apartment",
     squareFootage: 1200,
     address: {
-      street: "321 Main Street",
-      city: "Baguio",
-      state: "Benguet",
-      zipCode: "2600",
+      street: "321 Taft Avenue",
+      city: "Manila",
+      state: "Metro Manila",
+      zipCode: "1000",
       country: "Philippines"
     },
     scheduledDate: "2026-04-15",
