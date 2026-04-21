@@ -5,6 +5,10 @@ import { useMemo, useState } from "react";
 import { Button } from "../../components/ui/button";
 import eliteBeforeImage from "../../components/assets/images/lilymess.jpg";
 import eliteAfterImage from "../../components/assets/images/lilymessafter.jpg";
+import luxuryBeforeImage from "../../components/assets/images/MessyRoom.png";
+import luxuryAfterImage from "../../components/assets/images/CleanRoom.png";
+import grandHotelBeforeImage from "../../components/assets/images/HotelBefore.png";
+import grandHotelAfterImage from "../../components/assets/images/HotelAfter.png";
 import {
   Dialog,
   DialogContent,
@@ -44,8 +48,8 @@ const galleryJobs: GalleryJob[] = [
     location: "Manhattan, NY",
     date: "Apr 14, 2026",
     service: "Move-out Condo Turnover",
-    beforeUrl: "https://images.pexels.com/photos/5591834/pexels-photo-5591834.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    afterUrl: "https://images.pexels.com/photos/4108782/pexels-photo-4108782.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    beforeUrl: luxuryBeforeImage,
+    afterUrl: luxuryAfterImage,
     improvement: "Sanitized kitchen and bathroom zones, clear mirrors and glass finishes.",
   },
   {
@@ -55,8 +59,8 @@ const galleryJobs: GalleryJob[] = [
     location: "Miami, FL",
     date: "Apr 13, 2026",
     service: "Post-event Room Reset",
-    beforeUrl: "https://images.pexels.com/photos/6197047/pexels-photo-6197047.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    afterUrl: "https://images.pexels.com/photos/4108713/pexels-photo-4108713.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    beforeUrl: grandHotelBeforeImage,
+    afterUrl: grandHotelAfterImage,
     improvement: "Floor care and furniture reset completed with hotel-ready presentation.",
   },
 ];
