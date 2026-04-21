@@ -192,12 +192,12 @@ export default function ClientFeedback() {
     ctx.fillStyle = headerGradient;
     ctx.fillRect(0, 0, width, 120);
 
-    ctx.font = "bold 40px 'Segoe UI', sans-serif";
+    ctx.font = "bold 40px 'Poppins', sans-serif";
     ctx.fillStyle = "#191919";
     ctx.textAlign = "center";
     ctx.fillText("NEAT", width / 2, 45);
 
-    ctx.font = "bold 14px 'Segoe UI', sans-serif";
+    ctx.font = "bold 14px 'Poppins', sans-serif";
     ctx.fillText("PREMIUM CLEANING SERVICES", width / 2, 75);
 
     yPos = 140;
@@ -205,14 +205,14 @@ export default function ClientFeedback() {
     // Helper function for sections
     const drawSection = (title: string, items: { label: string; value: string }[]) => {
       // Section title
-      ctx.font = "bold 12px 'Segoe UI', sans-serif";
+      ctx.font = "bold 12px 'Poppins', sans-serif";
       ctx.fillStyle = "#fcb316";
       ctx.textAlign = "left";
       ctx.fillText(`- ${title}`, 30, yPos);
       yPos += 25;
 
       // Items
-      ctx.font = "12px 'Segoe UI', sans-serif";
+      ctx.font = "12px 'Poppins', sans-serif";
       items.forEach(({ label, value }) => {
         ctx.fillStyle = "#fffefe";
         ctx.globalAlpha = 0.6;
@@ -242,7 +242,7 @@ export default function ClientFeedback() {
       { label: service.bookingId, value: "" }
     ]);
     yPos -= 15;
-    ctx.font = "bold 18px 'Segoe UI', sans-serif";
+    ctx.font = "bold 18px 'Poppins', sans-serif";
     ctx.fillStyle = "#fcb316";
     ctx.textAlign = "center";
     ctx.fillText(service.bookingId, width / 2, yPos);
@@ -265,7 +265,7 @@ export default function ClientFeedback() {
     ]);
 
     // Pricing Section
-    ctx.font = "bold 12px 'Segoe UI', sans-serif";
+    ctx.font = "bold 12px 'Poppins', sans-serif";
     ctx.fillStyle = "#fcb316";
     ctx.textAlign = "left";
     ctx.fillText("- PRICING BREAKDOWN", 30, yPos);
@@ -278,7 +278,7 @@ export default function ClientFeedback() {
     ctx.lineWidth = 3;
     ctx.strokeRect(30, yPos - 5, width - 60, 110);
 
-    ctx.font = "12px 'Segoe UI', sans-serif";
+    ctx.font = "12px 'Poppins', sans-serif";
     ctx.fillStyle = "#fffefe";
     ctx.textAlign = "left";
 
@@ -292,18 +292,18 @@ export default function ClientFeedback() {
     ctx.fillText(`PHP ${service.transportFee.toLocaleString("en-PH")}`, width - 50, yPos + 40);
 
     // Total
-    ctx.font = "bold 16px 'Segoe UI', sans-serif";
+    ctx.font = "bold 16px 'Poppins', sans-serif";
     ctx.fillStyle = "#fcb316";
     ctx.textAlign = "left";
     ctx.fillText("TOTAL AMOUNT", 50, yPos + 70);
     ctx.textAlign = "right";
-    ctx.font = "bold 24px 'Segoe UI', sans-serif";
+    ctx.font = "bold 24px 'Poppins', sans-serif";
     ctx.fillText(`PHP ${service.totalAmount.toLocaleString("en-PH")}`, width - 50, yPos + 70);
 
     yPos += 120;
 
     // Footer
-    ctx.font = "11px 'Segoe UI', sans-serif";
+    ctx.font = "11px 'Poppins', sans-serif";
     ctx.fillStyle = "#fffefe";
     ctx.globalAlpha = 0.5;
     ctx.textAlign = "center";
