@@ -4,6 +4,9 @@ import Logo from "../components/Logo";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
 import aboutImg from "../components/assets/images/about-img.jpg";
+import howBookImage from "../components/assets/images/LivingRoom1.png";
+import howServiceImage from "../components/assets/images/HotelAfter.png";
+import howFeedbackImage from "../components/assets/images/Bathroom.jpg";
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -55,6 +58,27 @@ export default function LandingPage() {
   const deepCleaningInclusions = [
     { group: "Main Services", items: ["Deep dry vacuum of all areas", "Dry Steaming of curtains & windows", "Shampooing, Deep dry vacuum and Steaming of mattresses and sofas", "Air Purification and air aromatizing"] },
     { group: "Specialized Services", items: ["Floor Steaming (kill dust mites)", "Kitchen deep cleaning", "CR deep cleaning (tile grouting)"] }
+  ];
+
+  const howItWorksSteps = [
+    {
+      title: "1. Book",
+      description: "Schedule your premium cleaning service with our seamless booking system",
+      image: howBookImage,
+      icon: Calendar,
+    },
+    {
+      title: "2. Services",
+      description: "Choose the services you need and confirm the details",
+      image: howServiceImage,
+      icon: Users,
+    },
+    {
+      title: "3. Feedback",
+      description: "Share a quick rating after the service is done",
+      image: howFeedbackImage,
+      icon: CheckCircle,
+    },
   ];
 
   return (
@@ -116,33 +140,24 @@ export default function LandingPage() {
             How It <span className="text-[#fcb316]">Works</span>
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-8">
-              <div className="w-20 h-20 bg-[#fcb316] rounded-full flex items-center justify-center mx-auto mb-6">
-                <Calendar className="text-[#191919]" size={36} />
+            {howItWorksSteps.map((step) => (
+              <div key={step.title} className="relative min-h-[360px] overflow-hidden rounded-2xl border border-[#2a2a2a] group">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${step.image})` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#191919]/60 via-[#191919]/80 to-[#191919]/95" />
+                <div className="relative z-10 h-full flex flex-col justify-end text-center p-8">
+                  <div className="w-20 h-20 bg-[#fcb316] rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(252,179,22,0.25)]">
+                    <step.icon className="text-[#191919]" size={36} />
+                  </div>
+                  <h3 className="text-2xl mb-4 text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>{step.title}</h3>
+                  <p className="text-[#fffefe]/80" style={{ fontFamily: 'var(--font-body)' }}>
+                    {step.description}
+                  </p>
+                </div>
               </div>
-              <h3 className="text-2xl mb-4 text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>1. Book</h3>
-              <p className="text-[#fffefe]/70" style={{ fontFamily: 'var(--font-body)' }}>
-                Schedule your premium cleaning service with our seamless booking system
-              </p>
-            </div>
-            <div className="text-center p-8">
-              <div className="w-20 h-20 bg-[#fcb316] rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="text-[#191919]" size={36} />
-              </div>
-              <h3 className="text-2xl mb-4 text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>2. Services</h3>
-              <p className="text-[#fffefe]/70" style={{ fontFamily: 'var(--font-body)' }}>
-                Choose the services you need and confirm the details
-              </p>
-            </div>
-            <div className="text-center p-8">
-              <div className="w-20 h-20 bg-[#fcb316] rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="text-[#191919]" size={36} />
-              </div>
-              <h3 className="text-2xl mb-4 text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>3. Feedback</h3>
-              <p className="text-[#fffefe]/70" style={{ fontFamily: 'var(--font-body)' }}>
-                Share a quick rating after the service is done
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>

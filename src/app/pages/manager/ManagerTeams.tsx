@@ -1,13 +1,13 @@
 ﻿import ManagerSidebar from "../../components/ManagerSidebar";
-import { UserPlus, Search, X, ChevronLeft, Send } from "lucide-react";
+import { UserPlus, Search, ChevronLeft, Send } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { useState } from "react";
 
 const jobs = [
   { id: "JOB-2847", client: "Luxury Estates Ltd", location: "Makati City", time: "09:00 AM", duration: "3h", assignedStaff: ["Sarah Johnson", "Mike Chen"], status: "In Progress", progress: 65 },
-  { id: "JOB-2848", client: "Premium Office Park", location: "Cebu City", time: "11:00 AM", duration: "2h", assignedStaff: ["Emily Davis"], status: "Scheduled" },
-  { id: "JOB-2849", client: "Grand Hotel Group", location: "Davao City", time: "02:00 PM", duration: "4h", assignedStaff: [], status: "Unassigned" },
+  { id: "JOB-2848", client: "Premium Office Park", location: "Pasay City", time: "11:00 AM", duration: "2h", assignedStaff: ["Emily Davis"], status: "Scheduled" },
+  { id: "JOB-2849", client: "Grand Hotel Group", location: "Quezon City", time: "02:00 PM", duration: "4h", assignedStaff: [], status: "Unassigned" },
   { id: "JOB-2850", client: "Elite Residences", location: "Quezon City", time: "04:00 PM", duration: "2.5h", assignedStaff: [], status: "Unassigned" },
 ];
 

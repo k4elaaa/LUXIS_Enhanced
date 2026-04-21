@@ -56,7 +56,7 @@ const upcomingJobs: UpcomingJob[] = [
   {
     id: "JOB-2848",
     client: "Premium Office Park",
-    location: "Chicago, IL",
+    location: "Pasay City, Metro Manila, Philippines",
     time: "11:00 AM",
     duration: "2h",
     date: "Apr 16, 2026",
@@ -68,7 +68,7 @@ const upcomingJobs: UpcomingJob[] = [
   {
     id: "JOB-2849",
     client: "Grand Hotel Group",
-    location: "Miami, FL",
+    location: "Alabang, Muntinlupa, Philippines",
     time: "02:00 PM",
     duration: "4h",
     date: "Apr 17, 2026",
@@ -83,7 +83,7 @@ const initialInProgressJobs: InProgressJob[] = [
   {
     id: "JOB-2847",
     client: "Luxury Estates Ltd",
-    location: "Manhattan, NY",
+    location: "Parañaque City, Metro Manila, Philippines",
     startTime: "09:00 AM",
     duration: "3h",
     serviceType: "Condo Turnover Deep Cleaning",
@@ -104,7 +104,7 @@ const initialCompletedJobs: CompletedJob[] = [
   {
     id: "JOB-2845",
     client: "Elite Residences",
-    location: "Los Angeles, CA",
+    location: "Makati City, Metro Manila, Philippines",
     completedAt: "Apr 15, 2026 03:30 PM",
     rating: 5,
     serviceType: "Luxury Home Detailing",
@@ -115,7 +115,7 @@ const initialCompletedJobs: CompletedJob[] = [
   {
     id: "JOB-2842",
     client: "Luxury Estates Ltd",
-    location: "Manhattan, NY",
+    location: "Quezon City, Metro Manila, Philippines",
     completedAt: "Apr 14, 2026 12:15 PM",
     rating: 5,
     serviceType: "Move-out Deep Cleaning",
@@ -243,6 +243,12 @@ export default function StaffDashboard() {
 
       return prevJobs.filter((item) => item.id !== jobId);
     });
+  };
+
+  const renderRatingStars = (rating: number) => {
+    const filled = "★".repeat(Math.max(0, Math.min(5, Math.round(rating))));
+    const empty = "☆".repeat(Math.max(0, 5 - Math.round(rating)));
+    return `${filled}${empty}`;
   };
 
   return (
@@ -432,7 +438,7 @@ export default function StaffDashboard() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-[#fffefe]/70 text-sm">Client Rating:</span>
-                      <span className="text-[#fcb316]">⭐ {job.rating}.0</span>
+                      <span className="text-[#fcb316]">{renderRatingStars(job.rating)} {job.rating}/5</span>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -511,12 +517,18 @@ export default function StaffDashboard() {
               )}
 
               {"completedAt" in selectedJob && (
-                <div className="bg-[#222222] border border-[#2a2a2a] rounded-lg p-3">
-                  <p className="text-xs text-[#fffefe]/50 mb-1">Completed At</p>
-                  <p>
-                    {selectedJob.completedAt} - Client Rating: {selectedJob.rating}.0/5
-                  </p>
-                </div>
+                <>
+                  <div className="bg-[#222222] border border-[#2a2a2a] rounded-lg p-3">
+                    <p className="text-xs text-[#fffefe]/50 mb-1">Completed At</p>
+                    <p>{selectedJob.completedAt}</p>
+                  </div>
+                  <div className="bg-[#222222] border border-[#2a2a2a] rounded-lg p-3">
+                    <p className="text-xs text-[#fffefe]/50 mb-1">Client Rating</p>
+                    <p className="text-[#fcb316]">
+                      {renderRatingStars(selectedJob.rating)} {selectedJob.rating}/5
+                    </p>
+                  </div>
+                </>
               )}
 
               <div className="bg-[#222222] border border-[#2a2a2a] rounded-lg p-3">

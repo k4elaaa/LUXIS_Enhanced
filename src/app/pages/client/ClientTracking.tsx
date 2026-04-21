@@ -26,10 +26,10 @@ export default function ClientTracking() {
       setBookings(JSON.parse(savedBookings));
     } else {
       setBookings([
-        { id: "BK-3401", service: "Deep Cleaning", date: "Apr 18, 2026", time: "10:00 AM", status: "In Progress", address: "123 Main St", progress: 65 },
+        { id: "BK-3401", service: "Deep Cleaning", date: "Apr 18, 2026", time: "10:00 AM", status: "In Progress", address: "Quezon City", progress: 65 },
         { id: "BK-3402", service: "Regular Maintenance", date: "Apr 22, 2026", time: "02:00 PM", status: "Scheduled", address: "456 Oak Ave", progress: 0 },
       ]);
-      setActiveBooking({ id: "BK-3401", service: "Deep Cleaning", date: "Apr 18, 2026", time: "10:00 AM", status: "In Progress", address: "123 Main St", progress: 65 });
+      setActiveBooking({ id: "BK-3401", service: "Deep Cleaning", date: "Apr 18, 2026", time: "10:00 AM", status: "In Progress", address: "Quezon City", progress: 65 });
     }
   }, []);
 
@@ -233,7 +233,7 @@ export default function ClientTracking() {
               </div>
               <div className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-lg">
                 <p className="text-sm text-[#fffefe]/60 mb-1">Service Location</p>
-                <p className="text-[#fffefe] font-semibold">{activeBooking?.address || "123 Main St, City"}</p>
+                <p className="text-[#fffefe] font-semibold">{activeBooking?.address || "Quezon City"}</p>
                 <p className="text-xs text-[#fffefe]/50 mt-2">ETA: 15 minutes</p>
               </div>
               <div>
