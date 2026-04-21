@@ -3,6 +3,8 @@ import { Image as ImageIcon, Sparkles, ArrowRightLeft, Calendar, MapPin } from "
 import Logo from "../../components/Logo";
 import { useMemo, useState } from "react";
 import { Button } from "../../components/ui/button";
+import eliteBeforeImage from "../../components/assets/images/lilymess.jpg";
+import eliteAfterImage from "../../components/assets/images/lilymessafter.jpg";
 import {
   Dialog,
   DialogContent,
@@ -31,8 +33,8 @@ const galleryJobs: GalleryJob[] = [
     location: "Los Angeles, CA",
     date: "Apr 15, 2026",
     service: "Luxury Home Deep Cleaning",
-    beforeUrl: "https://images.pexels.com/photos/4239035/pexels-photo-4239035.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    afterUrl: "https://images.pexels.com/photos/4239091/pexels-photo-4239091.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    beforeUrl: eliteBeforeImage,
+    afterUrl: eliteAfterImage,
     improvement: "Dust-heavy surfaces restored, polished finish across all living areas.",
   },
   {

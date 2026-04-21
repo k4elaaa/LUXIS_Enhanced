@@ -1,39 +1,44 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { Calendar, CheckCircle, Clock, Star, AlertCircle, ChevronLeft, ChevronRight, Sparkles, TrendingUp } from "lucide-react";
+import { Calendar, CheckCircle, Clock, Star, AlertCircle, ChevronLeft, ChevronRight, Sparkles, TrendingUp, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
+import livingRoomImage from "../../components/assets/images/LivingRoom1.png";
+import kitchenImage from "../../components/assets/images/Kitchen.png";
+import masterBedroomImage from "../../components/assets/images/MasterBedroom.png";
+import bathroomImage from "../../components/assets/images/Bathroom.jpg";
 
 export default function ClientDashboard() {
   const [currentBooking, setCurrentBooking] = useState<any>(null);
   const [userAccount, setUserAccount] = useState<any>(null);
   const [bookings, setBookings] = useState<any[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [isPhotoViewerOpen, setIsPhotoViewerOpen] = useState(false);
 
   const completedBookingPhotos = [
     {
       id: 1,
       title: "Living Room - Deep Clean",
       date: "Apr 10, 2026",
-      image: "https://images.pexels.com/photos/4239032/pexels-photo-4239032.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: livingRoomImage,
     },
     {
       id: 2,
       title: "Kitchen - Sparkling Clean",
       date: "Apr 8, 2026",
-      image: "https://images.pexels.com/photos/6197047/pexels-photo-6197047.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: kitchenImage,
     },
     {
       id: 3,
       title: "Master Bedroom - Fresh Look",
       date: "Apr 5, 2026",
-      image: "https://images.pexels.com/photos/5591584/pexels-photo-5591584.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: masterBedroomImage,
     },
     {
       id: 4,
       title: "Bathroom - Pristine Condition",
       date: "Apr 1, 2026",
-      image: "https://images.pexels.com/photos/4107108/pexels-photo-4107108.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: bathroomImage,
     },
   ];
 
@@ -65,6 +70,17 @@ export default function ClientDashboard() {
         { id: "BK-3402", service: "Regular Maintenance", date: "Apr 22, 2026", time: "02:00 PM", status: "Scheduled", address: "456 Oak Ave" },
       ]);
     }
+  }, []);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsPhotoViewerOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
   const nextSlide = () => setSlideIndex((prev) => (prev + 1) % completedBookingPhotos.length);
@@ -181,7 +197,18 @@ export default function ClientDashboard() {
               </div>
 
               <div className="relative">
-                <div className="relative h-80 rounded-xl overflow-hidden border border-[#2a2a2a] flex items-center justify-center">
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setIsPhotoViewerOpen(true)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setIsPhotoViewerOpen(true);
+                    }
+                  }}
+                  className="relative h-80 w-full rounded-xl overflow-hidden border border-[#2a2a2a] flex items-center justify-center text-left group"
+                >
                   <img
                     src={completedBookingPhotos[slideIndex].image}
                     alt={completedBookingPhotos[slideIndex].title}
@@ -195,17 +222,26 @@ export default function ClientDashboard() {
                     </div>
                     <h3 className="text-xl text-[#fffefe] font-bold">{completedBookingPhotos[slideIndex].title}</h3>
                     <p className="text-[#fffefe]/60 text-sm mt-2">{completedBookingPhotos[slideIndex].date}</p>
+                    <p className="text-[#fffefe] text-xs mt-4 opacity-90">Click image to enlarge</p>
                   </div>
 
                   {/* Navigation Buttons */}
                   <button
-                    onClick={prevSlide}
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      prevSlide();
+                    }}
                     className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-[#fcb316]/20 hover:bg-[#fcb316]/40 text-[#fcb316] rounded-full transition-all"
                   >
                     <ChevronLeft size={24} />
                   </button>
                   <button
-                    onClick={nextSlide}
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      nextSlide();
+                    }}
                     className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 bg-[#fcb316]/20 hover:bg-[#fcb316]/40 text-[#fcb316] rounded-full transition-all"
                   >
                     <ChevronRight size={24} />
@@ -227,6 +263,33 @@ export default function ClientDashboard() {
               </div>
             </div>
           </div>
+
+          {isPhotoViewerOpen && (
+            <div
+              className="fixed inset-0 z-[100] bg-black/85 p-4 md:p-10 flex items-center justify-center"
+              onClick={() => setIsPhotoViewerOpen(false)}
+            >
+              <div className="relative w-full max-w-6xl max-h-[90vh]" onClick={(event) => event.stopPropagation()}>
+                <button
+                  type="button"
+                  onClick={() => setIsPhotoViewerOpen(false)}
+                  className="absolute -top-10 right-0 text-white/80 hover:text-white p-2"
+                  aria-label="Close photo viewer"
+                >
+                  <X size={24} />
+                </button>
+                <img
+                  src={completedBookingPhotos[slideIndex].image}
+                  alt={completedBookingPhotos[slideIndex].title}
+                  className="w-full max-h-[82vh] object-contain rounded-lg border border-white/20"
+                />
+                <div className="mt-3 text-center">
+                  <p className="text-white font-semibold">{completedBookingPhotos[slideIndex].title}</p>
+                  <p className="text-white/70 text-sm">{completedBookingPhotos[slideIndex].date}</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Stats & Bookings Grid */}
           <div className="grid lg:grid-cols-3 gap-4 md:p-8 pt-16 md:pt-8">
