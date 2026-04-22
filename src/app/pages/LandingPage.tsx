@@ -4,9 +4,9 @@ import Logo from "../components/Logo";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
 import aboutImg from "../components/assets/images/about-img.jpg";
-import howBookImage from "../components/assets/images/LivingRoom1.png";
-import howServiceImage from "../components/assets/images/HotelAfter.png";
-import howFeedbackImage from "../components/assets/images/Bathroom.jpg";
+import howBookImage from "../components/assets/images/how-book.png";
+import howServiceImage from "../components/assets/images/how-services.png";
+import howFeedbackImage from "../components/assets/images/how-feedback.png";
 
 export default function LandingPage() {
   const navigate = useNavigate();
