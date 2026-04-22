@@ -4,11 +4,16 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { useState } from "react";
 
+const PACKAGE_STAFF_REQUIREMENTS: Record<string, number> = {
+  "Package 1": 2,
+  "Package 2": 3,
+};
+
 const jobs = [
-  { id: "JOB-2847", client: "Luxury Estates Ltd", location: "Makati City", time: "09:00 AM", duration: "3h", assignedStaff: ["Sarah Johnson", "Mike Chen"], status: "In Progress", progress: 65 },
-  { id: "JOB-2848", client: "Premium Office Park", location: "Pasay City", time: "11:00 AM", duration: "2h", assignedStaff: ["Emily Davis"], status: "Scheduled" },
-  { id: "JOB-2849", client: "Grand Hotel Group", location: "Quezon City", time: "02:00 PM", duration: "4h", assignedStaff: [], status: "Unassigned" },
-  { id: "JOB-2850", client: "Elite Residences", location: "Quezon City", time: "04:00 PM", duration: "2.5h", assignedStaff: [], status: "Unassigned" },
+  { id: "JOB-2847", client: "Luxury Estates Ltd", location: "Makati City", time: "09:00 AM", duration: "3h", package: "Package 1", assignedStaff: ["Sarah Johnson", "Mike Chen"], status: "In Progress", progress: 65 },
+  { id: "JOB-2848", client: "Premium Office Park", location: "Pasay City", time: "11:00 AM", duration: "2h", package: "Package 1", assignedStaff: ["Emily Davis"], status: "Scheduled" },
+  { id: "JOB-2849", client: "Grand Hotel Group", location: "Quezon City", time: "02:00 PM", duration: "4h", package: "Package 1", assignedStaff: [], status: "Unassigned" },
+  { id: "JOB-2850", client: "Elite Residences", location: "Quezon City", time: "04:00 PM", duration: "2.5h", package: "Package 2", assignedStaff: [], status: "Unassigned" },
 ];
 
 const availableStaff = [
@@ -26,15 +31,20 @@ export default function ManagerTeams() {
   const [notifSent, setNotifSent] = useState(false);
 
   const assigningJob = jobList.find(j => j.id === assigningJobId);
+  const requiredStaffCount = assigningJob ? PACKAGE_STAFF_REQUIREMENTS[assigningJob.package] ?? 2 : 2;
 
   const toggleStaff = (name: string) => {
-    setSelectedStaff(prev => prev.includes(name) ? prev.filter(s => s !== name) : [...prev, name]);
+    setSelectedStaff((prev) => {
+      if (prev.includes(name)) return prev.filter((s) => s !== name);
+      if (prev.length >= requiredStaffCount) return prev;
+      return [...prev, name];
+    });
   };
 
   const handleDeploy = () => {
-    if (!assigningJobId || selectedStaff.length === 0) return;
+    if (!assigningJobId || selectedStaff.length !== requiredStaffCount) return;
     setJobList(prev => prev.map(j => j.id === assigningJobId
-      ? { ...j, assignedStaff: [...j.assignedStaff, ...selectedStaff], status: "Scheduled" }
+      ? { ...j, assignedStaff: [...selectedStaff], status: "Scheduled" }
       : j
     ));
     setNotifSent(true);
@@ -136,8 +146,8 @@ export default function ManagerTeams() {
       {/* Assign Staff Modal */}
       {assigningJobId && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#222222] border border-[#2a2a2a] rounded-xl p-8 max-w-md w-full shadow-2xl">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-[#222222] border border-[#2a2a2a] rounded-xl p-6 sm:p-8 w-full max-w-2xl shadow-2xl max-h-[92vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-5">
               <button
                 onClick={() => setAssigningJobId(null)}
                 className="flex items-center gap-2 text-[#fffefe] bg-[#1e1e1e] border border-[#2a2a2a] px-3 py-2 rounded-full hover:border-[#fcb316] transition"
@@ -145,12 +155,16 @@ export default function ManagerTeams() {
                 <ChevronLeft size={16} />
                 Back
               </button>
-              <h3 className="text-2xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>
-                Assign Staff – {assigningJobId}
-              </h3>
-              <div className="w-16" aria-hidden="true" />
+              <span className="px-3 py-1 rounded-full text-xs bg-[#fcb316]/15 text-[#fcb316]">{assigningJob?.package}</span>
             </div>
-            <p className="text-[#fffefe]/60 mb-4 text-sm">Client: <span className="text-[#fffefe]">{assigningJob?.client}</span></p>
+
+            <h3 className="text-3xl leading-tight text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>
+              Assign Staff - {assigningJobId}
+            </h3>
+            <p className="text-[#fffefe]/70 mb-1 text-lg">Client: <span className="text-[#fffefe] font-medium">{assigningJob?.client}</span></p>
+            <p className="text-[#fcb316] mb-5 text-sm sm:text-base" style={{ fontFamily: 'var(--font-subheading)' }}>
+              Choose {requiredStaffCount} staff employees to deploy ({selectedStaff.length}/{requiredStaffCount} selected)
+            </p>
 
             {notifSent ? (
               <div className="text-center py-8">
@@ -162,10 +176,16 @@ export default function ManagerTeams() {
                 <div className="space-y-3 mb-6">
                   {availableStaff.map((staff) => (
                     <label key={staff.id} className={`flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-all ${selectedStaff.includes(staff.name) ? "border-[#fcb316] bg-[#fcb316]/10" : "border-[#2a2a2a] bg-[#1e1e1e] hover:border-[#fcb316]/50"}`}>
-                      <input type="checkbox" checked={selectedStaff.includes(staff.name)} onChange={() => toggleStaff(staff.name)} className="accent-[#fcb316]" />
+                      <input
+                        type="checkbox"
+                        checked={selectedStaff.includes(staff.name)}
+                        onChange={() => toggleStaff(staff.name)}
+                        disabled={!selectedStaff.includes(staff.name) && selectedStaff.length >= requiredStaffCount}
+                        className="accent-[#fcb316] disabled:opacity-50"
+                      />
                       <div className="flex-1">
-                        <p className="text-[#fffefe]">{staff.name}</p>
-                        <p className="text-[#fffefe]/60 text-sm">{staff.role} · ⭐ {staff.rating}</p>
+                        <p className="text-[#fffefe] text-lg sm:text-xl leading-tight">{staff.name}</p>
+                        <p className="text-[#fffefe]/60 text-sm sm:text-base">{staff.role} · ⭐ {staff.rating}</p>
                       </div>
                       <span className="px-2 py-1 bg-green-500/20 text-green-500 rounded-full text-xs">{staff.status}</span>
                     </label>
@@ -179,7 +199,7 @@ export default function ManagerTeams() {
                   >
                     Back
                   </Button>
-                  <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]" disabled={selectedStaff.length === 0} onClick={handleDeploy}>
+                  <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]" disabled={selectedStaff.length !== requiredStaffCount} onClick={handleDeploy}>
                     <Send size={16} className="mr-2" />Deploy
                   </Button>
                 </div>

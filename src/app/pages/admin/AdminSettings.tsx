@@ -1,5 +1,5 @@
 import AdminSidebar from "../../components/AdminSidebar";
-import { Shield, Users, Bell, Lock, Activity, X, Clock3, User, Server } from "lucide-react";
+import { Shield, Users, Bell, Activity, X, Clock3, User, Server } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Switch } from "../../components/ui/switch";
 import { Label } from "../../components/ui/label";
@@ -128,9 +128,8 @@ export default function AdminSettings() {
                 <div className="space-y-4">
                   {activityLogs.map((log, idx) => (
                     <div key={idx} className="pb-4 border-b border-[#2a2a2a] last:border-0">
-                      <div className="flex items-start justify-between mb-2">
+                      <div className="mb-2">
                         <p className="text-[#fffefe]">{log.action}</p>
-                        <Lock className="text-[#fcb316]" size={16} />
                       </div>
                       <div className="flex flex-wrap items-center gap-4 text-sm text-[#fffefe]/60">
                         <span className="flex items-center gap-1.5"><Clock3 size={14} className="text-[#fcb316]" />{log.time}</span>

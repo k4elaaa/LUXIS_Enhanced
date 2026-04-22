@@ -5,7 +5,7 @@ interface LogoProps {
 }
 
 export default function Logo({ variant = "light", size = "md" }: LogoProps) {
-  const textColor = variant === "light" ? "text-[#fffefe]" : "text-[#191919]";
+  const textColor = variant === "light" ? "text-[#fcb316]" : "text-[#191919]";
   
   const sizeClasses = {
     sm: "text-xl",
@@ -15,7 +15,7 @@ export default function Logo({ variant = "light", size = "md" }: LogoProps) {
 
   return (
     <div className="flex items-center gap-2">
-      <h1 className={`${sizeClasses[size]} tracking-tight`} style={{ fontFamily: 'var(--font-headline)' }}>
+      <h1 className={`${sizeClasses[size]} tracking-tight font-extrabold`} style={{ fontFamily: 'var(--font-headline)' }}>
         <span className={textColor}>NEAT</span>
       </h1>
     </div>

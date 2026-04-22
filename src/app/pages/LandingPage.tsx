@@ -4,9 +4,10 @@ import Logo from "../components/Logo";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
 import aboutImg from "../components/assets/images/about-img.jpg";
-import howBookImage from "../components/assets/images/how-book.png";
 import howServiceImage from "../components/assets/images/how-services.png";
-import howFeedbackImage from "../components/assets/images/how-feedback.png";
+
+const howBookImage = "https://bolland.co/content/uploads/2016/08/burst-kUqqaRjJuw0-unsplash-scaled.jpg";
+const howFeedbackImage = "https://static.vecteezy.com/system/resources/previews/070/703/969/non_2x/customer-feedback-analysis-with-five-star-satisfaction-rating-over-laptop-positive-review-and-client-experience-photo.jpeg";
 
 export default function LandingPage() {
   const navigate = useNavigate();

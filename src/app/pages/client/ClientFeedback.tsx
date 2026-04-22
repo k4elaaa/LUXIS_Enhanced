@@ -15,6 +15,14 @@ import ClientSidebar from "../../components/ClientSidebar";
 import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
+import feedbackBeforeImg from "../../components/assets/images/feedback-before.png";
+import feedbackAfterImg from "../../components/assets/images/feedback-after.png";
+import feedback2BeforeImg from "../../components/assets/images/feedback2-before.png";
+import feedback2AfterImg from "../../components/assets/images/feedback2-after.png";
+import feedback3BeforeImg from "../../components/assets/images/feedback3-before.png";
+import feedback3AfterImg from "../../components/assets/images/feedback3-after.png";
+import feedback4BeforeImg from "../../components/assets/images/feedback4-before.png";
+import feedback4AfterImg from "../../components/assets/images/feedback4-after.png";
 
 const neatPackages = {
   "Package 1": {
@@ -49,8 +57,8 @@ const serviceHistory = [
     duration: "2 hours",
     team: "2 cleaners",
     staffName: "Maria Garcia",
-    beforeImage: "https://images.pexels.com/photos/4108713/pexels-photo-4108713.jpeg?auto=compress&cs=tinysrgb&w=900",
-    afterImage: "https://images.pexels.com/photos/4239091/pexels-photo-4239091.jpeg?auto=compress&cs=tinysrgb&w=900"
+    beforeImage: feedbackBeforeImg,
+    afterImage: feedbackAfterImg
   },
   {
     id: "2",
@@ -67,8 +75,8 @@ const serviceHistory = [
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
     staffName: "John Smith",
-    beforeImage: "https://images.pexels.com/photos/6197127/pexels-photo-6197127.jpeg?auto=compress&cs=tinysrgb&w=900",
-    afterImage: "https://images.pexels.com/photos/5591580/pexels-photo-5591580.jpeg?auto=compress&cs=tinysrgb&w=900"
+    beforeImage: feedback2BeforeImg,
+    afterImage: feedback2AfterImg
   },
   {
     id: "3",
@@ -85,8 +93,8 @@ const serviceHistory = [
     duration: "2 hours",
     team: "2 cleaners",
     staffName: "Sarah Johnson",
-    beforeImage: "https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=900",
-    afterImage: "https://images.pexels.com/photos/4107128/pexels-photo-4107128.jpeg?auto=compress&cs=tinysrgb&w=900"
+    beforeImage: feedback3BeforeImg,
+    afterImage: feedback3AfterImg
   },
   {
     id: "4",
@@ -103,8 +111,8 @@ const serviceHistory = [
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
     staffName: "Michael Brown",
-    beforeImage: "https://images.pexels.com/photos/4239035/pexels-photo-4239035.jpeg?auto=compress&cs=tinysrgb&w=900",
-    afterImage: "https://images.pexels.com/photos/4239032/pexels-photo-4239032.jpeg?auto=compress&cs=tinysrgb&w=900"
+    beforeImage: feedback4BeforeImg,
+    afterImage: feedback4AfterImg
   }
 ];
 
