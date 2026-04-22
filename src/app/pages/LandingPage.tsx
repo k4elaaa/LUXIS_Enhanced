@@ -1,10 +1,9 @@
 import { Link, useNavigate } from "react-router";
-import { Sparkles, Calendar, Users, TrendingUp, CheckCircle, MapPin, Phone, Mail } from "lucide-react";
+import { Sparkles, Calendar, Users, TrendingUp, CheckCircle } from "lucide-react";
 import Logo from "../components/Logo";
-import { Button } from "../components/ui/button";
-import { useState } from "react";
 import aboutImg from "../components/assets/images/about-img.jpg";
 import howServiceImage from "../components/assets/images/how-services.png";
+import luxuriousLogo from "../components/assets/images/luxurious-logo-transparent.png";
 
 const howBookImage = "https://bolland.co/content/uploads/2016/08/burst-kUqqaRjJuw0-unsplash-scaled.jpg";
 const howFeedbackImage = "https://static.vecteezy.com/system/resources/previews/070/703/969/non_2x/customer-feedback-analysis-with-five-star-satisfaction-rating-over-laptop-positive-review-and-client-experience-photo.jpeg";
@@ -289,6 +288,13 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
+              <div className="mb-6">
+                <img
+                  src={luxuriousLogo}
+                  alt="Luxurious Cleaning Co. Logo"
+                  className="h-28 w-auto object-contain md:h-32"
+                />
+              </div>
               <h3 className="text-[#fcb316] font-semibold mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>
                 About Luxurious Cleaning Co.
               </h3>

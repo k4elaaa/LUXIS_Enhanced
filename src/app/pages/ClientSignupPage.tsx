@@ -150,7 +150,11 @@ export default function ClientSignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-[#191919]" style={backgroundStyle}>
+    <div className="min-h-screen flex items-center justify-center p-6 bg-[#191919] relative" style={backgroundStyle}>
+      <Link to="/" className="absolute top-6 left-6 z-20 text-[#fcb316] hover:underline" style={{ fontFamily: "var(--font-subheading)" }}>
+        ← Back to Home
+      </Link>
+
       {/* Lightning effect elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#fcb316] rounded-full mix-blend-screen filter blur-3xl opacity-10 animate-pulse" />
