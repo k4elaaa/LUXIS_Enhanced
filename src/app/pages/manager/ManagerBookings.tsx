@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import Logo from "../../components/Logo";
 import ManagerSidebar from "../../components/ManagerSidebar";
-import { Button } from "../../components/ui/button";
 import { BookingCard } from "../../components/BookingCard";
 import { Input } from "../../components/ui/input";
 import { mockBookings, Booking } from "../../../data/mockData";
@@ -20,6 +18,24 @@ export default function ManagerBookings() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+
+  const statusColorsDark: Record<string, string> = {
+    pending_approval: "bg-yellow-500/20 text-yellow-400",
+    assigned: "bg-blue-500/20 text-blue-400",
+    on_the_way: "bg-purple-500/20 text-purple-400",
+    in_progress: "bg-orange-500/20 text-orange-400",
+    completed: "bg-green-500/20 text-green-400",
+    cancelled: "bg-red-500/20 text-red-400",
+  };
+
+  const statusLabels: Record<string, string> = {
+    pending_approval: "Pending Approval",
+    assigned: "Assigned",
+    on_the_way: "On The Way",
+    in_progress: "In Progress",
+    completed: "Completed",
+    cancelled: "Cancelled",
+  };
 
   const bookingsList = Object.values(mockBookings).sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -98,6 +114,8 @@ export default function ManagerBookings() {
                     <BookingCard
                       booking={booking}
                       showStatus={true}
+                      showEstimatedCost={false}
+                      showChevron={false}
                       actionLabel="Assign"
                       variant="dark"
                     />
@@ -143,23 +161,28 @@ export default function ManagerBookings() {
                   </div>
                   <div>
                     <p className="text-xs text-[#fffefe]/50 mb-1">Status</p>
-                    <p className="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs font-medium inline-block">
-                      {selectedBooking.status === "pending_approval"
-                        ? "Pending Approval"
-                        : selectedBooking.status}
+                    <p className={`px-3 py-1 rounded-full text-xs font-medium inline-block ${statusColorsDark[selectedBooking.status]}`}>
+                      {statusLabels[selectedBooking.status]}
                     </p>
                   </div>
                 </div>
 
                 {selectedBooking.assignedTeam ? (
                   <div className="bg-green-500/10 rounded-lg p-4 mb-6 border border-green-500/20">
-                    <p className="text-xs text-green-400 font-medium mb-2">ASSIGNED TO</p>
-                    <p className="font-semibold text-[#fffefe]">
-                      {selectedBooking.assignedTeam.teamName}
-                    </p>
-                    <p className="text-xs text-[#fffefe]/60 mt-1">
-                      {selectedBooking.assignedTeam.members.length} members
-                    </p>
+                    <p className="text-xs text-green-400 font-medium mb-3">ASSIGNED STAFF</p>
+                    <div className="space-y-2">
+                      {selectedBooking.assignedTeam.members.map((member, index) => (
+                        <div
+                          key={member.id}
+                          className="flex items-center gap-2 text-sm text-[#fffefe]"
+                        >
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-green-500/20 text-[11px] font-semibold text-green-300">
+                            {index + 1}
+                          </span>
+                          <span className="font-medium leading-none">{member.name}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ) : null}
 

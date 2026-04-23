@@ -1,12 +1,13 @@
 import React from "react";
-import { Booking, formatCurrency, formatDate, formatTime } from "../../data/mockData";
+import { Booking, formatCurrency, formatDate } from "../../data/mockData";
 import { MapPin, Calendar, Clock, Users, ChevronRight } from "lucide-react";
-import { Link } from "react-router";
 
 interface BookingCardProps {
   booking: Booking;
   onClick?: () => void;
   showStatus?: boolean;
+  showEstimatedCost?: boolean;
+  showChevron?: boolean;
   actionLabel?: string;
   variant?: "light" | "dark";
 }
@@ -15,7 +16,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   booking,
   onClick,
   showStatus = true,
-  actionLabel = "View Details",
+  showEstimatedCost = true,
+  showChevron = true,
   variant = "light",
 }) => {
   const statusColorsLight: Record<string, string> = {
@@ -50,8 +52,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({
       onClick={onClick}
       className={
         variant === "dark"
-          ? "bg-[#222222] rounded-xl border border-[#2a2a2a] p-4 hover:shadow-lg transition-shadow cursor-pointer"
-          : "bg-white rounded-xl border border-gray-200 p-4 hover:shadow-lg transition-shadow cursor-pointer"
+          ? "relative bg-[#222222] rounded-xl border border-[#2a2a2a] p-4 hover:shadow-lg transition-shadow cursor-pointer"
+          : "relative bg-white rounded-xl border border-gray-200 p-4 hover:shadow-lg transition-shadow cursor-pointer"
       }
     >
       <div className="flex justify-between items-start mb-3">
@@ -80,7 +82,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
         )}
       </div>
 
-      <div className={variant === "dark" ? "space-y-2 mb-3 text-xs text-[#fffefe]/70" : "space-y-2 mb-3 text-xs text-gray-600"}>
+      <div className={variant === "dark" ? `space-y-2 ${showEstimatedCost ? "mb-3" : "mb-0"} text-xs text-[#fffefe]/70` : `space-y-2 ${showEstimatedCost ? "mb-3" : "mb-0"} text-xs text-gray-600`}>
         <div className="flex items-center gap-2">
           <MapPin size={14} className="text-[#C8A96A] flex-shrink-0" />
           <span className="truncate">{booking.address.street}</span>
@@ -99,13 +101,24 @@ export const BookingCard: React.FC<BookingCardProps> = ({
         </div>
       </div>
 
-      <div className="flex justify-between items-center">
-        <div>
-          <p className={variant === "dark" ? "text-xs text-[#fffefe]/50" : "text-xs text-gray-500"}>Estimated Cost</p>
-          <p className="text-lg font-bold text-[#C8A96A]">{formatCurrency(booking.estimatedCost)}</p>
+      {showEstimatedCost ? (
+        <div className="flex justify-end items-center">
+          <div className="mr-auto">
+            <p className={variant === "dark" ? "text-xs text-[#fffefe]/50" : "text-xs text-gray-500"}>Estimated Cost</p>
+            <p className="text-lg font-bold text-[#C8A96A]">{formatCurrency(booking.estimatedCost)}</p>
+          </div>
+          {showChevron && (
+            <ChevronRight size={20} className={variant === "dark" ? "text-[#fffefe]/40" : "text-gray-400"} />
+          )}
         </div>
-        <ChevronRight size={20} className={variant === "dark" ? "text-[#fffefe]/40" : "text-gray-400"} />
-      </div>
+      ) : (
+        showChevron && (
+          <ChevronRight
+            size={20}
+            className={`absolute right-4 top-1/2 -translate-y-1/2 ${variant === "dark" ? "text-[#fffefe]/40" : "text-gray-400"}`}
+          />
+        )
+      )}
     </div>
   );
 };

@@ -92,7 +92,7 @@ export interface Job extends Booking {
 export const mockClients: Record<string, Client> = {
   "client-1": {
     id: "client-1",
-    name: "Sarah Johnson",
+    name: "Maria Santos",
     email: "sarah.johnson@email.com",
     phone: "+63 917 010 0101",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
@@ -102,7 +102,7 @@ export const mockClients: Record<string, Client> = {
   },
   "client-2": {
     id: "client-2",
-    name: "Michael Chen",
+    name: "Juan Dela Cruz",
     email: "michael.chen@email.com",
     phone: "+63 917 010 0102",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
@@ -112,7 +112,7 @@ export const mockClients: Record<string, Client> = {
   },
   "client-3": {
     id: "client-3",
-    name: "Emma Rodriguez",
+    name: "Ana Reyes",
     email: "emma.r@email.com",
     phone: "+63 917 010 0103",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
@@ -126,7 +126,7 @@ export const mockClients: Record<string, Client> = {
 export const mockStaff: Record<string, StaffMember> = {
   "staff-1": {
     id: "staff-1",
-    name: "Lisa Wong",
+    name: "Liza Mendoza",
     email: "lisa.wong@neat.com",
     phone: "+63 917 020 0201",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lisa",
@@ -138,7 +138,7 @@ export const mockStaff: Record<string, StaffMember> = {
   },
   "staff-2": {
     id: "staff-2",
-    name: "James Anderson",
+    name: "Jose Villanueva",
     email: "james.anderson@neat.com",
     phone: "+63 917 020 0202",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
@@ -150,7 +150,7 @@ export const mockStaff: Record<string, StaffMember> = {
   },
   "staff-3": {
     id: "staff-3",
-    name: "Maria Garcia",
+    name: "Maricel Bautista",
     email: "maria.garcia@neat.com",
     phone: "+63 917 020 0203",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria",
@@ -162,7 +162,7 @@ export const mockStaff: Record<string, StaffMember> = {
   },
   "staff-4": {
     id: "staff-4",
-    name: "David Park",
+    name: "Ramon Castillo",
     email: "david.park@neat.com",
     phone: "+63 917 020 0204",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
@@ -174,7 +174,7 @@ export const mockStaff: Record<string, StaffMember> = {
   },
   "staff-5": {
     id: "staff-5",
-    name: "Sofia Martinez",
+    name: "Sofia Ramirez",
     email: "sofia.martinez@neat.com",
     phone: "+63 917 020 0205",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sofia",
@@ -216,7 +216,7 @@ export const mockBookings: Record<string, Booking> = {
   "booking-1": {
     id: "booking-1",
     clientId: "client-1",
-    clientName: "Sarah Johnson",
+    clientName: "Maria Santos",
     clientPhone: "+63 917 010 0101",
     clientEmail: "sarah.johnson@email.com",
     serviceType: "residential",
@@ -241,7 +241,7 @@ export const mockBookings: Record<string, Booking> = {
   "booking-2": {
     id: "booking-2",
     clientId: "client-2",
-    clientName: "Michael Chen",
+    clientName: "Juan Dela Cruz",
     clientPhone: "+63 917 010 0102",
     clientEmail: "michael.chen@email.com",
     serviceType: "commercial",
@@ -268,7 +268,7 @@ export const mockBookings: Record<string, Booking> = {
   "booking-3": {
     id: "booking-3",
     clientId: "client-3",
-    clientName: "Emma Rodriguez",
+    clientName: "Ana Reyes",
     clientPhone: "+63 917 010 0103",
     clientEmail: "emma.r@email.com",
     serviceType: "deep-clean",
@@ -295,7 +295,7 @@ export const mockBookings: Record<string, Booking> = {
   "booking-4": {
     id: "booking-4",
     clientId: "client-1",
-    clientName: "Sarah Johnson",
+    clientName: "Maria Santos",
     clientPhone: "+63 917 010 0101",
     clientEmail: "sarah.johnson@email.com",
     serviceType: "move-out",
