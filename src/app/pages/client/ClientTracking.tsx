@@ -90,7 +90,7 @@ export default function ClientTracking() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <Clock size={18} className="text-[#fcb316]" />
-                  <span className="text-[#fffefe]">{activeBooking.date} � {activeBooking.time}</span>
+                  <span className="text-[#fffefe]">{activeBooking.date} • {activeBooking.time}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="text-right">

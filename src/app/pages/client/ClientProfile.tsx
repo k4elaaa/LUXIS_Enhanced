@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { User, Lock, Mail, Phone, CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import ClientSidebar from '../../components/ClientSidebar';
 import { Button } from '../../components/ui/button';
@@ -10,12 +10,15 @@ interface UserData {
   email: string;
   phone: string;
   memberSince: string;
+  profileImage?: string;
 }
 
 interface Message {
   type: 'success' | 'error';
   text: string;
 }
+
+const PROFILE_STORAGE_KEY = 'clientProfileInfo';
 
 export default function ClientProfile() {
   const [userData, setUserData] = useState<UserData>({
@@ -24,6 +27,9 @@ export default function ClientProfile() {
     phone: '+63 917 234 5678',
     memberSince: '2024-01-15'
   });
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [editedName, setEditedName] = useState('');
+  const [editedProfileImage, setEditedProfileImage] = useState<string | undefined>(undefined);
 
   const [message, setMessage] = useState<Message | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -60,6 +66,66 @@ export default function ClientProfile() {
   const showMessage = (type: 'success' | 'error', text: string) => {
     setMessage({ type, text });
     setTimeout(() => setMessage(null), 4000);
+  };
+
+  useEffect(() => {
+    const savedProfile = localStorage.getItem(PROFILE_STORAGE_KEY);
+    if (!savedProfile) return;
+
+    try {
+      const parsed = JSON.parse(savedProfile) as Partial<UserData>;
+      setUserData((prev) => ({ ...prev, ...parsed }));
+    } catch {
+      localStorage.removeItem(PROFILE_STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(userData));
+  }, [userData]);
+
+  const handleOpenProfileEditor = () => {
+    setEditedName(userData.name);
+    setEditedProfileImage(userData.profileImage);
+    setIsEditingProfile(true);
+  };
+
+  const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showMessage('error', 'Please upload an image file');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setEditedProfileImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSaveProfile = () => {
+    const nextName = editedName.trim();
+    if (!nextName) {
+      showMessage('error', 'Name is required');
+      return;
+    }
+
+    setUserData((prev) => ({
+      ...prev,
+      name: nextName,
+      profileImage: editedProfileImage,
+    }));
+    setIsEditingProfile(false);
+    showMessage('success', 'Profile updated successfully!');
+  };
+
+  const handleCancelProfileEdit = () => {
+    setIsEditingProfile(false);
+    setEditedName(userData.name);
+    setEditedProfileImage(userData.profileImage);
   };
 
   // Email Handlers
@@ -238,15 +304,87 @@ export default function ClientProfile() {
 
           {/* Profile Header Card */}
           <div className="mb-8 bg-gradient-to-r from-[#fcb316]/15 to-[#fcb316]/5 border border-[#fcb316]/30 rounded-xl p-6 md:p-8">
-            <div className="flex items-center gap-4 md:gap-6">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#fcb316] to-[#de950c] flex items-center justify-center flex-shrink-0">
-                <User size={40} className="text-[#191919]" />
+            <div className="flex items-center gap-4 md:gap-6 flex-wrap">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#fcb316] to-[#de950c] flex items-center justify-center flex-shrink-0 overflow-hidden">
+                {userData.profileImage ? (
+                  <img
+                    src={userData.profileImage}
+                    alt="Client profile"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User size={40} className="text-[#191919]" />
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="text-2xl md:text-3xl font-bold text-[#fffefe] truncate">{userData.name}</h2>
                 <p className="text-[#fffefe]/60 text-sm md:text-base mt-1">Member since {new Date(userData.memberSince).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
               </div>
+              <Button
+                onClick={handleOpenProfileEditor}
+                className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold w-full sm:w-auto"
+              >
+                Edit Profile
+              </Button>
             </div>
+
+            {isEditingProfile && (
+              <div className="mt-6 pt-6 border-t border-[#fcb316]/20 space-y-4">
+                <div>
+                  <Label htmlFor="profileName" className="text-[#fffefe] block mb-2 font-medium">
+                    Full Name
+                  </Label>
+                  <Input
+                    id="profileName"
+                    type="text"
+                    value={editedName}
+                    onChange={(e) => setEditedName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="bg-[#191919] border-[#2a2a2a] text-[#fffefe] placeholder-[#fffefe]/30 w-full"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="profileImage" className="text-[#fffefe] block mb-2 font-medium">
+                    Profile Picture
+                  </Label>
+                  <Input
+                    id="profileImage"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleProfileImageChange}
+                    className="bg-[#191919] border-[#2a2a2a] text-[#fffefe] file:mr-3 file:rounded-md file:border-0 file:bg-[#fcb316] file:px-3 file:py-1 file:text-[#191919]"
+                  />
+                  {editedProfileImage && (
+                    <div className="mt-3 flex items-center gap-3">
+                      <img src={editedProfileImage} alt="Preview" className="w-14 h-14 rounded-full object-cover border border-[#2a2a2a]" />
+                      <Button
+                        type="button"
+                        onClick={() => setEditedProfileImage(undefined)}
+                        className="bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe]"
+                      >
+                        Remove Photo
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button
+                    onClick={handleSaveProfile}
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold"
+                  >
+                    Save Changes
+                  </Button>
+                  <Button
+                    onClick={handleCancelProfileEdit}
+                    className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Settings Cards Grid */}

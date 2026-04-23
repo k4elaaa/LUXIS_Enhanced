@@ -5,6 +5,7 @@ import { BookingCard } from "../../components/BookingCard";
 import { Input } from "../../components/ui/input";
 import { mockBookings, Booking } from "../../../data/mockData";
 import { ChevronLeft, Search } from "lucide-react";
+import { Button } from "../../components/ui/button";
 import {
   Select,
   SelectContent,
@@ -12,10 +13,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../../components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../components/ui/alert-dialog";
 
 export default function ManagerBookings() {
   const navigate = useNavigate();
+  const [bookingRecords, setBookingRecords] = useState<Booking[]>(Object.values(mockBookings));
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [reviewBooking, setReviewBooking] = useState<Booking | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
 
@@ -37,9 +58,44 @@ export default function ManagerBookings() {
     cancelled: "Cancelled",
   };
 
-  const bookingsList = Object.values(mockBookings).sort(
+  const bookingsList = [...bookingRecords].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
+
+  const updateBookingStatus = (bookingId: string, nextStatus: Booking["status"]) => {
+    setBookingRecords((prev) =>
+      prev.map((booking) =>
+        booking.id === bookingId
+          ? {
+              ...booking,
+              status: nextStatus,
+            }
+          : booking,
+      ),
+    );
+
+    setSelectedBooking((prev) =>
+      prev && prev.id === bookingId
+        ? {
+            ...prev,
+            status: nextStatus,
+          }
+        : prev,
+    );
+
+    setReviewBooking((prev) =>
+      prev && prev.id === bookingId
+        ? {
+            ...prev,
+            status: nextStatus,
+          }
+        : prev,
+    );
+  };
+
+  const getReceiptRef = (booking: Booking) => {
+    return `RCPT-${booking.id.replace("booking-", "BK-").toUpperCase()}`;
+  };
 
   const filteredBookings = bookingsList.filter(booking => {
     const matchesSearch =
@@ -105,7 +161,7 @@ export default function ManagerBookings() {
                   <div
                     key={booking.id}
                     onClick={() => setSelectedBooking(booking)}
-                    className={`cursor-pointer transition-all ${
+                    className={`cursor-pointer transition-all relative ${
                       selectedBooking?.id === booking.id
                         ? "ring-2 ring-[#C8A96A]"
                         : ""
@@ -116,9 +172,22 @@ export default function ManagerBookings() {
                       showStatus={true}
                       showEstimatedCost={false}
                       showChevron={false}
-                      actionLabel="Assign"
                       variant="dark"
                     />
+                    {booking.status === "pending_approval" && (
+                      <div className="absolute right-4 bottom-4">
+                        <Button
+                          size="sm"
+                          className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919]"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setReviewBooking(booking);
+                          }}
+                        >
+                          Review
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 ))
               ) : (
@@ -204,6 +273,136 @@ export default function ManagerBookings() {
 
       
       </div>
+
+      <Dialog open={Boolean(reviewBooking)} onOpenChange={(open) => !open && setReviewBooking(null)}>
+        <DialogContent className="max-w-2xl bg-[#222222] border border-[#2a2a2a] text-[#fffefe]">
+          {reviewBooking && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl text-[#fffefe]">Booking Review</DialogTitle>
+                <DialogDescription className="text-[#fffefe]/60">
+                  Verify request details and receipt before approving or rejecting.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg p-4">
+                    <p className="text-xs text-[#fffefe]/50 mb-1">Client</p>
+                    <p className="font-semibold">{reviewBooking.clientName}</p>
+                    <p className="text-sm text-[#fffefe]/70 mt-1">{reviewBooking.clientPhone}</p>
+                    <p className="text-sm text-[#fffefe]/70">{reviewBooking.clientEmail}</p>
+                  </div>
+                  <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg p-4">
+                    <p className="text-xs text-[#fffefe]/50 mb-1">Service</p>
+                    <p className="font-semibold capitalize">{reviewBooking.serviceType.replace("-", " ")}</p>
+                    <p className="text-sm text-[#fffefe]/70 mt-1">
+                      {new Date(reviewBooking.scheduledDate).toLocaleDateString()} at {reviewBooking.scheduledTime}
+                    </p>
+                    <p className="text-sm text-[#fffefe]/70">{reviewBooking.numberOfCleaners} cleaners</p>
+                  </div>
+                </div>
+
+                <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg p-4">
+                  <p className="text-xs text-[#fffefe]/50 mb-1">Service Address</p>
+                  <p className="text-sm text-[#fffefe]">
+                    {reviewBooking.address.street}, {reviewBooking.address.city}, {reviewBooking.address.state}
+                  </p>
+                </div>
+
+                {reviewBooking.specialRequests && (
+                  <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg p-4">
+                    <p className="text-xs text-[#fffefe]/50 mb-1">Special Requests</p>
+                    <p className="text-sm text-[#fffefe]">{reviewBooking.specialRequests}</p>
+                  </div>
+                )}
+
+                <div className="bg-[#1e1e1e] border border-[#fcb316]/30 rounded-lg p-4">
+                  <div className="flex items-center justify-between gap-3 mb-3">
+                    <p className="text-sm font-semibold text-[#fcb316]">Attached Receipt</p>
+                    <span className="text-xs px-2 py-1 rounded-full bg-[#fcb316]/15 text-[#fcb316]">
+                      {getReceiptRef(reviewBooking)}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-y-1 text-sm text-[#fffefe]/75 mb-3">
+                    <p>Service Charge</p>
+                    <p className="text-right">PHP {reviewBooking.estimatedCost}</p>
+                    <p>Created</p>
+                    <p className="text-right">{new Date(reviewBooking.createdAt).toLocaleDateString()}</p>
+                  </div>
+                  <p className="text-xs text-[#fffefe]/50">
+                    Receipt is attached for manager verification before decision.
+                  </p>
+                </div>
+
+                {reviewBooking.status === "pending_approval" ? (
+                  <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button className="flex-1 bg-green-600 hover:bg-green-500 text-white">
+                          Approve Booking
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="bg-[#222222] border border-[#2a2a2a] text-[#fffefe]">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Confirm Approval</AlertDialogTitle>
+                          <AlertDialogDescription className="text-[#fffefe]/70">
+                            This will approve and confirm the booking request for dispatch.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel className="border-[#2a2a2a] bg-[#1e1e1e] text-[#fffefe] hover:bg-[#2a2a2a]">
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-green-600 hover:bg-green-500 text-white"
+                            onClick={() => {
+                              updateBookingStatus(reviewBooking.id, "assigned");
+                              setReviewBooking(null);
+                            }}
+                          >
+                            Yes, Approve
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button className="flex-1 bg-red-600/90 hover:bg-red-500 text-white">
+                          Reject Booking
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="bg-[#222222] border border-[#2a2a2a] text-[#fffefe]">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Confirm Rejection</AlertDialogTitle>
+                          <AlertDialogDescription className="text-[#fffefe]/70">
+                            This will reject the request and mark it as cancelled.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel className="border-[#2a2a2a] bg-[#1e1e1e] text-[#fffefe] hover:bg-[#2a2a2a]">
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-red-600/90 hover:bg-red-500 text-white"
+                            onClick={() => {
+                              updateBookingStatus(reviewBooking.id, "cancelled");
+                              setReviewBooking(null);
+                            }}
+                          >
+                            Yes, Reject
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                ) : null}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
