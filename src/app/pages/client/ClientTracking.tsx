@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { MessageCircle, Map, Send, Phone, MapPin, Clock, Users, CheckCircle2, X } from "lucide-react";
+import { MessageCircle, Map, Send, Phone, MapPin, Clock, Users, CheckCircle2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState, useEffect } from "react";
 import { Input } from "../../components/ui/input";
@@ -222,13 +222,6 @@ export default function ClientTracking() {
           <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#3a3a3a] [&::-webkit-scrollbar-thumb]:rounded-full">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl text-[#fffefe] font-bold">Live Service Map</h2>
-              <button
-                onClick={() => setShowMapModal(false)}
-                aria-label="Close map modal"
-                className="h-8 w-8 rounded-full border border-[#2a2a2a] text-[#fffefe]/60 hover:text-[#fffefe] hover:border-[#fcb316]/40 flex items-center justify-center transition-colors"
-              >
-                <X size={20} />
-              </button>
             </div>
             <div className="space-y-6">
               <div className="bg-[#191919] border border-[#2a2a2a] rounded-lg overflow-hidden h-64 flex items-center justify-center">
@@ -259,7 +252,7 @@ export default function ClientTracking() {
                 </div>
               </div>
             </div>
-            <Button onClick={() => setShowMapModal(false)} className="w-full mt-6 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold">Close</Button>
+            <Button onClick={() => setShowMapModal(false)} className="w-full mt-6 bg-red-600 hover:bg-red-500 text-white font-semibold">Close</Button>
           </div>
         </div>
       )}
