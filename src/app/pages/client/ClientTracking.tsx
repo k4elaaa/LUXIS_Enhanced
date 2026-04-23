@@ -65,9 +65,9 @@ export default function ClientTracking() {
   ];
 
   const teamMembers = [
-    { name: "John Silva", role: "Lead Cleaner", phone: "+63 917 010 0101", status: "Active" },
-    { name: "Maria Santos", role: "Team Member", phone: "+63 917 010 0102", status: "Active" },
-    { name: "Carlos Rodriguez", role: "Inspector", phone: "+63 917 010 0103", status: "Standby" },
+    { name: "Liza Mendoza", role: "Lead Cleaner", phone: "+63 917 010 0101", status: "Active" },
+    { name: "Jose Villanueva", role: "Team Member", phone: "+63 917 010 0102", status: "Active" },
+    { name: "Maricel Bautista", role: "Inspector", phone: "+63 917 010 0103", status: "Standby" },
   ];
 
   return (
