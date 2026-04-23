@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { MessageCircle, Map, Send, Phone, MapPin, Clock, Users, CheckCircle2 } from "lucide-react";
+import { MessageCircle, Map, Send, Phone, MapPin, Clock, Users, CheckCircle2, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState, useEffect } from "react";
 import { Input } from "../../components/ui/input";
@@ -73,7 +73,7 @@ export default function ClientTracking() {
   return (
     <div className="flex min-h-screen bg-[#191919]">
       <ClientSidebar />
-      <div className="w-full md:ml-64 flex-1 overflow-auto">
+      <div className="w-full md:ml-64 flex-1 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#3a3a3a] [&::-webkit-scrollbar-thumb]:rounded-full">
         <div className="p-4 md:p-8 pt-16 md:pt-8">
           {activeBooking && activeBooking.status === "In Progress" && (
             <div className="mb-8 p-6 bg-gradient-to-r from-[#fcb316]/20 to-[#fcb316]/5 border border-[#fcb316]/30 rounded-xl">
@@ -139,7 +139,7 @@ export default function ClientTracking() {
               </div>
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:p-8 pt-16 md:pt-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
             <div className="col-span-1 md:col-span-2">
               <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl overflow-hidden">
                 <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
@@ -219,10 +219,16 @@ export default function ClientTracking() {
       )}
       {showMapModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl p-8 w-full max-w-2xl max-h-[90vh] overflow-auto">
+          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#3a3a3a] [&::-webkit-scrollbar-thumb]:rounded-full">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl text-[#fffefe] font-bold">Live Service Map</h2>
-              <button onClick={() => setShowMapModal(false)} className="text-[#fffefe]/60 hover:text-[#fffefe]">?</button>
+              <button
+                onClick={() => setShowMapModal(false)}
+                aria-label="Close map modal"
+                className="h-8 w-8 rounded-full border border-[#2a2a2a] text-[#fffefe]/60 hover:text-[#fffefe] hover:border-[#fcb316]/40 flex items-center justify-center transition-colors"
+              >
+                <X size={20} />
+              </button>
             </div>
             <div className="space-y-6">
               <div className="bg-[#191919] border border-[#2a2a2a] rounded-lg overflow-hidden h-64 flex items-center justify-center">
