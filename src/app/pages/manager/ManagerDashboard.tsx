@@ -1,10 +1,9 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import Logo from "../../components/Logo";
 import ManagerSidebar from "../../components/ManagerSidebar";
 import { Button } from "../../components/ui/button";
 import { BookingCard } from "../../components/BookingCard";
-import { mockBookings, Booking, formatCurrency } from "../../../data/mockData";
+import { mockBookings, formatCurrency } from "../../../data/mockData";
 import {
   CheckCircle,
   Clock,
@@ -132,6 +131,8 @@ export default function ManagerDashboard() {
                   onClick={() => navigate(`/manager/booking/${booking.id}`)}
                   actionLabel="Assign Team"
                   showStatus={true}
+                  showEstimatedCost={false}
+                  showChevron={false}
                   variant="dark"
                 />
               ))}

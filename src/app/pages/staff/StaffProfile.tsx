@@ -4,9 +4,9 @@ import Logo from "../../components/Logo";
 
 const profileData = {
   id: "ST-2001",
-  name: "Ana Madrigal",
+  name: "Liza Mendoza",
   role: "Senior Cleaner",
-  email: "anamadrigal22@neat.com",
+  email: "liza.mendoza@neat.com",
   phone: "0967-123-4567",
   location: "Mandaluyong, Metro Manila, Philippines",
   joinDate: "Jan 15, 2024",

@@ -17,11 +17,11 @@ const revenueData = [
 ];
 
 const activityData = [
-  { time: "2 min ago", user: "Sarah Johnson", action: "Completed job #2847", type: "success" },
-  { time: "15 min ago", user: "Mike Chen", action: "Submitted cleaning report", type: "info" },
-  { time: "1 hour ago", user: "Emily Davis", action: "New booking received", type: "success" },
+  { time: "2 min ago", user: "Liza Mendoza", action: "Completed job #2847", type: "success" },
+  { time: "15 min ago", user: "Jose Villanueva", action: "Submitted cleaning report", type: "info" },
+  { time: "1 hour ago", user: "Maricel Bautista", action: "New booking received", type: "success" },
   { time: "2 hours ago", user: "Admin", action: "Updated staff schedules", type: "info" },
-  { time: "3 hours ago", user: "John Smith", action: "Uploaded certification documents", type: "info" },
+  { time: "3 hours ago", user: "Sofia Ramirez", action: "Uploaded certification documents", type: "info" },
 ];
 
 const clients = [
@@ -31,9 +31,9 @@ const clients = [
 ];
 
 const staff = [
-  { id: "ST-2001", name: "Sarah Johnson", role: "Senior Cleaner", status: "On Duty", rating: 4.9 },
-  { id: "ST-2002", name: "Mike Chen", role: "Team Lead", status: "Available", rating: 4.8 },
-  { id: "ST-2003", name: "Emily Davis", role: "Specialist", status: "On Duty", rating: 5.0 },
+  { id: "ST-2001", name: "Liza Mendoza", role: "Senior Cleaner", status: "On Duty", rating: 4.9 },
+  { id: "ST-2002", name: "Jose Villanueva", role: "Team Lead", status: "Available", rating: 4.8 },
+  { id: "ST-2003", name: "Maricel Bautista", role: "Specialist", status: "On Duty", rating: 5.0 },
 ];
 
 export default function AdminDashboard() {

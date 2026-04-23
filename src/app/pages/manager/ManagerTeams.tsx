@@ -10,17 +10,17 @@ const PACKAGE_STAFF_REQUIREMENTS: Record<string, number> = {
 };
 
 const jobs = [
-  { id: "JOB-2847", client: "Luxury Estates Ltd", location: "Makati City", time: "09:00 AM", duration: "3h", package: "Package 1", assignedStaff: ["Sarah Johnson", "Mike Chen"], status: "In Progress", progress: 65 },
-  { id: "JOB-2848", client: "Premium Office Park", location: "Pasay City", time: "11:00 AM", duration: "2h", package: "Package 1", assignedStaff: ["Emily Davis"], status: "Scheduled" },
+  { id: "JOB-2847", client: "Luxury Estates Ltd", location: "Makati City", time: "09:00 AM", duration: "3h", package: "Package 1", assignedStaff: ["Liza Mendoza", "Jose Villanueva"], status: "In Progress", progress: 65 },
+  { id: "JOB-2848", client: "Premium Office Park", location: "Pasay City", time: "11:00 AM", duration: "2h", package: "Package 1", assignedStaff: ["Maricel Bautista"], status: "Scheduled" },
   { id: "JOB-2849", client: "Grand Hotel Group", location: "Quezon City", time: "02:00 PM", duration: "4h", package: "Package 1", assignedStaff: [], status: "Unassigned" },
   { id: "JOB-2850", client: "Elite Residences", location: "Quezon City", time: "04:00 PM", duration: "2.5h", package: "Package 2", assignedStaff: [], status: "Unassigned" },
 ];
 
 const availableStaff = [
-  { id: "ST-2003", name: "Emily Davis", role: "Specialist", rating: 5.0, status: "Available" },
-  { id: "ST-2004", name: "James Wilson", role: "Cleaner", rating: 4.7, status: "Available" },
-  { id: "ST-2005", name: "Lisa Martinez", role: "Senior Cleaner", rating: 4.9, status: "Available" },
-  { id: "ST-2006", name: "David Brown", role: "Team Lead", rating: 4.8, status: "Available" },
+  { id: "ST-2003", name: "Maricel Bautista", role: "Specialist", rating: 5.0, status: "Available" },
+  { id: "ST-2004", name: "Ramon Castillo", role: "Cleaner", rating: 4.7, status: "Available" },
+  { id: "ST-2005", name: "Sofia Ramirez", role: "Senior Cleaner", rating: 4.9, status: "Available" },
+  { id: "ST-2006", name: "Paolo Navarro", role: "Team Lead", rating: 4.8, status: "Available" },
 ];
 
 export default function ManagerTeams() {

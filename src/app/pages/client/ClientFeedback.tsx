@@ -56,7 +56,7 @@ const serviceHistory = [
     address: "123 Ayala Avenue, Makati City, Metro Manila",
     duration: "2 hours",
     team: "2 cleaners",
-    staffName: "Maria Garcia",
+    staffName: "Maricel Bautista",
     beforeImage: feedbackBeforeImg,
     afterImage: feedbackAfterImg
   },
@@ -74,7 +74,7 @@ const serviceHistory = [
     address: "456 Bonifacio Global City, Taguig City, Metro Manila",
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
-    staffName: "John Smith",
+    staffName: "Jose Villanueva",
     beforeImage: feedback2BeforeImg,
     afterImage: feedback2AfterImg
   },
@@ -92,7 +92,7 @@ const serviceHistory = [
     address: "789 Tomas Morato Avenue, Quezon City, Metro Manila",
     duration: "2 hours",
     team: "2 cleaners",
-    staffName: "Sarah Johnson",
+    staffName: "Liza Mendoza",
     beforeImage: feedback3BeforeImg,
     afterImage: feedback3AfterImg
   },
@@ -110,7 +110,7 @@ const serviceHistory = [
     address: "321 Shaw Boulevard, Mandaluyong City, Metro Manila",
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
-    staffName: "Michael Brown",
+    staffName: "Paolo Navarro",
     beforeImage: feedback4BeforeImg,
     afterImage: feedback4AfterImg
   }

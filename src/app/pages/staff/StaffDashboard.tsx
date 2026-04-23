@@ -61,7 +61,7 @@ const upcomingJobs: UpcomingJob[] = [
     duration: "2h",
     date: "Apr 16, 2026",
     serviceType: "Office Deep Cleaning",
-    assignedTeam: "Sarah Johnson, Mike Chen",
+    assignedTeam: "Liza Mendoza, Jose Villanueva",
     contactPerson: "Diane Holmes - Facilities Manager",
     notes: "Focus on lobby glass panels and executive conference rooms.",
   },
@@ -73,7 +73,7 @@ const upcomingJobs: UpcomingJob[] = [
     duration: "4h",
     date: "Apr 17, 2026",
     serviceType: "Post-Event Turnover Cleaning",
-    assignedTeam: "Sarah Johnson, Alex Ramos",
+    assignedTeam: "Liza Mendoza, Paolo Navarro",
     contactPerson: "Marco Ruiz - Operations Lead",
     notes: "Prioritize ballroom floor polishing before 6:00 PM guest check-in.",
   },
@@ -87,7 +87,7 @@ const initialInProgressJobs: InProgressJob[] = [
     startTime: "09:00 AM",
     duration: "3h",
     serviceType: "Condo Turnover Deep Cleaning",
-    assignedTeam: "Sarah Johnson, Mike Chen",
+    assignedTeam: "Liza Mendoza, Jose Villanueva",
     contactPerson: "Elaine Foster - Property Admin",
     notes: "Unit 18B; include balcony glass and kitchen exhaust filters.",
     checklist: [
@@ -108,7 +108,7 @@ const initialCompletedJobs: CompletedJob[] = [
     completedAt: "Apr 15, 2026 03:30 PM",
     rating: 5,
     serviceType: "Luxury Home Detailing",
-    assignedTeam: "Sarah Johnson, Alex Ramos",
+    assignedTeam: "Liza Mendoza, Paolo Navarro",
     contactPerson: "Rachel Kim - Homeowner",
     notes: "Client requested fragrance-free products only.",
   },
@@ -119,7 +119,7 @@ const initialCompletedJobs: CompletedJob[] = [
     completedAt: "Apr 14, 2026 12:15 PM",
     rating: 5,
     serviceType: "Move-out Deep Cleaning",
-    assignedTeam: "Sarah Johnson, Mike Chen",
+    assignedTeam: "Liza Mendoza, Jose Villanueva",
     contactPerson: "Ethan Wells - Leasing Coordinator",
     notes: "Turnover completed ahead of schedule for same-day viewing.",
   },
@@ -268,7 +268,7 @@ export default function StaffDashboard() {
               My Jobs
             </h1>
             <p className="text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>
-              Welcome back, Sarah Johnson
+              Welcome back, Liza Mendoza
             </p>
           </div>
 

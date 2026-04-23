@@ -4,11 +4,11 @@ import { Star, AlertTriangle, ThumbsUp, Download } from "lucide-react";
 import { Button } from "../../components/ui/button";
 
 const feedbackData = [
-  { id: 1, client: "Maria Santos", job: "JOB-2845", rating: 5, comment: "Exceptional service! The team was professional and thorough.", date: "Apr 15, 2026", staff: "Sarah Johnson, Mike Chen", flagged: false },
-  { id: 2, client: "Ana Cruz", job: "JOB-2843", rating: 5, comment: "Outstanding work as always. Highly recommend.", date: "Apr 14, 2026", staff: "Emily Davis", flagged: false },
-  { id: 3, client: "Jose Reyes", job: "JOB-2840", rating: 3, comment: "Service was okay but arrived 20 minutes late.", date: "Apr 13, 2026", staff: "James Wilson", flagged: true },
-  { id: 4, client: "Carlos Mendoza", job: "JOB-2838", rating: 5, comment: "Fantastic job! Everything is spotless.", date: "Apr 12, 2026", staff: "Lisa Martinez, David Brown", flagged: false },
-  { id: 5, client: "Elena Torres", job: "JOB-2835", rating: 4, comment: "Good service, minor issues with some areas.", date: "Apr 11, 2026", staff: "Sarah Johnson", flagged: false },
+  { id: 1, client: "Maria Santos", job: "JOB-2845", rating: 5, comment: "Exceptional service! The team was professional and thorough.", date: "Apr 15, 2026", staff: "Liza Mendoza, Jose Villanueva", flagged: false },
+  { id: 2, client: "Ana Cruz", job: "JOB-2843", rating: 5, comment: "Outstanding work as always. Highly recommend.", date: "Apr 14, 2026", staff: "Maricel Bautista", flagged: false },
+  { id: 3, client: "Jose Reyes", job: "JOB-2840", rating: 3, comment: "Service was okay but arrived 20 minutes late.", date: "Apr 13, 2026", staff: "Ramon Castillo", flagged: true },
+  { id: 4, client: "Carlos Mendoza", job: "JOB-2838", rating: 5, comment: "Fantastic job! Everything is spotless.", date: "Apr 12, 2026", staff: "Sofia Ramirez, Paolo Navarro", flagged: false },
+  { id: 5, client: "Elena Torres", job: "JOB-2835", rating: 4, comment: "Good service, minor issues with some areas.", date: "Apr 11, 2026", staff: "Liza Mendoza", flagged: false },
 ];
 
 export default function ManagerFeedback() {

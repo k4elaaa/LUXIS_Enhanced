@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const employees = [
   {
-    id: "ST-2001", name: "Sarah Johnson", role: "Senior Cleaner", attendance: "98%", performance: 4.9, jobs: 124, onTime: "96%",
+    id: "ST-2001", name: "Liza Mendoza", role: "Senior Cleaner", attendance: "98%", performance: 4.9, jobs: 124, onTime: "96%",
     tasks: [
       { job: "JOB-2845", service: "Deep Cleaning", date: "Apr 15", rating: 5 },
       { job: "JOB-2840", service: "Post-Construction", date: "Apr 12", rating: 5 },
@@ -14,35 +14,35 @@ const employees = [
     ]
   },
   {
-    id: "ST-2002", name: "Mike Chen", role: "Team Lead", attendance: "100%", performance: 4.8, jobs: 156, onTime: "98%",
+    id: "ST-2002", name: "Jose Villanueva", role: "Team Lead", attendance: "100%", performance: 4.8, jobs: 156, onTime: "98%",
     tasks: [
       { job: "JOB-2845", service: "Deep Cleaning", date: "Apr 15", rating: 5 },
       { job: "JOB-2838", service: "Regular Maintenance", date: "Apr 11", rating: 5 },
     ]
   },
   {
-    id: "ST-2003", name: "Emily Davis", role: "Specialist", attendance: "97%", performance: 5.0, jobs: 98, onTime: "100%",
+    id: "ST-2003", name: "Maricel Bautista", role: "Specialist", attendance: "97%", performance: 5.0, jobs: 98, onTime: "100%",
     tasks: [
       { job: "JOB-2843", service: "Luxury Condo", date: "Apr 14", rating: 5 },
       { job: "JOB-2837", service: "Move-in Cleaning", date: "Apr 09", rating: 5 },
     ]
   },
   {
-    id: "ST-2004", name: "James Wilson", role: "Cleaner", attendance: "95%", performance: 4.7, jobs: 87, onTime: "94%",
+    id: "ST-2004", name: "Ramon Castillo", role: "Cleaner", attendance: "95%", performance: 4.7, jobs: 87, onTime: "94%",
     tasks: [
       { job: "JOB-2840", service: "Office Cleaning", date: "Apr 13", rating: 3 },
       { job: "JOB-2833", service: "Regular Maintenance", date: "Apr 08", rating: 5 },
     ]
   },
   {
-    id: "ST-2005", name: "Lisa Martinez", role: "Senior Cleaner", attendance: "99%", performance: 4.9, jobs: 142, onTime: "97%",
+    id: "ST-2005", name: "Sofia Ramirez", role: "Senior Cleaner", attendance: "99%", performance: 4.9, jobs: 142, onTime: "97%",
     tasks: [
       { job: "JOB-2838", service: "Luxury Estates", date: "Apr 12", rating: 5 },
       { job: "JOB-2830", service: "Car Detailing", date: "Apr 07", rating: 5 },
     ]
   },
   {
-    id: "ST-2006", name: "David Brown", role: "Team Lead", attendance: "100%", performance: 4.8, jobs: 167, onTime: "99%",
+    id: "ST-2006", name: "Paolo Navarro", role: "Team Lead", attendance: "100%", performance: 4.8, jobs: 167, onTime: "99%",
     tasks: [
       { job: "JOB-2838", service: "Grand Hotel", date: "Apr 12", rating: 5 },
       { job: "JOB-2825", service: "Post-Construction", date: "Apr 05", rating: 4 },
