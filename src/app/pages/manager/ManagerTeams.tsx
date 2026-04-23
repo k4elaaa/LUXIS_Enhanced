@@ -1,5 +1,5 @@
 ﻿import ManagerSidebar from "../../components/ManagerSidebar";
-import { UserPlus, Search, ChevronLeft, Send } from "lucide-react";
+import { UserPlus, Search, ChevronLeft, Send, Circle, CheckCircle2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { useState } from "react";
@@ -10,10 +10,71 @@ const PACKAGE_STAFF_REQUIREMENTS: Record<string, number> = {
 };
 
 const jobs = [
-  { id: "JOB-2847", client: "Luxury Estates Ltd", location: "Makati City", time: "09:00 AM", duration: "3h", package: "Package 1", assignedStaff: ["Liza Mendoza", "Jose Villanueva"], status: "In Progress", progress: 65 },
-  { id: "JOB-2848", client: "Premium Office Park", location: "Pasay City", time: "11:00 AM", duration: "2h", package: "Package 1", assignedStaff: ["Maricel Bautista"], status: "Scheduled" },
-  { id: "JOB-2849", client: "Grand Hotel Group", location: "Quezon City", time: "02:00 PM", duration: "4h", package: "Package 1", assignedStaff: [], status: "Unassigned" },
-  { id: "JOB-2850", client: "Elite Residences", location: "Quezon City", time: "04:00 PM", duration: "2.5h", package: "Package 2", assignedStaff: [], status: "Unassigned" },
+  {
+    id: "JOB-2847",
+    client: "Luxury Estates Ltd",
+    location: "Makati City",
+    time: "09:00 AM",
+    duration: "3h",
+    package: "Package 1",
+    assignedStaff: ["Liza Mendoza", "Jose Villanueva"],
+    status: "In Progress",
+    progress: 65,
+    checklist: [
+      { task: "Set up tools and safety materials", done: true },
+      { task: "Deep clean living room and hallway", done: true },
+      { task: "Kitchen degreasing and counters", done: false },
+      { task: "Final quality walkthrough", done: false },
+    ],
+  },
+  {
+    id: "JOB-2848",
+    client: "Premium Office Park",
+    location: "Pasay City",
+    time: "11:00 AM",
+    duration: "2h",
+    package: "Package 1",
+    assignedStaff: ["Maricel Bautista"],
+    status: "Scheduled",
+    checklist: [
+      { task: "Prepare office cleaning supplies", done: false },
+      { task: "Clean workstations and meeting rooms", done: false },
+      { task: "Sanitize pantry and restrooms", done: false },
+      { task: "Submit completion photos", done: false },
+    ],
+  },
+  {
+    id: "JOB-2849",
+    client: "Grand Hotel Group",
+    location: "Quezon City",
+    time: "02:00 PM",
+    duration: "4h",
+    package: "Package 1",
+    assignedStaff: [],
+    status: "Unassigned",
+    checklist: [
+      { task: "Prep lobby polishing tools", done: false },
+      { task: "Clean guest reception area", done: false },
+      { task: "Detail hallway surfaces", done: false },
+      { task: "Final inspection checklist", done: false },
+    ],
+  },
+  {
+    id: "JOB-2850",
+    client: "Elite Residences",
+    location: "Quezon City",
+    time: "04:00 PM",
+    duration: "2.5h",
+    package: "Package 2",
+    assignedStaff: [],
+    status: "Unassigned",
+    checklist: [
+      { task: "Bedroom and hallway vacuum", done: false },
+      { task: "Bathroom deep sanitation", done: false },
+      { task: "Kitchen and appliance wipe-down", done: false },
+      { task: "Spot-check and handover", done: false },
+    ],
+  },
 ];
 
 const availableStaff = [
@@ -112,6 +173,29 @@ export default function ManagerTeams() {
                         ))}
                       </div>
                     ) : <p className="text-[#fffefe]/50 italic">No staff assigned</p>}
+                  </div>
+
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[#fffefe]/50 text-sm">Checklist Monitoring</p>
+                      <p className="text-xs text-[#fffefe]/60">
+                        {job.checklist.filter((item: { task: string; done: boolean }) => item.done).length}/{job.checklist.length} done
+                      </p>
+                    </div>
+                    <div className="space-y-1.5 bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg p-3">
+                      {job.checklist.map((item: { task: string; done: boolean }, idx: number) => (
+                        <div key={`${job.id}-task-${idx}`} className="flex items-start gap-2">
+                          {item.done ? (
+                            <CheckCircle2 size={14} className="text-green-400 mt-0.5 flex-shrink-0" />
+                          ) : (
+                            <Circle size={14} className="text-[#fffefe]/40 mt-0.5 flex-shrink-0" />
+                          )}
+                          <p className={`text-xs leading-relaxed ${item.done ? "text-[#fffefe]/80" : "text-[#fffefe]/55"}`}>
+                            {item.task}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   {job.status === "Unassigned" && (

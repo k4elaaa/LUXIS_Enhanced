@@ -1,13 +1,92 @@
 import AdminSidebar from "../../components/AdminSidebar";
-import { Clock, CheckCircle, Loader, AlertCircle } from "lucide-react";
+import { Clock, CheckCircle, Loader, AlertCircle, Circle, CheckCircle2 } from "lucide-react";
 
 const bookings = [
-  { id: "BK-3401", client: "Maria Santos", service: "Luxe Package 2", date: "Apr 16, 2026", time: "09:00 AM", status: "In-Progress", progress: 65 },
-  { id: "BK-3400", client: "Jose Reyes", service: "Condominiums and Houses", date: "Apr 16, 2026", time: "11:00 AM", status: "Approved", progress: 0 },
-  { id: "BK-3399", client: "Ana Cruz", service: "Offices", date: "Apr 16, 2026", time: "02:00 PM", status: "Pending", progress: 0 },
-  { id: "BK-3398", client: "Carlos Mendoza", service: "Luxe Package 1", date: "Apr 15, 2026", time: "09:00 AM", status: "Done", progress: 100 },
-  { id: "BK-3397", client: "Elena Torres", service: "Post-Construction", date: "Apr 15, 2026", time: "01:00 PM", status: "Done", progress: 100 },
-  { id: "BK-3396", client: "Marco Villanueva", service: "Car Interior Detailing", date: "Apr 16, 2026", time: "03:00 PM", status: "Pending", progress: 0 },
+  {
+    id: "BK-3401",
+    client: "Maria Santos",
+    service: "Luxe Package 2",
+    date: "Apr 16, 2026",
+    time: "09:00 AM",
+    status: "In-Progress",
+    progress: 65,
+    checklist: [
+      { task: "Prepare cleaning tools and supplies", done: true },
+      { task: "Deep clean living room and hallway", done: true },
+      { task: "Kitchen detail cleaning", done: false },
+      { task: "Final quality walkthrough", done: false },
+    ],
+  },
+  {
+    id: "BK-3400",
+    client: "Jose Reyes",
+    service: "Condominiums and Houses",
+    date: "Apr 16, 2026",
+    time: "11:00 AM",
+    status: "Approved",
+    progress: 0,
+    checklist: [
+      { task: "Assign staff members", done: true },
+      { task: "Prepare service materials", done: false },
+      { task: "Confirm schedule with client", done: false },
+    ],
+  },
+  {
+    id: "BK-3399",
+    client: "Ana Cruz",
+    service: "Offices",
+    date: "Apr 16, 2026",
+    time: "02:00 PM",
+    status: "Pending",
+    progress: 0,
+    checklist: [
+      { task: "Manager approval", done: false },
+      { task: "Assign staff members", done: false },
+      { task: "Dispatch checklist packet", done: false },
+    ],
+  },
+  {
+    id: "BK-3398",
+    client: "Carlos Mendoza",
+    service: "Luxe Package 1",
+    date: "Apr 15, 2026",
+    time: "09:00 AM",
+    status: "Done",
+    progress: 100,
+    checklist: [
+      { task: "Set up cleaning materials", done: true },
+      { task: "Service execution", done: true },
+      { task: "Final quality check", done: true },
+    ],
+  },
+  {
+    id: "BK-3397",
+    client: "Elena Torres",
+    service: "Post-Construction",
+    date: "Apr 15, 2026",
+    time: "01:00 PM",
+    status: "Done",
+    progress: 100,
+    checklist: [
+      { task: "Dust and debris removal", done: true },
+      { task: "Surface sanitization", done: true },
+      { task: "Client handover", done: true },
+    ],
+  },
+  {
+    id: "BK-3396",
+    client: "Marco Villanueva",
+    service: "Car Interior Detailing",
+    date: "Apr 16, 2026",
+    time: "03:00 PM",
+    status: "Pending",
+    progress: 0,
+    checklist: [
+      { task: "Manager approval", done: false },
+      { task: "Assign detailing crew", done: false },
+      { task: "Prepare equipment", done: false },
+    ],
+  },
 ];
 
 const statusConfig: Record<string, { color: string; bg: string; icon: React.ElementType }> = {
@@ -68,7 +147,7 @@ export default function AdminMonitoring() {
                   <h2 className="text-lg text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>{status}</h2>
                   <span className={`ml-auto px-2 py-1 ${bg} ${color} text-xs rounded-full`}>{items.length}</span>
                 </div>
-                <div className="p-3 space-y-3 max-h-[400px] overflow-y-auto">
+                <div className="p-3 space-y-3 max-h-[400px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#3a3a3a] [&::-webkit-scrollbar-thumb]:rounded-full">
                   {items.length === 0 && (
                     <p className="text-[#fffefe]/40 text-sm text-center py-6">No bookings</p>
                   )}
@@ -81,6 +160,32 @@ export default function AdminMonitoring() {
                       <p className="text-[#fffefe]/80 text-sm mb-1" style={{ fontFamily: 'var(--font-body)' }}>{booking.client}</p>
                       <p className="text-[#fffefe]/50 text-xs mb-1">{booking.service}</p>
                       <p className="text-[#fffefe]/50 text-xs">{booking.date} · {booking.time}</p>
+
+                      {(booking.status === "In-Progress" || booking.status === "Done") && (
+                        <div className="mt-3 bg-[#191919] border border-[#2a2a2a] rounded-lg p-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-[11px] text-[#fffefe]/55 uppercase tracking-wide">Staff Checklist</p>
+                            <p className="text-[11px] text-[#fffefe]/60">
+                              {booking.checklist.filter(item => item.done).length}/{booking.checklist.length} checked
+                            </p>
+                          </div>
+                          <div className="space-y-1.5">
+                            {booking.checklist.map((item, index) => (
+                              <div key={`${booking.id}-check-${index}`} className="flex items-start gap-2">
+                                {item.done ? (
+                                  <CheckCircle2 size={13} className="text-green-400 mt-0.5 flex-shrink-0" />
+                                ) : (
+                                  <Circle size={13} className="text-[#fffefe]/35 mt-0.5 flex-shrink-0" />
+                                )}
+                                <p className={`text-xs leading-relaxed ${item.done ? "text-[#fffefe]/80" : "text-[#fffefe]/55"}`}>
+                                  {item.task}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       {booking.status === "In-Progress" && (
                         <div className="mt-3">
                           <div className="flex justify-between text-xs text-[#fffefe]/50 mb-1">
