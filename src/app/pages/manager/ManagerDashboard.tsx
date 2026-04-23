@@ -29,6 +29,52 @@ export default function ManagerDashboard() {
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 5);
 
+  const metricCards = [
+    {
+      key: "pending",
+      label: "Pending Approval",
+      value: stats.pendingApproval,
+      icon: AlertCircle,
+      iconClassName: "text-yellow-400",
+      iconBgClassName: "bg-yellow-500/20",
+    },
+    {
+      key: "assigned",
+      label: "Assigned",
+      value: stats.assigned,
+      icon: Users,
+      iconClassName: "text-blue-400",
+      iconBgClassName: "bg-blue-500/20",
+    },
+    {
+      key: "progress",
+      label: "In Progress",
+      value: stats.inProgress,
+      icon: Clock,
+      iconClassName: "text-orange-400",
+      iconBgClassName: "bg-orange-500/20",
+    },
+    {
+      key: "completed",
+      label: "Completed",
+      value: stats.completed,
+      icon: CheckCircle,
+      iconClassName: "text-green-400",
+      iconBgClassName: "bg-green-500/20",
+    },
+    {
+      key: "revenue",
+      label: "Total Revenue",
+      value: formatCurrency(stats.totalRevenue),
+      icon: TrendingUp,
+      iconClassName: "text-white",
+      iconBgClassName: "bg-[#6e6e6e]",
+      cardClassName: "bg-[#222222] border-[#2a2a2a]",
+      labelClassName: "text-[#fffefe]/80",
+      valueClassName: "text-[#fffefe]",
+    },
+  ];
+
   return (
     <div className="flex min-h-screen bg-[#191919]">
       <ManagerSidebar />
@@ -48,66 +94,35 @@ export default function ManagerDashboard() {
 
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Key Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-          <div className="bg-[#222222] rounded-xl p-6 border border-[#2a2a2a] hover:shadow-lg transition">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#fffefe]/60">Pending Approval</p>
-                <p className="text-3xl font-bold text-[#fffefe] mt-2">{stats.pendingApproval}</p>
-              </div>
-              <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                <AlertCircle className="text-yellow-400" size={24} />
-              </div>
-            </div>
-          </div>
+          <div className="flex flex-wrap gap-3 mb-8">
+            {metricCards.map(card => {
+              const Icon = card.icon;
 
-          <div className="bg-[#222222] rounded-xl p-6 border border-[#2a2a2a] hover:shadow-lg transition">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#fffefe]/60">Assigned</p>
-                <p className="text-3xl font-bold text-[#fffefe] mt-2">{stats.assigned}</p>
-              </div>
-              <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <Users className="text-blue-400" size={24} />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-[#222222] rounded-xl p-6 border border-[#2a2a2a] hover:shadow-lg transition">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#fffefe]/60">In Progress</p>
-                <p className="text-3xl font-bold text-[#fffefe] mt-2">{stats.inProgress}</p>
-              </div>
-              <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                <Clock className="text-orange-400" size={24} />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-[#222222] rounded-xl p-6 border border-[#2a2a2a] hover:shadow-lg transition">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#fffefe]/60">Completed</p>
-                <p className="text-3xl font-bold text-[#fffefe] mt-2">{stats.completed}</p>
-              </div>
-              <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <CheckCircle className="text-green-400" size={24} />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-[#222222] rounded-xl p-6 text-white hover:shadow-lg transition">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm opacity-90">Total Revenue</p>
-                <p className="text-3xl font-bold mt-2">{formatCurrency(stats.totalRevenue)}</p>
-              </div>
-              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                <TrendingUp size={24} />
-              </div>
-            </div>
-          </div>
+              return (
+                <div
+                  key={card.key}
+                  className={`relative flex-1 basis-0 min-w-[120px] h-[126px] rounded-xl border overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 p-[12px_48px_12px_14px] flex flex-col justify-end ${card.cardClassName ?? "bg-[#222222] border-[#2a2a2a]"}`}
+                >
+                  <div className="min-w-0 h-full pr-1 flex flex-col">
+                    <p
+                      className={`leading-tight min-w-0 break-words [overflow-wrap:break-word] whitespace-normal text-[clamp(11px,1.2vw,13px)] ${card.labelClassName ?? "text-[#fffefe]/60"}`}
+                    >
+                      {card.label}
+                    </p>
+                    <p
+                      className={`font-bold leading-none tracking-tight min-w-0 mt-auto text-[clamp(20px,2.5vw,28px)] overflow-hidden text-ellipsis whitespace-nowrap ${card.valueClassName ?? "text-[#fffefe]"}`}
+                    >
+                        {card.value}
+                    </p>
+                  </div>
+                  <div
+                    className={`absolute top-[10px] right-[10px] w-[36px] h-[36px] rounded-lg flex items-center justify-center shrink-0 ${card.iconBgClassName}`}
+                  >
+                    <Icon className={card.iconClassName} size={20} />
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           {/* Recent Bookings */}
