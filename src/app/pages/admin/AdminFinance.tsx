@@ -1,7 +1,7 @@
 ﻿import AdminSidebar from "../../components/AdminSidebar";
 import { DollarSign, TrendingUp, Download, Calendar } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 const monthlyData = [
   { month: "Nov", revenue: 185000, expenses: 95000 },
@@ -25,6 +25,13 @@ const recentTransactions = [
   { id: "TXN-8832", client: "Premium Office Park", amount: "₱1,750", date: "Apr 15, 2026", status: "Pending" },
   { id: "TXN-8831", client: "Elite Residences", amount: "₱2,100", date: "Apr 14, 2026", status: "Completed" },
 ];
+
+const formatPeso = (value: number) =>
+  new Intl.NumberFormat("en-PH", {
+    style: "currency",
+    currency: "PHP",
+    maximumFractionDigits: 0,
+  }).format(value);
 
 export default function AdminFinance() {
   return (
@@ -106,8 +113,15 @@ export default function AdminFinance() {
                   <XAxis dataKey="month" stroke="#fffefe80" />
                   <YAxis stroke="#fffefe80" />
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#1e1e1e', border: '1px solid #2a2a2a', borderRadius: '8px' }}
-                    labelStyle={{ color: '#fffefe' }}
+                    contentStyle={{
+                      backgroundColor: '#111111',
+                      border: '1px solid #3a3a3a',
+                      borderRadius: '8px',
+                      color: '#fffefe'
+                    }}
+                    labelStyle={{ color: '#fffefe', fontWeight: 600 }}
+                    itemStyle={{ color: '#fffefe' }}
+                    formatter={(value: number, name: string) => [formatPeso(value), name === 'revenue' ? 'Revenue' : 'Expenses']}
                   />
                   <Bar dataKey="revenue" fill="#fcb316" />
                   <Bar dataKey="expenses" fill="#de950c" />
@@ -137,8 +151,15 @@ export default function AdminFinance() {
                     ))}
                   </Pie>
                   <Tooltip 
-                    contentStyle={{ backgroundColor: '#1e1e1e', border: '1px solid #2a2a2a', borderRadius: '8px' }}
-                    labelStyle={{ color: '#fffefe' }}
+                    contentStyle={{
+                      backgroundColor: '#111111',
+                      border: '1px solid #3a3a3a',
+                      borderRadius: '8px',
+                      color: '#fffefe'
+                    }}
+                    labelStyle={{ color: '#fffefe', fontWeight: 600 }}
+                    itemStyle={{ color: '#fffefe' }}
+                    formatter={(value: number, name: string) => [formatPeso(value), name]}
                   />
                 </PieChart>
               </ResponsiveContainer>
