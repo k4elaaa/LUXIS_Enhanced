@@ -21,6 +21,10 @@ coverage/
 .env.*
 !.env.example
 
+# Firebase
+.firebase/
+.runtimeconfig.json
+
 # TypeScript cache
 *.tsbuildinfo
 
