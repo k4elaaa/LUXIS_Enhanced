@@ -147,7 +147,7 @@ export default function AdminMonitoring() {
                   <h2 className="text-lg text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>{status}</h2>
                   <span className={`ml-auto px-2 py-1 ${bg} ${color} text-xs rounded-full`}>{items.length}</span>
                 </div>
-                <div className="p-3 space-y-3 max-h-[400px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#3a3a3a] [&::-webkit-scrollbar-thumb]:rounded-full">
+                <div className="p-3 space-y-3 max-h-[400px] overflow-y-auto pr-1">
                   {items.length === 0 && (
                     <p className="text-[#fffefe]/40 text-sm text-center py-6">No bookings</p>
                   )}

@@ -73,7 +73,7 @@ export default function ClientTracking() {
   return (
     <div className="flex min-h-screen bg-[#191919]">
       <ClientSidebar />
-      <div className="w-full md:ml-64 flex-1 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#3a3a3a] [&::-webkit-scrollbar-thumb]:rounded-full">
+      <div className="w-full md:ml-64 flex-1 overflow-y-auto pr-1">
         <div className="p-4 md:p-8 pt-16 md:pt-8">
           {activeBooking && activeBooking.status === "In Progress" && (
             <div className="mb-8 p-6 bg-gradient-to-r from-[#fcb316]/20 to-[#fcb316]/5 border border-[#fcb316]/30 rounded-xl">
@@ -219,7 +219,7 @@ export default function ClientTracking() {
       )}
       {showMapModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#3a3a3a] [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto pr-1">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl text-[#fffefe] font-bold">Live Service Map</h2>
             </div>
