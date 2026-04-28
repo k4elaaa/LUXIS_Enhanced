@@ -105,7 +105,7 @@ export default function StaffProfile() {
             {/* Performance Stats */}
             <div className="bg-[#222222] border border-[#2a2a2a] rounded-lg p-6 md:p-8">
               <h3 className="text-2xl text-[#fffefe] mb-6" style={{ fontFamily: 'var(--font-subheading)' }}>
-                Performance Metrics
+                Service Analytics
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="bg-[#1e1e1e] p-4 rounded-lg text-center">
