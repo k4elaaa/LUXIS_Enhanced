@@ -31,7 +31,7 @@ export default function StaffSidebar() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-[#fcb316] text-[#191919] rounded-lg"
+        className="hidden md:hidden fixed top-4 left-4 z-50 p-2 bg-[#fcb316] text-[#191919] rounded-lg"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -76,7 +76,7 @@ export default function StaffSidebar() {
           <Link
             to="/login"
             className="flex items-center gap-3 px-4 py-3 rounded-md text-[#fffefe]/70 hover:bg-[#222222] hover:text-red-400 transition-all duration-200"
-            style={{ fontFamily: 'var(--font-subheading)' }}
+            style={{ fontFamily: "var(--font-subheading)" }}
           >
             <LogOut size={20} strokeWidth={1.5} />
             <span className="truncate">Logout</span>

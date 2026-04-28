@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router";
-import { LayoutDashboard, Calendar, MapPin, MessageSquare, User, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, MapPin, MessageSquare, User, LogOut, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import { useState, useEffect } from "react";
 

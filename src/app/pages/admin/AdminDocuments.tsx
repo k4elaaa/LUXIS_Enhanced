@@ -1,7 +1,7 @@
 import AdminSidebar from "../../components/AdminSidebar";
-import { FileText, Download, Eye, Trash2, ArrowLeft, Receipt, FileSignature, ShieldCheck, BarChart3 } from "lucide-react";
+import { FileText, Download, Eye, Trash2, ArrowLeft, Receipt, FileSignature, ShieldCheck, BarChart3, Upload } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { useState } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 
 type DocumentType = "Contract" | "Policy" | "Report";
 
@@ -25,6 +25,19 @@ type OtherDocument = {
   size: string;
   template: DocumentTemplate;
 };
+
+type UploadedDocument = {
+  id: number;
+  name: string;
+  type: "Uploaded";
+  uploadedBy: string;
+  date: string;
+  size: string;
+  file: File;
+  createdAt: number;
+};
+
+type RecentDocument = OtherDocument | UploadedDocument;
 
 const receipts = [
   { id: 1, name: "Receipt - BK-3401 - Maria Santos.pdf", client: "Maria Santos", amount: "PHP 4,500", date: "Apr 16, 2026", service: "Luxe Package 2", size: "1.2 MB" },
@@ -213,17 +226,143 @@ const recentOtherDocuments = [...contracts, ...policies, ...reports]
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .slice(0, 6);
 
+const allowedDocumentExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".txt", ".rtf"];
+const allowedDocumentMimeTypes = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "text/csv",
+  "text/plain",
+  "application/rtf",
+  "text/rtf",
+]);
+
+const acceptedDocumentTypes = allowedDocumentExtensions.join(",");
+
+const formatFileSize = (bytes: number) => {
+  if (bytes < 1024) return `${bytes} B`;
+
+  const units = ["KB", "MB", "GB"];
+  let size = bytes / 1024;
+  let unitIndex = 0;
+
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex += 1;
+  }
+
+  return `${size.toFixed(size >= 10 || unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+};
+
+const formatUploadDate = (timestamp: number) =>
+  new Date(timestamp).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+const getDocumentTimestamp = (document: RecentDocument) =>
+  "createdAt" in document ? document.createdAt : new Date(document.date).getTime();
+
+const isAllowedDocumentFile = (file: File) => {
+  const fileName = file.name.toLowerCase();
+  const hasAllowedExtension = allowedDocumentExtensions.some((extension) => fileName.endsWith(extension));
+
+  return hasAllowedExtension || allowedDocumentMimeTypes.has(file.type);
+};
+
 type Receipt = typeof receipts[0];
 
 export default function AdminDocuments() {
+  const uploadInputRef = useRef<HTMLInputElement>(null);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [previewReceipt, setPreviewReceipt] = useState<Receipt | null>(null);
   const [previewDocument, setPreviewDocument] = useState<OtherDocument | null>(null);
+  const [uploadedDocuments, setUploadedDocuments] = useState<UploadedDocument[]>([]);
+  const [uploadStatus, setUploadStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  const recentDocuments: RecentDocument[] = [...uploadedDocuments, ...recentOtherDocuments]
+    .sort((a, b) => getDocumentTimestamp(b) - getDocumentTimestamp(a))
+    .slice(0, 6);
 
   const getTypeIcon = (type: DocumentType) => {
     if (type === "Contract") return <FileSignature size={16} className="text-[#191919]" />;
     if (type === "Policy") return <ShieldCheck size={16} className="text-[#191919]" />;
     return <BarChart3 size={16} className="text-[#191919]" />;
+  };
+
+  const handleUploadClick = () => {
+    uploadInputRef.current?.click();
+  };
+
+  const handleDocumentUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+
+    if (!files.length) {
+      return;
+    }
+
+    const invalidFiles = files.filter((file) => !isAllowedDocumentFile(file));
+
+    if (invalidFiles.length > 0) {
+      setUploadStatus({
+        type: "error",
+        message: "Only document files are allowed: PDF, DOC, DOCX, XLS, XLSX, CSV, TXT, and RTF.",
+      });
+      event.target.value = "";
+      return;
+    }
+
+    const timestamp = Date.now();
+    const newUploads = files.map((file, index) => ({
+      id: timestamp + index,
+      name: file.name,
+      type: "Uploaded" as const,
+      uploadedBy: "You",
+      date: formatUploadDate(timestamp),
+      size: formatFileSize(file.size),
+      file,
+      createdAt: timestamp + index,
+    }));
+
+    setUploadedDocuments((currentDocuments) => [...newUploads, ...currentDocuments]);
+    setUploadStatus({
+      type: "success",
+      message: `${files.length} document${files.length > 1 ? "s" : ""} uploaded successfully.`,
+    });
+    event.target.value = "";
+  };
+
+  const handlePreviewUploadedDocument = (document: UploadedDocument) => {
+    const objectUrl = URL.createObjectURL(document.file);
+    const previewWindow = window.open(objectUrl, "_blank", "noopener,noreferrer");
+
+    if (previewWindow) {
+      previewWindow.opener = null;
+    }
+
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  };
+
+  const handleDownloadUploadedDocument = (uploadedDocument: UploadedDocument) => {
+    const objectUrl = URL.createObjectURL(uploadedDocument.file);
+    const downloadLink = globalThis.document.createElement("a");
+
+    downloadLink.href = objectUrl;
+    downloadLink.download = uploadedDocument.name;
+    downloadLink.click();
+
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  };
+
+  const handleDeleteUploadedDocument = (documentId: number) => {
+    setUploadedDocuments((currentDocuments) => currentDocuments.filter((document) => document.id !== documentId));
+    setUploadStatus({
+      type: "success",
+      message: "Uploaded document removed from the current session.",
+    });
   };
 
   if (previewReceipt) {
@@ -518,7 +657,7 @@ export default function AdminDocuments() {
         <AdminSidebar />
         <div className="ml-64 flex-1 overflow-auto">
         <div className="p-8">
-          <div className="mb-8 flex items-center justify-between">
+          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div>
               <h1 className="text-4xl text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-headline)' }}>
                 Document Management
@@ -527,6 +666,29 @@ export default function AdminDocuments() {
                 Store and manage important business documents
               </p>
             </div>
+            <div className="flex flex-col items-start gap-2 md:items-end">
+              <Button
+                type="button"
+                onClick={handleUploadClick}
+                className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold shadow-lg shadow-[#fcb316]/20"
+              >
+                <Upload size={16} className="mr-2" />
+                Upload Document
+              </Button>
+              {uploadStatus && (
+                <p className={`text-sm ${uploadStatus.type === "error" ? "text-red-400" : "text-[#fffefe]/50"}`}>
+                  {uploadStatus.message}
+                </p>
+              )}
+            </div>
+            <input
+              ref={uploadInputRef}
+              type="file"
+              accept={acceptedDocumentTypes}
+              multiple
+              className="hidden"
+              onChange={handleDocumentUpload}
+            />
           </div>
 
           {/* Document Types Grid */}
@@ -566,7 +728,7 @@ export default function AdminDocuments() {
                   </tr>
                 </thead>
                 <tbody>
-                  {recentOtherDocuments.map((doc) => (
+                  {recentDocuments.map((doc) => (
                     <tr key={doc.id} className="border-t border-[#2a2a2a] hover:bg-[#1e1e1e] transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
@@ -579,15 +741,31 @@ export default function AdminDocuments() {
                       <td className="px-6 py-4 text-[#fffefe]/70">{doc.date}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-[#fcb316]" onClick={() => setPreviewDocument(doc)}>
-                            <Eye size={16} />
-                          </Button>
-                          <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-[#fcb316]">
-                            <Download size={16} />
-                          </Button>
-                          <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-red-500">
-                            <Trash2 size={16} />
-                          </Button>
+                          {doc.type === "Uploaded" ? (
+                            <>
+                              <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-[#fcb316]" onClick={() => handlePreviewUploadedDocument(doc)}>
+                                <Eye size={16} />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-[#fcb316]" onClick={() => handleDownloadUploadedDocument(doc)}>
+                                <Download size={16} />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-red-500" onClick={() => handleDeleteUploadedDocument(doc.id)}>
+                                <Trash2 size={16} />
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-[#fcb316]" onClick={() => setPreviewDocument(doc)}>
+                                <Eye size={16} />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-[#fcb316]">
+                                <Download size={16} />
+                              </Button>
+                              <Button size="sm" variant="ghost" className="text-[#fffefe] hover:text-red-500">
+                                <Trash2 size={16} />
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>
