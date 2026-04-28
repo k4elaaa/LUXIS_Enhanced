@@ -1,37 +1,21 @@
-﻿import React, { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Logo } from "../../components/Logo";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../components/ui/select";
-import {
-  serviceTypes,
-  propertyTypes,
-  ServiceType,
-  calculateBookingCost,
-  Booking,
-  mockBookings,
-} from "../../../data/mockData";
-import { Calendar, Clock, Home, DollarSign, CheckCircle, X, ArrowLeft } from "lucide-react";
+import { CheckCircle, X, ArrowLeft } from "lucide-react";
 import ClientSidebar from "../../components/ClientSidebar";
 import { Textarea } from "../../components/ui/textarea";
 
 const services = [
   { id: "luxe1", name: "Luxe Package 1 – 2 hours", description: "2 hours cleaning with 2 cleaners", price: "₱2,600", transport: "₱600 transportation fee" },
   { id: "luxe2", name: "Luxe Package 2 – 3 hours", description: "3 hours cleaning with 2 cleaners + Free 1 Hour", price: "₱3,900", transport: "₱600 transportation fee" },
-  { id: "condo", name: "Condominiums and Houses", description: "Residential cleaning services", price: "Custom Quote", transport: "" },
-  { id: "office", name: "Offices", description: "Commercial office cleaning", price: "Custom Quote", transport: "" },
-  { id: "postconstruction", name: "Post-Construction", description: "Post-construction cleanup", price: "Custom Quote", transport: "" },
-  { id: "moveinout", name: "Move-in / Move-out Cleaning", description: "Move-in or move-out services", price: "Custom Quote", transport: "" },
-  { id: "other", name: "Other Establishments", description: "Restaurants and other businesses", price: "Custom Quote", transport: "" },
-  { id: "car", name: "Car Interior Detailing", description: "Car interior cleaning", price: "Custom Quote", transport: "" },
+  { id: "condo", name: "Condominiums and Houses", description: "Residential cleaning services", transport: "" },
+  { id: "office", name: "Offices", description: "Commercial office cleaning", transport: "" },
+  { id: "postconstruction", name: "Post-Construction", description: "Post-construction cleanup", transport: "" },
+  { id: "moveinout", name: "Move-in / Move-out Cleaning", description: "Move-in or move-out services", transport: "" },
+  { id: "other", name: "Other Establishments", description: "Restaurants and other businesses", transport: "" },
+  { id: "car", name: "Car Interior Detailing", description: "Car interior cleaning", transport: "" },
 ];
 
 const landAreaOptions = [
@@ -170,23 +154,29 @@ export default function ClientBooking() {
                       <div
                         key={service.id}
                         onClick={() => setSelectedService(service.id)}
-                        className={`p-6 rounded-xl border-2 cursor-pointer transition-all transform hover:scale-105 ${
+                        className={`p-5 rounded-xl border-2 cursor-pointer transition-all transform hover:scale-105 ${
                           selectedService === service.id
                             ? "border-[#fcb316] bg-gradient-to-br from-[#fcb316]/15 to-[#fcb316]/5 shadow-lg shadow-[#fcb316]/20"
                             : "border-[#2a2a2a] bg-[#191919] hover:border-[#fcb316]/50"
                         }`}
                       >
-                        <h3 className="text-lg font-bold text-[#fffefe] mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>
+                        <h3 className="text-lg font-bold text-[#fffefe] leading-tight mb-2" style={{ fontFamily: 'var(--font-subheading)' }}>
                           {service.name}
                         </h3>
-                        <p className="text-[#fffefe]/60 text-sm mb-4" style={{ fontFamily: 'var(--font-body)' }}>
+                        <p className="text-[#fffefe]/60 text-sm mb-3 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                           {service.description}
                         </p>
-                        <p className="text-[#fcb316] font-bold text-lg" style={{ fontFamily: 'var(--font-headline)' }}>
-                          {service.price}
-                        </p>
-                        {service.transport && (
-                          <p className="text-[#fffefe]/50 text-xs mt-2">+ {service.transport}</p>
+                        {service.transport ? (
+                          <>
+                            {"price" in service && (
+                              <p className="text-[#fcb316] font-bold text-lg" style={{ fontFamily: 'var(--font-headline)' }}>
+                                {service.price}
+                              </p>
+                            )}
+                            <p className="text-[#fffefe]/50 text-xs mt-2">+ {service.transport}</p>
+                          </>
+                        ) : (
+                          <div className="h-6" />
                         )}
                       </div>
                     ))}
