@@ -33,27 +33,9 @@ export default function ClientDashboard() {
   }, []);
 
   const quickActions = [
-    {
-      title: "Book a service",
-      description: "Schedule a new cleaning whenever you need one.",
-      icon: Calendar,
-      href: "/client/booking",
-      cta: "Book now",
-    },
-    {
-      title: "Track your cleaning",
-      description: "See the live status of your current service.",
-      icon: Clock,
-      href: "/client/tracking",
-      cta: "Track status",
-    },
-    {
-      title: "Check your history",
-      description: "Review past services and completed bookings.",
-      icon: BadgeCheck,
-      href: "/client/booking-details",
-      cta: "View history",
-    },
+    { title: "Book a service", description: "Schedule a cleaning.", icon: Calendar, href: "/client/booking", cta: "Book now" },
+    { title: "Track your cleaning", description: "View live status.", icon: Clock, href: "/client/tracking", cta: "Track status" },
+    { title: "Check your history", description: "See past services.", icon: BadgeCheck, href: "/client/booking-details", cta: "View history" },
   ];
 
   const serviceSteps = [
@@ -71,10 +53,8 @@ export default function ClientDashboard() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
               <p className="text-[#fcb316] text-sm font-semibold uppercase tracking-[0.22em]">Client Dashboard</p>
-              <h1 className="mt-2 text-4xl md:text-5xl text-[#fffefe] font-bold leading-tight">Your cleaning services in one simple place</h1>
-              <p className="mt-3 text-[#fffefe]/65 text-base md:text-lg">
-                See what is happening now, what is coming next, and what you can do right away.
-              </p>
+              <h1 className="mt-2 text-4xl md:text-5xl text-[#fffefe] font-bold leading-tight">Your cleaning services</h1>
+              <p className="mt-3 text-[#fffefe]/65 text-base md:text-lg">See current and upcoming bookings.</p>
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -101,12 +81,10 @@ export default function ClientDashboard() {
                 <div>
                   <p className="text-[#fffefe]/55 text-sm uppercase tracking-[0.18em]">Now serving</p>
                   <h2 className="text-2xl md:text-3xl font-bold text-[#fffefe] mt-2">
-                    {currentBooking ? currentBooking.service : "No active booking right now"}
+                    {currentBooking ? currentBooking.service : "No active bookings"}
                   </h2>
                   <p className="text-[#fffefe]/60 mt-2 max-w-xl">
-                    {currentBooking
-                      ? "You can view the current status, date, and location without digging through technical details."
-                      : "Book your next cleaning service and we will keep everything organized here for you."}
+                    {currentBooking ? "View status, date, and location quickly." : "Book your next cleaning."}
                   </p>
                 </div>
 
@@ -139,7 +117,7 @@ export default function ClientDashboard() {
                 </div>
               ) : (
                 <div className="mt-6 rounded-2xl border border-dashed border-[#2a2a2a] bg-[#191919] p-5 text-[#fffefe]/70">
-                  No current service. Use the booking button to schedule your next cleaning.
+                  No current service. Use "Book a service" to schedule.
                 </div>
               )}
 
@@ -161,7 +139,7 @@ export default function ClientDashboard() {
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-[#fffefe]/55 text-sm uppercase tracking-[0.18em]">What to expect</p>
-                  <h2 className="mt-2 text-2xl font-bold text-[#fffefe]">Simple service flow</h2>
+                  <h2 className="mt-2 text-2xl font-bold text-[#fffefe]">Service flow</h2>
                 </div>
                 <Clock className="text-[#fcb316]" size={24} />
               </div>
@@ -175,10 +153,10 @@ export default function ClientDashboard() {
                     <div>
                       <p className="text-[#fffefe] font-semibold">{step}</p>
                       <p className="text-[#fffefe]/55 text-sm mt-1">
-                        {index === 0 && "Choose the service that fits your home or office."}
-                        {index === 1 && "We confirm the details and prepare the team."}
-                        {index === 2 && "Follow progress at a glance while the service happens."}
-                        {index === 3 && "Check the result and keep it for your records."}
+                        {index === 0 && "Choose a service."}
+                        {index === 1 && "We confirm and prepare the team."}
+                        {index === 2 && "Follow progress during the service."}
+                        {index === 3 && "Review the result."}
                       </p>
                     </div>
                   </div>

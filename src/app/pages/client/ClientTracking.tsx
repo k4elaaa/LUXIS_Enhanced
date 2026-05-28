@@ -114,13 +114,15 @@ export default function ClientTracking() {
             </div>
           )}
           <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
-            <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
+            <div className="p-4 md:p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
               <h3 className="text-lg text-[#fffefe] font-semibold">Quick actions</h3>
             </div>
-            <div className="p-6 grid md:grid-cols-2 gap-3">
-              <button onClick={() => setShowMessageModal(true)} className="flex items-center justify-center gap-2 px-4 py-4 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] rounded-2xl font-semibold transition-all transform hover:scale-[1.01]">
-                <MessageCircle size={18} /> Send Message
-              </button>
+            <div className="p-6">
+              <div className="max-w-xl mx-auto">
+                <button onClick={() => setShowMessageModal(true)} className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] rounded-[14px] font-semibold transition transform hover:scale-[1.01] shadow-sm">
+                  <MessageCircle size={18} /> Send Message
+                </button>
+              </div>
             </div>
           </div>
           {activeBooking && activeBooking.status === "In Progress" && (
@@ -174,24 +176,26 @@ export default function ClientTracking() {
                   </div>
                   <p className="text-[#fffefe]/55 text-sm mt-2">Tap a button to view the team member's NBI clearance.</p>
                 </div>
-                <div className="p-6 space-y-4">
+                <div className="p-6 grid gap-4 md:grid-cols-1">
                   {teamMembers.map((member, idx) => (
-                    <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-2xl hover:border-[#fcb316]/50 transition-all">
-                      <div className="flex items-start justify-between gap-3 mb-3">
+                    <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-2xl hover:border-[#fcb316]/50 transition-all flex flex-col justify-between">
+                      <div className="flex items-start justify-between gap-3 mb-4">
                         <div>
                           <p className="font-semibold text-[#fffefe]">{member.name}</p>
                           <p className="text-xs text-[#fffefe]/60 mt-1">{member.role}</p>
                         </div>
                         <span className={`text-xs px-2 py-1 rounded-full ${member.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{member.status}</span>
                       </div>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setSelectedTeamMember(member)}
-                        className="w-full justify-center gap-2 rounded-xl border-[#2a2a2a] bg-[#1e1e1e] text-[#fcb316] hover:bg-[#262626] hover:text-[#ffcf61]"
-                      >
-                        <Eye size={14} /> View NBI Clearance
-                      </Button>
+                      <div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setSelectedTeamMember(member)}
+                          className="w-full justify-center gap-2 rounded-lg border-[#2a2a2a] bg-[#1e1e1e] text-[#fcb316] hover:bg-[#262626] hover:text-[#ffcf61] py-3"
+                        >
+                          <Eye size={14} /> View NBI Clearance
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
