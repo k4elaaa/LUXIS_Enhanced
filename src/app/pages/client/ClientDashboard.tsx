@@ -102,11 +102,6 @@ export default function ClientDashboard() {
                   </p>
                 </div>
               )}
-              <Link to="/client/booking">
-                <Button className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-bold px-6 py-6 rounded-2xl shadow-lg">
-                  <Calendar size={18} className="mr-2" /> Book a service
-                </Button>
-              </Link>
             </div>
           </div>
 
