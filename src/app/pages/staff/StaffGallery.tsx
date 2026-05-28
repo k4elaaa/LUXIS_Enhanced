@@ -120,15 +120,13 @@ export default function StaffGallery() {
                   className="bg-[#222222] border border-[#2a2a2a] rounded-xl overflow-hidden hover:border-[#fcb316]/60 transition-all duration-300"
                 >
                   <div className="p-4 md:p-5 border-b border-[#2a2a2a] bg-gradient-to-r from-[#222222] to-[#1e1e1e]">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                       <div>
                         <p className="text-[#fcb316] text-xs uppercase tracking-wide">{job.jobRef}</p>
                         <h3 className="text-[#fffefe] text-xl" style={{ fontFamily: 'var(--font-subheading)' }}>{job.client}</h3>
                         <p className="text-[#fffefe]/60 text-sm mt-1">{job.service}</p>
-                      </div>
-                      <div className="flex flex-col items-end gap-1 text-right text-sm text-[#fffefe]/65 leading-tight">
-                        <p className="flex items-center justify-end gap-1 w-full"><Calendar size={14} /> {job.date}</p>
-                        <p className="flex items-center justify-end gap-1 w-full"><MapPin size={14} /> {job.location}</p>
+                        <p className="flex items-center gap-1 text-sm text-[#fffefe]/65 mt-2"><Calendar size={14} /> {job.date}</p>
+                        <p className="flex items-center gap-1 text-sm text-[#fffefe]/65 mt-1"><MapPin size={14} /> {job.location}</p>
                       </div>
                     </div>
                   </div>
