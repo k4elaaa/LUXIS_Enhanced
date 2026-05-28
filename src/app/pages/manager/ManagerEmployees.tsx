@@ -129,7 +129,7 @@ export default function ManagerEmployees() {
       {/* Employee Detail Modal */}
       {viewEmployee && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#222222] border border-[#2a2a2a] rounded-xl p-8 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#222222] border border-[#2a2a2a] rounded-xl p-6 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>{viewEmployee.name}</h3>
               <button onClick={() => setViewEmployee(null)} className="text-[#fffefe]/40 hover:text-[#fffefe]"><X size={24} /></button>
@@ -163,9 +163,7 @@ export default function ManagerEmployees() {
                 </div>
               ))}
             </div>
-            <Button variant="outline" className="w-full mt-6 border-[#2a2a2a] text-[#fffefe] font-semibold bg-[#222] hover:bg-[#333]" onClick={() => setViewEmployee(null)}>
-              Close
-            </Button>
+            {/* Close button removed — use the top-right X to dismiss */}
           </div>
         </div>
       )}

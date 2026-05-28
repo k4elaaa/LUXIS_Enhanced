@@ -119,7 +119,7 @@ export default function ManagerClients() {
       {/* Client Detail Modal */}
       {viewClient && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#222222] border border-[#2a2a2a] rounded-2xl p-8 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#222222] border border-[#2a2a2a] rounded-2xl p-6 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <button
                 onClick={() => setViewClient(null)}
@@ -180,9 +180,7 @@ export default function ManagerClients() {
               </div>
             </div>
 
-            <Button variant="outline" className="w-full border-[#2a2a2a] text-[#fffefe] font-semibold bg-[#222] hover:bg-[#333]" onClick={() => setViewClient(null)}>
-              Close
-            </Button>
+            {/* Close button removed — use the Back button in the header to dismiss */}
           </div>
         </div>
       )}

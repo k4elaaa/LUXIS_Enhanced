@@ -254,9 +254,14 @@ const categoryFileCounts = {
   Reports: reports.length,
 };
 
-const recentOtherDocuments = [...contracts, ...policies, ...reports]
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .slice(0, 6);
+// Ensure specific recently added documents (NBI Clearance and Resume) appear in Recent Other Documents
+const allOtherDocs = [...contracts, ...policies, ...reports];
+const preferredIds = [304, 305];
+const preferredDocs = allOtherDocs.filter((d) => preferredIds.includes(d.id));
+const otherDocsSorted = allOtherDocs
+  .filter((d) => !preferredIds.includes(d.id))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const recentOtherDocuments = [...preferredDocs, ...otherDocsSorted].slice(0, 6);
 
 const allowedDocumentExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".txt", ".rtf"];
 const allowedDocumentMimeTypes = new Set([
@@ -744,7 +749,7 @@ export default function AdminDocuments() {
               <h2 className="text-xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>
                 Recent Other Documents
               </h2>
-              <Button size="sm" variant="ghost" className="text-[#fcb316]" onClick={() => setActiveCategory("Contracts")}>
+              <Button size="sm" variant="ghost" className="text-[#fcb316]">
                 View All
               </Button>
             </div>
