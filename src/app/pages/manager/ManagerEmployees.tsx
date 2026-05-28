@@ -134,33 +134,32 @@ export default function ManagerEmployees() {
       {/* Employee Detail Modal */}
       {viewEmployee && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#222222] border border-[#2a2a2a] rounded-xl p-6 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-[#222222] border border-[#2a2a2a] rounded-xl p-6 md:p-7 max-w-xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>{viewEmployee.name}</h3>
               <button onClick={() => setViewEmployee(null)} className="text-[#fffefe]/40 hover:text-[#fffefe]"><X size={24} /></button>
             </div>
-            <div className="grid grid-cols-3 gap-3 mb-6">
+            <div className="grid grid-cols-3 gap-3 mb-5">
               {[
                 { label: "Jobs", value: String(viewEmployee.jobs) },
                 { label: "Attendance", value: viewEmployee.attendance },
                 { label: "On-Time", value: viewEmployee.onTime },
               ].map(({ label, value }) => (
-                <div key={label} className="bg-[#1e1e1e] p-3 rounded-lg text-center">
+                <div key={label} className="bg-[#1e1e1e] border border-[#2a2a2a] p-3 rounded-lg text-center">
                   <p className="text-[#fffefe]/50 text-xs mb-1">{label}</p>
-                  <p className="text-[#fcb316] text-xl" style={{ fontFamily: 'var(--font-headline)' }}>{value}</p>
+                  <p className="text-[#fcb316] text-lg md:text-xl leading-tight" style={{ fontFamily: 'var(--font-headline)' }}>{value}</p>
                 </div>
               ))}
             </div>
 
-            <h4 className="text-[#fcb316] text-sm mb-3" style={{ fontFamily: 'var(--font-subheading)' }}>ASSIGNED TASKS & RATINGS</h4>
-            <div className="space-y-3">
+            <div className="space-y-2.5 mb-6">
               {viewEmployee.tasks.map((task, i) => (
-                <div key={i} className="bg-[#1e1e1e] p-4 rounded-lg flex items-center justify-between">
+                <div key={i} className="bg-[#1e1e1e] border border-[#2a2a2a] p-3.5 rounded-lg flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-[#fffefe] text-sm" style={{ fontFamily: 'var(--font-subheading)' }}>{task.job}</p>
-                    <p className="text-[#fffefe]/60 text-xs">{task.service} · {task.date}</p>
+                    <p className="text-[#fffefe] text-sm md:text-[15px]" style={{ fontFamily: 'var(--font-subheading)' }}>{task.job}</p>
+                    <p className="text-[#fffefe]/60 text-xs md:text-sm mt-0.5">{task.service} · {task.date}</p>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 shrink-0 rounded-md bg-[#222222] px-2 py-1 border border-[#2a2a2a]">
                     {[...Array(5)].map((_, idx) => (
                       <Star key={idx} size={14} className={idx < task.rating ? "fill-[#fcb316] text-[#fcb316]" : "text-[#fffefe]/20"} />
                     ))}
@@ -168,16 +167,15 @@ export default function ManagerEmployees() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-3 mt-6">
+            <div>
               <Button
                 variant="outline"
-                className="flex-1 border-[#2a2a2a] text-[#fcb316] font-semibold bg-[#222] hover:bg-[#333]"
+                className="w-full border-[#2a2a2a] text-[#fcb316] font-semibold bg-[#222] hover:bg-[#333]"
                 onClick={() => setShowNbiPreview(true)}
               >
                 <Eye size={14} className="mr-2" />
                 View NBI Clearance
               </Button>
-              <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold">Edit Profile</Button>
             </div>
           </div>
         </div>
