@@ -1,4 +1,4 @@
-import { Search, Eye, X, Download, ArrowLeft } from "lucide-react";
+import { Search, Eye, Download, ArrowLeft } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import ManagerSidebar from "../../components/ManagerSidebar";
@@ -131,7 +131,6 @@ export default function ManagerClients() {
               </button>
               <div className="flex items-center gap-2">
                 <h3 className="text-2xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>Client Details</h3>
-                <button onClick={() => setViewClient(null)} className="text-[#fffefe]/50 hover:text-[#fffefe]"><X size={22} /></button>
               </div>
             </div>
 
