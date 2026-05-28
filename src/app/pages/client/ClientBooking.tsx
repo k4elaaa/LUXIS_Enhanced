@@ -71,7 +71,7 @@ export default function ClientBooking() {
     return (
       <div className="flex min-h-screen bg-[#191919]">
         <ClientSidebar />
-        <div className="flex-1 flex items-center justify-center p-8">
+        <div className="flex-1 flex items-center justify-center p-8 ml-0 md:ml-64">
           <div className="text-center max-w-md">
             <div className="w-20 h-20 bg-[#fcb316]/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="text-[#fcb316]" size={40} />
@@ -99,7 +99,7 @@ export default function ClientBooking() {
     <div className="flex min-h-screen bg-[#191919]">
       <ClientSidebar />
       
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto ml-0 md:ml-64">
         <div className="p-4 md:p-8 pt-16 md:pt-8">
           <div className="mb-8">
             <h1 className="text-4xl text-[#fffefe] mb-2 font-bold" style={{ fontFamily: 'var(--font-headline)' }}>
