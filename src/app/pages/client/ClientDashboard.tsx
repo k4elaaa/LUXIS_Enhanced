@@ -8,6 +8,9 @@ export default function ClientDashboard() {
   const [currentBooking, setCurrentBooking] = useState<any>(null);
   const [userAccount, setUserAccount] = useState<any>(null);
   const [bookings, setBookings] = useState<any[]>([]);
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
 
   useEffect(() => {
     const booking = localStorage.getItem("currentBooking");
@@ -123,13 +126,8 @@ export default function ClientDashboard() {
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Link to="/client/tracking" className="flex-1">
-                  <Button className="w-full rounded-2xl bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-6">
-                    Track current service <ArrowRight size={18} className="ml-2" />
-                  </Button>
-                </Link>
-                <Link to="/client/booking-details" className="flex-1">
-                  <Button variant="outline" className="w-full rounded-2xl border-[#2a2a2a] bg-[#191919] text-[#fffefe] hover:bg-[#252525] py-6 font-semibold">
-                    View booking history
+                  <Button className="w-full rounded-2xl bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-4">
+                    Track service <ArrowRight size={18} className="ml-2" />
                   </Button>
                 </Link>
               </div>
@@ -199,27 +197,86 @@ export default function ClientDashboard() {
               </Link>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {bookings.slice(0, 3).map((booking) => (
-                <div key={booking.id} className="rounded-2xl border border-[#2a2a2a] bg-[#191919] p-5 hover:border-[#fcb316]/50 transition-colors">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-[#fffefe] font-semibold">{booking.service}</p>
-                      <p className="text-[#fffefe]/55 text-sm mt-1">{booking.address}</p>
-                    </div>
-                    <span className="rounded-full bg-[#fcb316]/15 px-3 py-1 text-xs font-semibold text-[#fcb316]">
-                      {booking.status}
-                    </span>
-                  </div>
-
-                  <div className="mt-4 space-y-2 text-sm text-[#fffefe]/70">
-                    <p className="flex items-center gap-2"><Calendar size={14} className="text-[#fcb316]" /> {booking.date}</p>
-                    <p className="flex items-center gap-2"><Clock size={14} className="text-[#fcb316]" /> {booking.time}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-left">
+                <thead>
+                  <tr className="text-[#fffefe]/60 text-sm">
+                    <th className="py-3 px-4">Service</th>
+                    <th className="py-3 px-4">Date</th>
+                    <th className="py-3 px-4">Time</th>
+                    <th className="py-3 px-4">Location</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#2a2a2a]">
+                  {bookings.map((b) => (
+                    <tr key={b.id} className="text-[#fffefe]/90">
+                      <td className="py-3 px-4">{b.service}</td>
+                      <td className="py-3 px-4">{b.date}</td>
+                      <td className="py-3 px-4">{b.time}</td>
+                      <td className="py-3 px-4">{b.address}</td>
+                      <td className="py-3 px-4"><span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#fcb316]/10 text-[#fcb316]">{b.status}</span></td>
+                      <td className="py-3 px-4">
+                        <div className="flex gap-2">
+                          <Button onClick={() => { setSelectedBooking(b); setShowBookingModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#191919] border border-[#2a2a2a] text-[#fffefe]">View</Button>
+                          <Button onClick={() => { setSelectedBooking(b); setShowReceiptModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#fcb316] text-[#191919]">Receipt</Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
+          
+          {showBookingModal && selectedBooking && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[20px] p-6 w-full max-w-md">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <p className="text-sm text-[#fffefe]/60">Booking</p>
+                    <h3 className="text-xl text-[#fffefe] font-bold mt-1">{selectedBooking.service}</h3>
+                  </div>
+                  <button onClick={() => setShowBookingModal(false)} className="text-[#fffefe]/60">Close</button>
+                </div>
+                <div className="space-y-2 text-[#fffefe]/90">
+                  <p><strong>ID:</strong> {selectedBooking.id}</p>
+                  <p><strong>Date:</strong> {selectedBooking.date}</p>
+                  <p><strong>Time:</strong> {selectedBooking.time}</p>
+                  <p><strong>Address:</strong> {selectedBooking.address}</p>
+                  <p><strong>Status:</strong> {selectedBooking.status}</p>
+                </div>
+                <div className="mt-6">
+                  <Button onClick={() => setShowBookingModal(false)} className="w-full bg-[#fcb316] text-[#191919]">Close</Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showReceiptModal && selectedBooking && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[20px] p-6 w-full max-w-2xl max-h-[90vh] overflow-auto">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <p className="text-sm text-[#fffefe]/60">Receipt</p>
+                    <h3 className="text-xl text-[#fffefe] font-bold mt-1">{selectedBooking.service} — {selectedBooking.id}</h3>
+                  </div>
+                  <button onClick={() => setShowReceiptModal(false)} className="text-[#fffefe]/60">Close</button>
+                </div>
+                <div className="bg-[#191919] border border-[#2a2a2a] rounded-md p-4">
+                  {selectedBooking.receiptUrl ? (
+                    <iframe src={selectedBooking.receiptUrl} className="w-full h-[60vh]" title="receipt" />
+                  ) : (
+                    <p className="text-[#fffefe]/70">No receipt available for this booking.</p>
+                  )}
+                </div>
+                <div className="mt-4">
+                  <Button onClick={() => setShowReceiptModal(false)} className="bg-[#fcb316] text-[#191919] w-full">Close</Button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
