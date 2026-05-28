@@ -2,6 +2,7 @@ import { Search, TrendingUp, Eye, X, Star } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import ManagerSidebar from "../../components/ManagerSidebar";
+import { getEmployeeById } from "../../../lib/employeeStore";
 import { useState } from "react";
 
 const employees = [
@@ -50,11 +51,12 @@ const employees = [
   },
 ];
 
-type Employee = typeof employees[0];
+type Employee = typeof employees[0] & { nbiUrl?: string | null };
 
 export default function ManagerEmployees() {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewEmployee, setViewEmployee] = useState<Employee | null>(null);
+  const [showNbiPreview, setShowNbiPreview] = useState(false);
 
   const filtered = employees.filter(emp =>
     emp.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -114,7 +116,10 @@ export default function ManagerEmployees() {
                           size="sm"
                           variant="outline"
                           className="border-[#2a2a2a] text-[#fffefe] bg-[#1e1e1e] hover:bg-[#2a2a2a]"
-                          onClick={() => setViewEmployee(emp)}
+                          onClick={() => {
+                            const latest = getEmployeeById(emp.id) || emp;
+                            setViewEmployee(latest as any);
+                          }}
                         >
                           <Eye size={14} className="mr-1" />View
                         </Button>
@@ -163,7 +168,64 @@ export default function ManagerEmployees() {
                 </div>
               ))}
             </div>
-            {/* Close button removed — use the top-right X to dismiss */}
+            <div className="flex gap-3 mt-6">
+              <Button variant="outline" className="flex-1 border-[#2a2a2a] text-[#fffefe] font-semibold bg-[#222] hover:bg-[#333]" onClick={() => setViewEmployee(null)}>
+                Close
+              </Button>
+              <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold">Edit Profile</Button>
+            </div>
+
+            <div className="mt-4">
+              <Button variant="ghost" className="text-[#fcb316]" onClick={() => setShowNbiPreview(true)}>
+                <Eye size={14} className="mr-2" />View NBI Clearance
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* NBI Preview Modal */}
+      {showNbiPreview && viewEmployee && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#222222] border border-[#2a2a2a] rounded-xl p-6 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl text-[#fffefe]" style={{ fontFamily: 'var(--font-subheading)' }}>NBI Clearance</h3>
+              <button onClick={() => setShowNbiPreview(false)} className="text-[#fffefe]/40 hover:text-[#fffefe]"><X size={20} /></button>
+            </div>
+
+            {viewEmployee.nbiUrl ? (
+              <div className="mb-4">
+                <div className="h-[60vh] bg-white rounded overflow-hidden">
+                  <iframe src={viewEmployee.nbiUrl} title="NBI Clearance Preview" className="w-full h-full" />
+                </div>
+                <div className="flex gap-3 mt-4">
+                  <a href={viewEmployee.nbiUrl} download className="flex-1">
+                    <Button className="w-full bg-[#fcb316] hover:bg-[#de950c] text-[#191919]">Download PDF</Button>
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+                  <p className="text-[#fffefe]/60 text-sm mb-1">Name</p>
+                  <p className="text-[#fffefe] text-sm" style={{ fontFamily: 'var(--font-subheading)' }}>{viewEmployee.name}</p>
+                </div>
+
+                <div className="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+                  <p className="text-[#fffefe]/60 text-sm mb-1">Clearance Number</p>
+                  <p className="text-[#fffefe] text-sm">{`NBI-2026-${viewEmployee.id.replace(/\D/g, '')}`}</p>
+                </div>
+
+                <div className="bg-[#1e1e1e] p-4 rounded-lg mb-4">
+                  <p className="text-[#fffefe]/60 text-sm mb-1">Issued</p>
+                  <p className="text-[#fffefe] text-sm">Apr 20, 2026</p>
+                </div>
+
+                <div className="flex gap-3 mt-4">
+                  <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]">Download PDF</Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

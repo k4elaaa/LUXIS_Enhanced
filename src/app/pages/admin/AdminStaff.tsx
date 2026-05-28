@@ -1,9 +1,10 @@
 import AdminSidebar from "../../components/AdminSidebar";
-import { Search, UserPlus, X, Star } from "lucide-react";
+import { Search, UserPlus, X } from "lucide-react";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { addEmployee } from "../../../lib/employeeStore";
 
 const staffData = [
   { id: "ST-2001", name: "Liza Mendoza", role: "Senior Cleaner", status: "On Duty", rating: 4.9, jobs: 124, phone: "+63 917 111 2222", email: "sarah.j@neat.com", address: "Makati City, Metro Manila", joined: "Jan 15, 2024", availability: "Mon-Fri, 8AM-6PM" },
@@ -23,6 +24,27 @@ export default function AdminStaff() {
   const [selectedStaff, setSelectedStaff] = useState<StaffMember | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newStaff, setNewStaff] = useState({ name: "", role: "", phone: "", email: "", address: "", availability: [] as string[] });
+  const nbiInputRef = useRef<HTMLInputElement | null>(null);
+  const [newStaffNbiFile, setNewStaffNbiFile] = useState<File | null>(null);
+
+  const openNbiChooser = () => nbiInputRef.current?.click();
+
+  const handleNbiChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Basic validation: only accept PDFs
+    if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+      alert('Only PDF files are accepted for NBI Clearance.');
+      e.target.value = '';
+      return;
+    }
+
+    setNewStaffNbiFile(file);
+    e.target.value = '';
+  };
+
+  const removeNbiFile = () => setNewStaffNbiFile(null);
 
   const filteredStaff = staffData.filter(staff =>
     staff.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -181,6 +203,19 @@ export default function AdminStaff() {
                 </div>
               </div>
               <div>
+                <Label className="text-[#fffefe] mb-2 block">NBI Clearance (PDF)</Label>
+                <div className="flex items-center gap-3">
+                  <input ref={nbiInputRef} type="file" accept=".pdf,application/pdf" className="hidden" onChange={handleNbiChange} />
+                  <Button variant="outline" className="border-[#2a2a2a] text-[#fffefe] bg-[#1e1e1e] hover:bg-[#2a2a2a]" onClick={openNbiChooser}>Upload NBI Clearance</Button>
+                  {newStaffNbiFile && (
+                    <div className="flex items-center gap-2 bg-[#1e1e1e] border border-[#2a2a2a] rounded-md px-3 py-2">
+                      <span className="text-sm text-[#fffefe]">{newStaffNbiFile.name}</span>
+                      <button type="button" onClick={removeNbiFile} className="text-[#fffefe]/50 hover:text-[#fffefe] ml-2">Remove</button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
                 <Label className="text-[#fffefe] mb-2 block">Phone</Label>
                 <Input type="number" placeholder="+63 9XX XXX XXXX" value={newStaff.phone} onChange={e => setNewStaff({...newStaff, phone: e.target.value})} className="bg-[#1e1e1e] border-[#2a2a2a] text-[#fffefe] focus:border-[#fcb316]" />
               </div>
@@ -207,7 +242,39 @@ export default function AdminStaff() {
               <Button variant="outline" className="flex-1 border-[#2a2a2a] text-[#fffefe] bg-[#222] hover:bg-[#333] font-semibold" onClick={() => setShowAddModal(false)}>
                 Cancel
               </Button>
-              <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]" onClick={() => setShowAddModal(false)}>Add Staff</Button>
+              <Button
+                className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]"
+                onClick={() => {
+                  const newId = `ST-${Date.now().toString().slice(-6)}`;
+                  let nbiUrl: string | null = null;
+                  if (newStaffNbiFile) {
+                    nbiUrl = URL.createObjectURL(newStaffNbiFile);
+                  }
+
+                  addEmployee({
+                    id: newId,
+                    name: newStaff.name || "Unknown",
+                    role: newStaff.role || "Cleaner",
+                    phone: newStaff.phone,
+                    email: newStaff.email,
+                    address: newStaff.address,
+                    joined: new Date().toISOString().slice(0,10),
+                    availability: newStaff.availability,
+                    status: "Available",
+                    jobs: 0,
+                    performance: 0,
+                    attendance: "100%",
+                    onTime: "100%",
+                    tasks: [],
+                    nbiUrl
+                  });
+
+                  // reset UI state
+                  setNewStaff({ name: "", role: "", phone: "", email: "", address: "", availability: [] });
+                  setNewStaffNbiFile(null);
+                  setShowAddModal(false);
+                }}
+              >Add Staff</Button>
             </div>
           </div>
         </div>
