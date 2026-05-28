@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { Calendar, CheckCircle, Clock, Sparkles, ArrowRight, MapPin, ShieldCheck, BadgeCheck } from "lucide-react";
+import { Calendar, CheckCircle, Clock, Sparkles, ArrowRight, MapPin, ShieldCheck, BadgeCheck, Download } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
@@ -12,6 +12,7 @@ export default function ClientDashboard() {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showReceiptModal, setShowReceiptModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [receiptData, setReceiptData] = useState<any>(null);
 
   useEffect(() => {
     const booking = localStorage.getItem("currentBooking");
@@ -48,6 +49,27 @@ export default function ClientDashboard() {
     "Track the cleaning progress",
     "Review the finished service",
   ];
+
+  const openReceipt = (b: any) => {
+    const priceMap: Record<string, string> = {
+      "Deep Cleaning": "PHP 4,500",
+      "Regular Maintenance": "PHP 2,200",
+      "Luxe Package 1": "PHP 3,200",
+      "Luxe Package 2": "PHP 4,500",
+      "Post-Construction": "PHP 7,800",
+      "Offices": "PHP 2,600",
+    };
+
+    const amount = b.amount || priceMap[b.service] || "PHP 2,500";
+    setSelectedBooking(b);
+    setReceiptData({
+      client: userAccount?.name || "Client",
+      amount,
+      date: b.date,
+      service: b.service,
+    });
+    setShowReceiptModal(true);
+  };
 
   return (
     <div className="flex min-h-screen bg-[#191919]">
@@ -224,7 +246,7 @@ export default function ClientDashboard() {
                       <td className="py-3 px-4">
                         <div className="flex gap-2">
                           <Button onClick={() => { setSelectedBooking(b); setShowBookingModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#191919] border border-[#2a2a2a] text-[#fffefe]">View</Button>
-                          <Button onClick={() => { setSelectedBooking(b); setShowReceiptModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#fcb316] text-[#191919]">Receipt</Button>
+                          <Button onClick={() => openReceipt(b)} className="px-3 py-2 text-sm rounded-lg bg-[#fcb316] text-[#191919]">Receipt</Button>
                         </div>
                       </td>
                     </tr>
@@ -267,7 +289,7 @@ export default function ClientDashboard() {
                     <h3 className="text-2xl text-[#fffefe] font-bold mt-1">NEAT Receipt</h3>
                     <p className="text-[#fffefe]/60 text-sm mt-1">Premium Field Service Management</p>
                   </div>
-                  <button onClick={() => setShowReceiptModal(false)} className="text-[#fffefe]/60">Close</button>
+                  <button onClick={() => { setShowReceiptModal(false); setReceiptData(null); }} className="text-[#fffefe]/60">Close</button>
                 </div>
 
                 <div className="max-w-2xl mx-auto bg-[#222222] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-2xl">
@@ -288,12 +310,12 @@ export default function ClientDashboard() {
                     </div>
 
                     <div className="border-t border-[#2a2a2a] pt-4">
-                      <div className="flex justify-between items-start">
+                        <div className="flex justify-between items-start">
                         <div>
-                          <p className="text-[#fffefe]">{selectedBooking.service}</p>
+                          <p className="text-[#fffefe]">{receiptData?.service || selectedBooking.service}</p>
                           <p className="text-[#fffefe]/50 text-sm mt-1">{selectedBooking.address}</p>
                         </div>
-                        <p className="text-[#fcb316] text-xl">{selectedBooking.amount || 'PHP 0'}</p>
+                        <p className="text-[#fcb316] text-xl">{receiptData?.amount || selectedBooking.amount || 'PHP 0'}</p>
                       </div>
                       <div className="mt-4 border-t border-[#2a2a2a] pt-4 flex justify-between">
                         <p className="text-[#fffefe]">Transportation Fee</p>
@@ -301,11 +323,14 @@ export default function ClientDashboard() {
                       </div>
                       <div className="mt-4 border-t border-[#fcb316]/30 pt-4 flex justify-between">
                         <p className="text-xl text-[#fffefe]">Total</p>
-                        <p className="text-2xl text-[#fcb316]">{selectedBooking.amount || 'PHP 0'}</p>
+                        <p className="text-2xl text-[#fcb316]">{receiptData?.amount || selectedBooking.amount || 'PHP 0'}</p>
                       </div>
                     </div>
                     <div className="flex gap-3 mt-4">
-                      <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]">Download Receipt</Button>
+                      <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]">
+                        <Download size={16} className="mr-2" />
+                        Download Receipt
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -351,7 +376,7 @@ export default function ClientDashboard() {
                               <td className="py-3 px-4">
                                 <div className="flex gap-2">
                                   <Button onClick={() => { setSelectedBooking(b); setShowBookingModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#191919] border border-[#2a2a2a] text-[#fffefe]">View</Button>
-                                  <Button onClick={() => { setSelectedBooking(b); setShowReceiptModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#fcb316] text-[#191919]">Receipt</Button>
+                                  <Button onClick={() => openReceipt(b)} className="px-3 py-2 text-sm rounded-lg bg-[#fcb316] text-[#191919]">Receipt</Button>
                                 </div>
                               </td>
                             </tr>
