@@ -338,7 +338,7 @@ export default function ClientDashboard() {
             {/* Quick Stats */}
             <div className="lg:col-span-2 bg-gradient-to-br from-[#1e1e1e] to-[#191919] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-xl p-4 md:p-8 pt-16 md:pt-8">
               <div className="flex items-center justify-between mb-8">
-                <h3 className="text-2xl text-[#fffefe] font-bold">Performance Metrics</h3>
+                <h3 className="text-2xl text-[#fffefe] font-bold">Service Analytics</h3>
                 <TrendingUp className="text-[#fcb316]" size={24} />
               </div>
 
