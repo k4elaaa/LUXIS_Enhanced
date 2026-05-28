@@ -205,6 +205,38 @@ const reports: OtherDocument[] = [
       ],
     },
   },
+  {
+    id: 304,
+    name: "NBI Clearance – Maria Santos.pdf",
+    type: "Report",
+    uploadedBy: "Admin",
+    date: "Apr 20, 2026",
+    size: "450 KB",
+    template: {
+      summary: "National Bureau of Investigation clearance for background verification.",
+      sections: [
+        { title: "Name", content: "Maria Santos" },
+        { title: "Clearance Number", content: "NBI-2026-000123" },
+        { title: "Issued", content: "Apr 20, 2026" },
+      ],
+    },
+  },
+  {
+    id: 305,
+    name: "Resume – Juan Dela Cruz.pdf",
+    type: "Report",
+    uploadedBy: "Admin",
+    date: "Apr 21, 2026",
+    size: "320 KB",
+    template: {
+      summary: "Candidate resume submitted for staff hiring and verification.",
+      sections: [
+        { title: "Profile", content: "Juan Dela Cruz — experienced field technician with 5 years in residential cleaning and maintenance." },
+        { title: "Skills", content: "Equipment handling, client communication, time management." },
+        { title: "Availability", content: "Weekdays, evenings." },
+      ],
+    },
+  },
 ];
 
 const documentsByCategory: Record<"Contracts" | "Policies" | "Reports", OtherDocument[]> = {

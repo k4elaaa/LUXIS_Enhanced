@@ -1,13 +1,9 @@
 import AdminSidebar from "../../components/AdminSidebar";
 import { Users, Briefcase, DollarSign, FileText, TrendingUp, Clock } from "lucide-react";
+import { mockBookings, mockStaff, formatCurrency } from "../../../data/mockData";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const metrics = [
-  { label: "Total Bookings", value: "2,847", change: "+12.5%", icon: FileText, color: "#fcb316" },
-  { label: "Active Staff", value: "156", change: "+8.2%", icon: Briefcase, color: "#fcb316" },
-  { label: "Monthly Revenue", value: "₱284.7K", change: "+18.4%", icon: DollarSign, color: "#fcb316" },
-  { label: "New Reports", value: "43", change: "+5.1%", icon: Users, color: "#fcb316" },
-];
+// metrics will be computed from shared mock data for consistency
 
 const revenueData = [
   { month: "Jan", revenue: 185000 },
@@ -37,6 +33,20 @@ const staff = [
 ];
 
 export default function AdminDashboard() {
+  const bookingsList = Object.values(mockBookings);
+  const totalBookings = bookingsList.length;
+  const activeStaffCount = Object.values(mockStaff).filter(s => s.availability === "available" || s.availability === "busy").length;
+  const totalRevenue = bookingsList.reduce((sum, b) => sum + (b.estimatedCost || 0), 0);
+  // consider recent 'reports' as bookings created in last 30 days for this simplified metric
+  const thirtyDaysAgo = Date.now() - 1000 * 60 * 60 * 24 * 30;
+  const newReports = bookingsList.filter(b => new Date(b.createdAt).getTime() >= thirtyDaysAgo).length;
+
+  const metrics = [
+    { label: "Total Bookings", value: totalBookings.toLocaleString(), change: "+0%", icon: FileText, color: "#fcb316" },
+    { label: "Active Staff", value: activeStaffCount.toString(), change: "+0%", icon: Briefcase, color: "#fcb316" },
+    { label: "Monthly Revenue", value: formatCurrency(totalRevenue), change: "+0%", icon: DollarSign, color: "#fcb316" },
+    { label: "Recent Bookings", value: newReports.toString(), change: "+0%", icon: Users, color: "#fcb316" },
+  ];
   return (
     <div className="flex min-h-screen bg-[#191919]">
       <AdminSidebar />

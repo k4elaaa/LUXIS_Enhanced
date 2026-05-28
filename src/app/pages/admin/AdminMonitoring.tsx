@@ -1,94 +1,38 @@
 import AdminSidebar from "../../components/AdminSidebar";
 import { Clock, CheckCircle, Loader, AlertCircle, Circle, CheckCircle2 } from "lucide-react";
+import { mockBookings, formatDate } from "../../../data/mockData";
 
-const bookings = [
-  {
-    id: "BK-3401",
-    client: "Maria Santos",
-    service: "Luxe Package 2",
-    date: "Apr 16, 2026",
-    time: "09:00 AM",
-    status: "In-Progress",
-    progress: 65,
-    checklist: [
-      { task: "Prepare cleaning tools and supplies", done: true },
-      { task: "Deep clean living room and hallway", done: true },
-      { task: "Kitchen detail cleaning", done: false },
-      { task: "Final quality walkthrough", done: false },
-    ],
-  },
-  {
-    id: "BK-3400",
-    client: "Jose Reyes",
-    service: "Condominiums and Houses",
-    date: "Apr 16, 2026",
-    time: "11:00 AM",
-    status: "Approved",
-    progress: 0,
-    checklist: [
-      { task: "Assign staff members", done: true },
-      { task: "Prepare service materials", done: false },
-      { task: "Confirm schedule with client", done: false },
-    ],
-  },
-  {
-    id: "BK-3399",
-    client: "Ana Cruz",
-    service: "Offices",
-    date: "Apr 16, 2026",
-    time: "02:00 PM",
-    status: "Pending",
-    progress: 0,
-    checklist: [
-      { task: "Manager approval", done: false },
-      { task: "Assign staff members", done: false },
-      { task: "Dispatch checklist packet", done: false },
-    ],
-  },
-  {
-    id: "BK-3398",
-    client: "Carlos Mendoza",
-    service: "Luxe Package 1",
-    date: "Apr 15, 2026",
-    time: "09:00 AM",
-    status: "Done",
-    progress: 100,
-    checklist: [
-      { task: "Set up cleaning materials", done: true },
-      { task: "Service execution", done: true },
-      { task: "Final quality check", done: true },
-    ],
-  },
-  {
-    id: "BK-3397",
-    client: "Elena Torres",
-    service: "Post-Construction",
-    date: "Apr 15, 2026",
-    time: "01:00 PM",
-    status: "Done",
-    progress: 100,
-    checklist: [
-      { task: "Dust and debris removal", done: true },
-      { task: "Surface sanitization", done: true },
-      { task: "Client handover", done: true },
-    ],
-  },
-  {
-    id: "BK-3396",
-    client: "Marco Villanueva",
-    service: "Car Interior Detailing",
-    date: "Apr 16, 2026",
-    time: "03:00 PM",
-    status: "Pending",
-    progress: 0,
-    checklist: [
-      { task: "Manager approval", done: false },
-      { task: "Assign detailing crew", done: false },
-      { task: "Prepare equipment", done: false },
-    ],
-  },
-];
+// derive a simplified monitoring list from shared mock bookings so counts remain consistent across pages
+const bookings = Object.values(mockBookings).map((b) => {
+  const statusMap: Record<string, string> = {
+    pending_approval: "Pending",
+    assigned: "Approved",
+    on_the_way: "In-Progress",
+    in_progress: "In-Progress",
+    completed: "Done",
+    cancelled: "Pending",
+  };
 
+  const status = statusMap[b.status] || "Pending";
+  const progress = b.status === "in_progress" ? 65 : b.status === "completed" ? 100 : b.status === "on_the_way" ? 25 : 0;
+  const checklist = [
+    { task: "Manager approval", done: b.status !== "pending_approval" },
+    { task: "Assign staff members", done: !!b.assignedTeam },
+    { task: "Prepare materials", done: b.status === "in_progress" || b.status === "completed" },
+    { task: "Final quality check", done: b.status === "completed" },
+  ];
+
+  return {
+    id: b.id,
+    client: b.clientName,
+    service: b.serviceType,
+    date: formatDate(b.scheduledDate),
+    time: b.scheduledTime,
+    status,
+    progress,
+    checklist,
+  };
+});
 const statusConfig: Record<string, { color: string; bg: string; icon: React.ElementType }> = {
   Pending: { color: "text-yellow-400", bg: "bg-yellow-400/20", icon: Clock },
   Approved: { color: "text-blue-400", bg: "bg-blue-400/20", icon: AlertCircle },
