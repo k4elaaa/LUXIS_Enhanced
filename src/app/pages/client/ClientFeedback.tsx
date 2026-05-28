@@ -5,7 +5,6 @@ import {
   AlertCircle,
   CheckCircle,
   Download,
-  Image as ImageIcon,
   MapPin,
   CalendarDays,
   Package as PackageIcon,
@@ -15,14 +14,6 @@ import ClientSidebar from "../../components/ClientSidebar";
 import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
-import feedbackBeforeImg from "../../components/assets/images/feedback-before.png";
-import feedbackAfterImg from "../../components/assets/images/feedback-after.png";
-import feedback2BeforeImg from "../../components/assets/images/feedback2-before.png";
-import feedback2AfterImg from "../../components/assets/images/feedback2-after.png";
-import feedback3BeforeImg from "../../components/assets/images/feedback3-before.png";
-import feedback3AfterImg from "../../components/assets/images/feedback3-after.png";
-import feedback4BeforeImg from "../../components/assets/images/feedback4-before.png";
-import feedback4AfterImg from "../../components/assets/images/feedback4-after.png";
 
 const neatPackages = {
   "Package 1": {
@@ -57,8 +48,6 @@ const serviceHistory = [
     duration: "2 hours",
     team: "2 cleaners",
     staffName: "Maricel Bautista",
-    beforeImage: feedbackBeforeImg,
-    afterImage: feedbackAfterImg
   },
   {
     id: "2",
@@ -75,8 +64,6 @@ const serviceHistory = [
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
     staffName: "Jose Villanueva",
-    beforeImage: feedback2BeforeImg,
-    afterImage: feedback2AfterImg
   },
   {
     id: "3",
@@ -93,8 +80,6 @@ const serviceHistory = [
     duration: "2 hours",
     team: "2 cleaners",
     staffName: "Liza Mendoza",
-    beforeImage: feedback3BeforeImg,
-    afterImage: feedback3AfterImg
   },
   {
     id: "4",
@@ -111,8 +96,6 @@ const serviceHistory = [
     duration: "3 hours + 1 Free Hour",
     team: "2 cleaners",
     staffName: "Paolo Navarro",
-    beforeImage: feedback4BeforeImg,
-    afterImage: feedback4AfterImg
   }
 ];
 
@@ -131,8 +114,6 @@ interface Service {
   duration: string;
   team: string;
   staffName: string;
-  beforeImage: string;
-  afterImage: string;
   feedback?: { rating: number; comment: string; submittedDate: string };
 }
 
@@ -346,8 +327,9 @@ export default function ClientFeedback() {
       <div className="w-full md:ml-64 flex-1 overflow-auto">
         <div className="p-4 md:p-8 pt-16 md:pt-8">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-[#fffefe] mb-2">Service Feedback</h1>
-            <p className="text-[#fffefe]/60">Rate and review your completed services</p>
+            <p className="text-[#fcb316] text-sm font-semibold uppercase tracking-[0.18em]">Service feedback</p>
+            <h1 className="mt-2 text-3xl md:text-4xl font-bold text-[#fffefe]">Review completed services</h1>
+            <p className="mt-2 max-w-2xl text-[#fffefe]/60">Choose a completed service, share your rating, and leave a short note so we can keep improving.</p>
           </div>
           {message && (
             <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 border backdrop-blur-sm ${message.type === "success" ? "bg-green-500/10 border-green-500/30 text-green-400" : "bg-red-500/10 border-red-500/30 text-red-400"}`}>
@@ -355,16 +337,16 @@ export default function ClientFeedback() {
               <span className="text-sm md:text-base">{message.text}</span>
             </div>
           )}
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-1">
-              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl overflow-hidden sticky top-8">
+              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden sticky top-8 shadow-xl">
                 <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
-                  <h2 className="text-lg font-bold text-[#fffefe]">Quick Feedback</h2>
+                  <h2 className="text-lg font-bold text-[#fffefe]">Quick feedback</h2>
                 </div>
                 <div className="p-6 space-y-4">
                   {selectedService && currentService ? (
                     <>
-                      <div className="bg-[#191919] p-4 rounded-lg border border-[#2a2a2a]">
+                      <div className="bg-[#191919] p-4 rounded-2xl border border-[#2a2a2a]">
                         <p className="text-[#fffefe]/60 text-xs mb-1">Selected Service</p>
                         <p className="text-[#fffefe] font-semibold text-sm">{currentService.service}</p>
                         <p className="text-[#fffefe]/50 text-xs mt-1">{currentService.bookingId}</p>
@@ -385,18 +367,18 @@ export default function ClientFeedback() {
                         <Textarea id="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Share your experience..." className="bg-[#191919] border-[#2a2a2a] text-[#fffefe] placeholder-[#fffefe]/30 w-full min-h-24 text-sm" />
                       </div>
                       <div className="flex gap-2">
-                        <Button onClick={handleSubmitFeedback} className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2"><Send size={16} className="mr-1" /> Submit</Button>
-                        <Button onClick={() => { setSelectedService(null); setRating(0); setComment(""); }} className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold py-2">Cancel</Button>
+                        <Button onClick={handleSubmitFeedback} className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-2 rounded-xl"><Send size={16} className="mr-1" /> Submit</Button>
+                        <Button onClick={() => { setSelectedService(null); setRating(0); setComment(""); }} className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold py-2 rounded-xl">Cancel</Button>
                       </div>
                     </>
-                  ) : <div className="text-center py-4"><p className="text-[#fffefe]/60 text-sm">Select a service from the list to leave feedback</p></div>}
+                  ) : <div className="text-center py-4"><p className="text-[#fffefe]/60 text-sm leading-6">Select a completed service from the list to leave feedback.</p></div>}
                 </div>
               </div>
             </div>
             <div className="lg:col-span-2 space-y-4">
-              <h2 className="text-2xl font-bold text-[#fffefe] mb-6">Your Services</h2>
+              <h2 className="text-2xl font-bold text-[#fffefe] mb-6">Completed services</h2>
               {services.map((service) => (
-                <div key={service.id} className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl overflow-hidden hover:border-[#fcb316]/30">
+                <div key={service.id} className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden hover:border-[#fcb316]/30 shadow-lg">
                   <div onClick={() => setExpandedService(expandedService === service.id ? null : service.id)} className="p-6 cursor-pointer hover:bg-[#191919] border-b border-[#2a2a2a]">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
@@ -411,19 +393,53 @@ export default function ClientFeedback() {
                           <span className="flex items-center gap-1"><CalendarDays size={13} className="text-[#fcb316]" />{service.date}</span>
                         </div>
                       </div>
-                      <button onClick={() => setSelectedService(service.id)} className="px-4 py-2 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] text-sm font-semibold rounded-lg">Leave Feedback</button>
+                      <button onClick={() => setSelectedService(service.id)} className="px-4 py-2 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] text-sm font-semibold rounded-xl whitespace-nowrap">Leave feedback</button>
                     </div>
-                    {service.feedback && (<div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg"><div className="flex items-center gap-2 mb-1"><div className="flex gap-1">{[1, 2, 3, 4, 5].map((star) => (<Star key={star} size={14} className={star <= (service.feedback?.rating || 0) ? "fill-[#fcb316] text-[#fcb316]" : "text-[#2a2a2a]"} />))}</div><span className="text-green-400 text-xs font-semibold">Feedback Submitted</span></div><p className="text-green-400/70 text-xs">{service.feedback?.submittedDate}</p></div>)}
+                    {service.feedback && (<div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-2xl"><div className="flex items-center gap-2 mb-1"><div className="flex gap-1">{[1, 2, 3, 4, 5].map((star) => (<Star key={star} size={14} className={star <= (service.feedback?.rating || 0) ? "fill-[#fcb316] text-[#fcb316]" : "text-[#2a2a2a]"} />))}</div><span className="text-green-400 text-xs font-semibold">Feedback submitted</span></div><p className="text-green-400/70 text-xs">{service.feedback?.submittedDate}</p></div>)}
                   </div>
                   {expandedService === service.id && (
                     <div className="p-6 space-y-6 bg-[#191919]/50 border-t border-[#2a2a2a]">
                       <div className="grid sm:grid-cols-2 gap-4">
-                        <div><p className="text-[#fffefe]/60 text-xs font-semibold mb-1">PACKAGE</p><p className="text-[#fffefe] font-semibold">{service.package}</p><p className="text-[#fffefe]/60 text-xs mt-1">{neatPackages[service.package as keyof typeof neatPackages].description}</p></div>
-                        <div><p className="text-[#fffefe]/60 text-xs font-semibold mb-1">TEAM</p><p className="text-[#fffefe] font-semibold">{service.team}</p><p className="text-[#fffefe]/60 text-xs mt-1">Led by {service.staffName}</p></div>
+                        <div className="rounded-2xl border border-[#2a2a2a] bg-[#1e1e1e] p-4">
+                          <p className="text-[#fffefe]/60 text-xs font-semibold mb-1">Package</p>
+                          <p className="text-[#fffefe] font-semibold">{service.package}</p>
+                          <p className="text-[#fffefe]/60 text-xs mt-1">{neatPackages[service.package as keyof typeof neatPackages].description}</p>
+                        </div>
+                        <div className="rounded-2xl border border-[#2a2a2a] bg-[#1e1e1e] p-4">
+                          <p className="text-[#fffefe]/60 text-xs font-semibold mb-1">Team</p>
+                          <p className="text-[#fffefe] font-semibold">{service.team}</p>
+                          <p className="text-[#fffefe]/60 text-xs mt-1">Led by {service.staffName}</p>
+                        </div>
                       </div>
-                      <div><p className="text-[#fffefe] font-semibold mb-4 flex items-center gap-2"><ImageIcon size={18} className="text-[#fcb316]" /> Before & After</p><div className="grid sm:grid-cols-2 gap-4"><div className="space-y-2"><p className="text-[#fffefe]/60 text-xs">Before</p><div className="relative aspect-video bg-gradient-to-br rounded-lg overflow-hidden border border-[#2a2a2a]"><img src={service.beforeImage} alt="Before" className="w-full h-full object-cover" /></div></div><div className="space-y-2"><p className="text-[#fffefe]/60 text-xs">After</p><div className="relative aspect-video bg-gradient-to-br rounded-lg overflow-hidden border border-[#2a2a2a]"><img src={service.afterImage} alt="After" className="w-full h-full object-cover" /></div></div></div></div>
-                      <div className="p-4 bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg"><div className="flex items-center justify-between mb-4"><p className="text-[#fffefe] font-bold">RECEIPT</p><Button onClick={() => downloadReceipt(service)} className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-2 px-3 text-sm"><Download size={16} className="mr-1" /> Download</Button></div><div className="text-sm space-y-2 text-[#fffefe]/70 font-mono"><div className="flex justify-between"><span>Booking ID:</span><span className="text-[#fffefe]">{service.bookingId}</span></div><div className="flex justify-between"><span>Package:</span><span className="text-[#fffefe]">{service.package}</span></div><div className="flex justify-between"><span>Service:</span><span className="text-[#fffefe]">{service.service}</span></div><div className="flex justify-between"><span>Date:</span><span className="text-[#fffefe]">{service.completionDate}</span></div><div className="border-t border-[#2a2a2a] pt-2 mt-2 space-y-2"><div className="flex justify-between"><span>Service Charge:</span><span className="text-[#fffefe]">P{service.amount.toLocaleString("en-PH")}</span></div><div className="flex justify-between"><span>Transport Fee:</span><span className="text-[#fffefe]">P{service.transportFee.toLocaleString("en-PH")}</span></div><div className="flex justify-between font-bold text-[#fcb316]"><span>TOTAL:</span><span>P{service.totalAmount.toLocaleString("en-PH")}</span></div></div></div></div>
-                      {service.feedback && (<div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg"><div className="flex items-center gap-2 mb-3"><div className="flex gap-1">{[1, 2, 3, 4, 5].map((star) => (<Star key={star} size={16} className={star <= (service.feedback?.rating || 0) ? "fill-[#fcb316] text-[#fcb316]" : "text-[#2a2a2a]"} />))}</div><span className="text-green-400 text-sm font-semibold">{service.feedback?.rating}/5 - {service.feedback?.submittedDate}</span></div><p className="text-green-400/90 text-sm">{service.feedback?.comment}</p></div>)}
+                      <div className="rounded-2xl border border-[#2a2a2a] bg-[#1e1e1e] p-5">
+                        <div className="flex items-center justify-between gap-3 mb-4">
+                          <div>
+                            <p className="text-[#fffefe] font-bold flex items-center gap-2"><Ticket size={16} className="text-[#fcb316]" /> Receipt</p>
+                            <p className="text-[#fffefe]/55 text-sm mt-1">A quick breakdown of this completed service.</p>
+                          </div>
+                          <Button onClick={() => downloadReceipt(service)} className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-2 px-3 text-sm rounded-xl"><Download size={16} className="mr-1" /> Download</Button>
+                        </div>
+                        <div className="text-sm space-y-2 text-[#fffefe]/70 font-mono">
+                          <div className="flex justify-between"><span>Booking ID:</span><span className="text-[#fffefe]">{service.bookingId}</span></div>
+                          <div className="flex justify-between"><span>Package:</span><span className="text-[#fffefe]">{service.package}</span></div>
+                          <div className="flex justify-between"><span>Service:</span><span className="text-[#fffefe]">{service.service}</span></div>
+                          <div className="flex justify-between"><span>Date:</span><span className="text-[#fffefe]">{service.completionDate}</span></div>
+                          <div className="border-t border-[#2a2a2a] pt-2 mt-2 space-y-2">
+                            <div className="flex justify-between"><span>Service Charge:</span><span className="text-[#fffefe]">P{service.amount.toLocaleString("en-PH")}</span></div>
+                            <div className="flex justify-between"><span>Transport Fee:</span><span className="text-[#fffefe]">P{service.transportFee.toLocaleString("en-PH")}</span></div>
+                            <div className="flex justify-between font-bold text-[#fcb316]"><span>Total:</span><span>P{service.totalAmount.toLocaleString("en-PH")}</span></div>
+                          </div>
+                        </div>
+                      </div>
+                      {service.feedback && (
+                        <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-2xl">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="flex gap-1">{[1, 2, 3, 4, 5].map((star) => (<Star key={star} size={16} className={star <= (service.feedback?.rating || 0) ? "fill-[#fcb316] text-[#fcb316]" : "text-[#2a2a2a]"} />))}</div>
+                            <span className="text-green-400 text-sm font-semibold">{service.feedback?.rating}/5 - {service.feedback?.submittedDate}</span>
+                          </div>
+                          <p className="text-green-400/90 text-sm leading-6">{service.feedback?.comment}</p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

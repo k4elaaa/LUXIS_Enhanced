@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { MessageCircle, Map, Send, Phone, MapPin, Clock, Users, CheckCircle2 } from "lucide-react";
+import { MessageCircle, Send, Clock, Users, CheckCircle2, Eye, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState, useEffect } from "react";
 import { Input } from "../../components/ui/input";
@@ -10,10 +10,10 @@ export default function ClientTracking() {
   const [activeBooking, setActiveBooking] = useState<any>(null);
   const [bookings, setBookings] = useState<any[]>([]);
   const [showMessageModal, setShowMessageModal] = useState(false);
-  const [showMapModal, setShowMapModal] = useState(false);
   const [messageSubject, setMessageSubject] = useState("");
   const [messageContent, setMessageContent] = useState("");
   const [messageSent, setMessageSent] = useState(false);
+  const [selectedTeamMember, setSelectedTeamMember] = useState<any>(null);
 
   useEffect(() => {
     const booking = localStorage.getItem("currentBooking");
@@ -65,62 +65,68 @@ export default function ClientTracking() {
   ];
 
   const teamMembers = [
-    { name: "Liza Mendoza", role: "Lead Cleaner", phone: "+63 917 010 0101", status: "Active" },
-    { name: "Jose Villanueva", role: "Team Member", phone: "+63 917 010 0102", status: "Active" },
-    { name: "Maricel Bautista", role: "Inspector", phone: "+63 917 010 0103", status: "Standby" },
+    { id: "ST-2001", name: "Liza Mendoza", role: "Lead Cleaner", status: "Active" },
+    { id: "ST-2002", name: "Jose Villanueva", role: "Team Member", status: "Active" },
+    { id: "ST-2003", name: "Maricel Bautista", role: "Inspector", status: "Standby" },
   ];
+
+  const activeTeamMember = selectedTeamMember || teamMembers[0];
 
   return (
     <div className="flex min-h-screen bg-[#191919]">
       <ClientSidebar />
       <div className="w-full md:ml-64 flex-1 overflow-y-auto pr-1">
-        <div className="p-4 md:p-8 pt-16 md:pt-8">
+        <div className="p-4 md:p-8 pt-16 md:pt-8 space-y-6">
           {activeBooking && activeBooking.status === "In Progress" && (
-            <div className="mb-8 p-6 bg-gradient-to-r from-[#fcb316]/20 to-[#fcb316]/5 border border-[#fcb316]/30 rounded-xl">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h1 className="text-2xl md:text-3xl text-[#fffefe] font-bold mb-2">{activeBooking.service}</h1>
-                  <p className="text-[#fffefe]/60">{activeBooking.address}</p>
+            <div className="rounded-[28px] border border-[#2a2a2a] bg-gradient-to-br from-[#2a2210] via-[#1d1b17] to-[#191919] p-6 md:p-8 shadow-2xl">
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+                <div className="max-w-2xl">
+                  <p className="text-[#fcb316] text-sm font-semibold uppercase tracking-[0.2em]">Active service</p>
+                  <h1 className="mt-2 text-3xl md:text-4xl text-[#fffefe] font-bold">{activeBooking.service}</h1>
+                  <p className="mt-2 text-[#fffefe]/65">{activeBooking.address}</p>
                 </div>
-                <div className="text-right">
+
+                <div className="rounded-2xl border border-[#fcb316]/20 bg-[#191919]/50 px-5 py-4 text-left lg:text-right">
                   <p className="text-sm text-[#fffefe]/60">Service ID</p>
                   <p className="text-lg md:text-xl font-semibold text-[#fcb316]">{activeBooking.id}</p>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <Clock size={18} className="text-[#fcb316]" />
-                  <span className="text-[#fffefe]">{activeBooking.date} • {activeBooking.time}</span>
+
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                <div className="rounded-2xl border border-[#2a2a2a] bg-[#191919] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#fffefe]/50">Schedule</p>
+                  <p className="mt-2 text-[#fffefe] font-semibold flex items-center gap-2">
+                    <Clock size={18} className="text-[#fcb316]" />
+                    {activeBooking.date} • {activeBooking.time}
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="text-right">
+
+                <div className="rounded-2xl border border-[#2a2a2a] bg-[#191919] p-4 flex items-center justify-between gap-4">
+                  <div>
                     <p className="text-sm text-[#fffefe]/60">Progress</p>
                     <p className="text-xl font-bold text-[#fcb316]">{activeBooking.progress}%</p>
                   </div>
-                  <div className="w-24 h-2 bg-[#2a2a2a] rounded-full overflow-hidden">
+                  <div className="w-28 h-2 bg-[#2a2a2a] rounded-full overflow-hidden">
                     <div className="h-full bg-gradient-to-r from-[#fcb316] to-[#de950c] transition-all duration-500" style={{ width: `${activeBooking.progress}%` }} />
                   </div>
                 </div>
               </div>
             </div>
           )}
-          <div className="mb-8 bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl overflow-hidden">
+          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
             <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
-              <h3 className="text-lg text-[#fffefe] font-semibold">Quick Actions</h3>
+              <h3 className="text-lg text-[#fffefe] font-semibold">Quick actions</h3>
             </div>
             <div className="p-6 grid md:grid-cols-2 gap-3">
-              <button onClick={() => setShowMessageModal(true)} className="flex items-center justify-center gap-2 px-4 py-3 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] rounded-lg font-semibold transition-all transform hover:scale-105">
+              <button onClick={() => setShowMessageModal(true)} className="flex items-center justify-center gap-2 px-4 py-4 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] rounded-2xl font-semibold transition-all transform hover:scale-[1.01]">
                 <MessageCircle size={18} /> Send Message
-              </button>
-              <button onClick={() => setShowMapModal(true)} className="flex items-center justify-center gap-2 px-4 py-3 bg-[#191919] hover:bg-[#2a2a2a] text-[#fffefe] border border-[#2a2a2a] rounded-lg font-semibold transition-all">
-                <Map size={18} /> View Live Map
               </button>
             </div>
           </div>
           {activeBooking && activeBooking.status === "In Progress" && (
-            <div className="mb-8 bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl overflow-hidden">
+            <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
               <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
-                <h3 className="text-lg text-[#fffefe] font-semibold">Service Progress</h3>
+                <h3 className="text-lg text-[#fffefe] font-semibold">Service progress</h3>
               </div>
               <div className="p-6">
                 <div className="space-y-4">
@@ -139,48 +145,53 @@ export default function ClientTracking() {
               </div>
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-            <div className="col-span-1 md:col-span-2">
-              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl overflow-hidden">
-                <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
-                  <h3 className="text-lg text-[#fffefe] font-semibold">Your Bookings</h3>
-                </div>
-                <div className="p-6 space-y-3">
-                  {bookings.length > 0 ? bookings.map((booking) => (
-                    <button key={booking.id} onClick={() => setActiveBooking(booking)} className={`w-full p-3 rounded-lg text-left transition-all border ${activeBooking?.id === booking.id ? "bg-[#fcb316]/20 border-[#fcb316] text-[#fffefe]" : "bg-[#191919] border-[#2a2a2a] text-[#fffefe]/60 hover:text-[#fffefe]"}`}>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-semibold">{booking.service}</p>
-                          <p className="text-xs">{booking.date}</p>
-                        </div>
-                        <span className="text-xs px-2 py-1 bg-[#2a2a2a] rounded">{booking.status}</span>
+          <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.95fr] gap-4">
+            <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
+              <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
+                <h3 className="text-lg text-[#fffefe] font-semibold">Your bookings</h3>
+              </div>
+              <div className="p-6 space-y-3">
+                {bookings.length > 0 ? bookings.map((booking) => (
+                  <button key={booking.id} onClick={() => setActiveBooking(booking)} className={`w-full p-4 rounded-2xl text-left transition-all border ${activeBooking?.id === booking.id ? "bg-[#fcb316]/15 border-[#fcb316]/60 text-[#fffefe]" : "bg-[#191919] border-[#2a2a2a] text-[#fffefe]/70 hover:text-[#fffefe] hover:border-[#fcb316]/30"}`}>
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-semibold text-base">{booking.service}</p>
+                        <p className="text-sm text-[#fffefe]/55 mt-1">{booking.date} • {booking.time}</p>
                       </div>
-                    </button>
-                  )) : <p className="text-[#fffefe]/50 text-center py-4">No bookings available</p>}
-                </div>
+                      <span className="text-xs px-3 py-1 bg-[#2a2a2a] rounded-full">{booking.status}</span>
+                    </div>
+                  </button>
+                )) : <p className="text-[#fffefe]/50 text-center py-4">No bookings available</p>}
               </div>
             </div>
+
             {activeBooking && activeBooking.status === "In Progress" && (
-              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl overflow-hidden">
+              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
                 <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
                   <div className="flex items-center gap-2">
                     <Users size={18} className="text-[#fcb316]" />
-                    <h3 className="text-lg text-[#fffefe] font-semibold">Team Members</h3>
+                    <h3 className="text-lg text-[#fffefe] font-semibold">Team members</h3>
                   </div>
+                  <p className="text-[#fffefe]/55 text-sm mt-2">Tap a button to view the team member's NBI clearance.</p>
                 </div>
                 <div className="p-6 space-y-4">
                   {teamMembers.map((member, idx) => (
-                    <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-lg hover:border-[#fcb316]/50 transition-all">
-                      <div className="flex items-start justify-between mb-2">
+                    <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-2xl hover:border-[#fcb316]/50 transition-all">
+                      <div className="flex items-start justify-between gap-3 mb-3">
                         <div>
                           <p className="font-semibold text-[#fffefe]">{member.name}</p>
-                          <p className="text-xs text-[#fffefe]/60">{member.role}</p>
+                          <p className="text-xs text-[#fffefe]/60 mt-1">{member.role}</p>
                         </div>
                         <span className={`text-xs px-2 py-1 rounded-full ${member.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{member.status}</span>
                       </div>
-                      <a href={`tel:${member.phone}`} className="inline-flex items-center gap-2 px-3 py-2 bg-[#fcb316]/10 hover:bg-[#fcb316]/20 text-[#fcb316] rounded-lg text-sm transition-all">
-                        <Phone size={14} /> {member.phone}
-                      </a>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setSelectedTeamMember(member)}
+                        className="w-full justify-center gap-2 rounded-xl border-[#2a2a2a] bg-[#1e1e1e] text-[#fcb316] hover:bg-[#262626] hover:text-[#ffcf61]"
+                      >
+                        <Eye size={14} /> View NBI Clearance
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -217,42 +228,49 @@ export default function ClientTracking() {
           </div>
         </div>
       )}
-      {showMapModal && (
+      {selectedTeamMember && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto pr-1">
+          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] p-6 md:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto pr-1 shadow-2xl">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl text-[#fffefe] font-bold">Live Service Map</h2>
+              <div>
+                <p className="text-[#fffefe]/55 text-sm uppercase tracking-[0.18em]">NBI clearance</p>
+                <h2 className="text-2xl text-[#fffefe] font-bold mt-1">{activeTeamMember.name}</h2>
+              </div>
+              <button type="button" onClick={() => setSelectedTeamMember(null)} className="text-[#fffefe]/50 hover:text-[#fffefe]">
+                <X size={20} />
+              </button>
             </div>
             <div className="space-y-6">
-              <div className="bg-[#191919] border border-[#2a2a2a] rounded-lg overflow-hidden h-64 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin size={48} className="text-[#fcb316] mx-auto mb-2 opacity-50" />
-                  <p className="text-[#fffefe]/50">Live map integration coming soon</p>
+              <div className="rounded-2xl border border-[#2a2a2a] bg-gradient-to-br from-[#fcb316]/10 to-[#191919] p-5">
+                <p className="text-[#fffefe]/55 text-xs uppercase tracking-[0.18em] mb-2">Template</p>
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-[#fffefe]/50 text-sm">Name</p>
+                    <p className="text-[#fffefe] font-semibold">{activeTeamMember.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-[#fffefe]/50 text-sm">Clearance number</p>
+                    <p className="text-[#fffefe] font-semibold">NBI-2026-{String(activeTeamMember.id).replace(/\D/g, "")}</p>
+                  </div>
+                  <div>
+                    <p className="text-[#fffefe]/50 text-sm">Issued by</p>
+                    <p className="text-[#fffefe] font-semibold">NEAT Admin</p>
+                  </div>
+                  <div>
+                    <p className="text-[#fffefe]/50 text-sm">Status</p>
+                    <p className="text-[#fffefe] font-semibold">Verified copy</p>
+                  </div>
                 </div>
               </div>
-              <div className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-lg">
-                <p className="text-sm text-[#fffefe]/60 mb-1">Service Location</p>
-                <p className="text-[#fffefe] font-semibold">{activeBooking?.address || "Quezon City"}</p>
-                <p className="text-xs text-[#fffefe]/50 mt-2">ETA: 15 minutes</p>
-              </div>
-              <div>
-                <p className="text-sm text-[#fffefe]/60 mb-3">Assigned Team</p>
-                <div className="space-y-2">
-                  {teamMembers.filter((m) => m.status === "Active").map((member, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 bg-[#191919] border border-[#2a2a2a] rounded-lg">
-                      <div>
-                        <p className="text-[#fffefe] font-semibold">{member.name}</p>
-                        <p className="text-xs text-[#fffefe]/60">{member.role}</p>
-                      </div>
-                      <a href={`tel:${member.phone}`} className="px-3 py-2 bg-[#fcb316]/20 hover:bg-[#fcb316]/30 rounded-lg text-[#fcb316] transition-colors">
-                        <Phone size={16} />
-                      </a>
-                    </div>
-                  ))}
-                </div>
+
+              <div className="rounded-2xl border border-[#2a2a2a] bg-[#191919] p-5">
+                <p className="text-sm text-[#fffefe]/60 mb-1">Clearance preview</p>
+                <p className="text-[#fffefe] text-sm leading-6">
+                  This is a sample NBI clearance preview for the assigned team member. It keeps the dashboard simple while still letting you verify who is on site.
+                </p>
               </div>
             </div>
-            <Button onClick={() => setShowMapModal(false)} className="w-full mt-6 bg-red-600 hover:bg-red-500 text-white font-semibold">Close</Button>
+            <Button onClick={() => setSelectedTeamMember(null)} className="w-full mt-6 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold rounded-xl">Close</Button>
           </div>
         </div>
       )}
