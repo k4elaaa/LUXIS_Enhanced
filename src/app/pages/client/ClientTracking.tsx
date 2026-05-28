@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { MessageCircle, Send, Clock, Users, CheckCircle2, Eye, X } from "lucide-react";
+import { Send, Clock, Users, CheckCircle2, Eye, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState, useEffect } from "react";
 import { Input } from "../../components/ui/input";
@@ -113,18 +113,7 @@ export default function ClientTracking() {
               </div>
             </div>
           )}
-          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
-            <div className="p-4 md:p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
-              <h3 className="text-lg text-[#fffefe] font-semibold">Quick actions</h3>
-            </div>
-            <div className="p-6">
-              <div className="max-w-xl mx-auto">
-                <button onClick={() => setShowMessageModal(true)} className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] rounded-[14px] font-semibold transition transform hover:scale-[1.01] shadow-sm">
-                  <MessageCircle size={18} /> Send Message
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* Quick actions removed for a cleaner layout */}
           {activeBooking && activeBooking.status === "In Progress" && (
             <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
               <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
