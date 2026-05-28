@@ -101,17 +101,18 @@ export default function ClientBooking() {
       
       <div className="flex-1 overflow-auto ml-0 md:ml-64">
         <div className="p-4 md:p-8 pt-16 md:pt-8">
-          <div className="mb-8">
-            <h1 className="text-4xl text-[#fffefe] mb-2 font-bold" style={{ fontFamily: 'var(--font-headline)' }}>
-              Book Your Service
-            </h1>
-            <p className="text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>
-              Schedule your luxury cleaning service in 3 easy steps
-            </p>
-          </div>
+          <div className="max-w-3xl mx-auto">
+            <div className="mb-8">
+              <h1 className="text-4xl text-[#fffefe] mb-2 font-bold" style={{ fontFamily: 'var(--font-headline)' }}>
+                Book Your Service
+              </h1>
+              <p className="text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>
+                Schedule your luxury cleaning service in 3 easy steps
+              </p>
+            </div>
 
-          {/* Progress Steps */}
-          <div className="max-w-3xl mx-auto mb-8">
+            {/* Progress Steps */}
+            <div className="mb-8">
             <div className="flex items-center justify-between">
               {[1, 2, 3].map((num) => (
                 <div key={num} className="flex items-center flex-1">
@@ -133,11 +134,11 @@ export default function ClientBooking() {
               <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Details</span>
               <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Confirm</span>
             </div>
-          </div>
+            </div>
 
-          {/* Step Content */}
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-2xl p-6 md:p-8 shadow-xl">
+            {/* Step Content */}
+            <div>
+              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-2xl p-6 md:p-8 shadow-xl">
 
               {/* Step 1: Select Service */}
               {step === 1 && (
@@ -401,6 +402,7 @@ export default function ClientBooking() {
                   </div>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </div>
