@@ -101,7 +101,7 @@ export default function ClientBooking() {
       
       <div className="flex-1 overflow-auto ml-0 md:ml-64">
         <div className="p-4 md:p-8 pt-16 md:pt-8">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl">
             <div className="mb-8">
               <h1 className="text-4xl text-[#fffefe] mb-2 font-bold" style={{ fontFamily: 'var(--font-headline)' }}>
                 Book Your Service
@@ -113,7 +113,7 @@ export default function ClientBooking() {
 
             {/* Progress Steps */}
             <div className="mb-8">
-            <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between">
               {[1, 2, 3].map((num) => (
                 <div key={num} className="flex items-center flex-1">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all font-bold ${
@@ -128,17 +128,16 @@ export default function ClientBooking() {
                   )}
                 </div>
               ))}
-            </div>
-            <div className="flex items-center justify-between mt-3">
-              <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Select Service</span>
-              <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Details</span>
-              <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Confirm</span>
-            </div>
+              </div>
+              <div className="flex items-center justify-between mt-3">
+                <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Select Service</span>
+                <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Details</span>
+                <span className="text-sm text-[#fffefe]/60" style={{ fontFamily: 'var(--font-body)' }}>Confirm</span>
+              </div>
             </div>
 
             {/* Step Content */}
-            <div>
-              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-2xl p-6 md:p-8 shadow-xl">
+            <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-2xl p-6 md:p-8 shadow-xl">
 
               {/* Step 1: Select Service */}
               {step === 1 && (
@@ -402,7 +401,6 @@ export default function ClientBooking() {
                   </div>
                 </div>
               )}
-              </div>
             </div>
           </div>
         </div>
