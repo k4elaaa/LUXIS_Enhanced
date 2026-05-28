@@ -11,6 +11,7 @@ export default function ClientDashboard() {
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showReceiptModal, setShowReceiptModal] = useState(false);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
 
   useEffect(() => {
     const booking = localStorage.getItem("currentBooking");
@@ -174,11 +175,19 @@ export default function ClientDashboard() {
                   </div>
                   <h3 className="mt-4 text-xl font-bold text-[#fffefe]">{action.title}</h3>
                   <p className="mt-2 text-[#fffefe]/60 text-sm leading-6">{action.description}</p>
-                  <Link to={action.href}>
-                    <Button variant="ghost" className="mt-4 px-0 text-[#fcb316] hover:text-[#ffcf61] hover:bg-transparent font-semibold">
-                      {action.cta} <ArrowRight size={16} className="ml-2" />
-                    </Button>
-                  </Link>
+                  {action.title === "Check your history" ? (
+                    <div className="mt-4">
+                      <Button onClick={() => setShowHistoryModal(true)} variant="ghost" className="px-0 text-[#fcb316] hover:text-[#ffcf61] hover:bg-transparent font-semibold">
+                        {action.cta} <ArrowRight size={16} className="ml-2" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link to={action.href}>
+                      <Button variant="ghost" className="mt-4 px-0 text-[#fcb316] hover:text-[#ffcf61] hover:bg-transparent font-semibold">
+                        {action.cta} <ArrowRight size={16} className="ml-2" />
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               );
             })}
@@ -190,11 +199,6 @@ export default function ClientDashboard() {
                 <p className="text-[#fffefe]/55 text-sm uppercase tracking-[0.18em]">Upcoming</p>
                 <h2 className="mt-2 text-2xl font-bold text-[#fffefe]">Your next bookings</h2>
               </div>
-              <Link to="/client/booking">
-                <Button variant="outline" className="rounded-2xl border-[#2a2a2a] bg-[#191919] text-[#fffefe] hover:bg-[#252525]">
-                  Add a booking
-                </Button>
-              </Link>
             </div>
 
             <div className="overflow-x-auto">
@@ -256,23 +260,110 @@ export default function ClientDashboard() {
 
           {showReceiptModal && selectedBooking && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[20px] p-6 w-full max-w-2xl max-h-[90vh] overflow-auto">
-                <div className="flex items-start justify-between mb-4">
+              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-2xl p-6 w-full max-w-2xl">
+                <div className="flex items-center justify-between mb-4">
                   <div>
                     <p className="text-sm text-[#fffefe]/60">Receipt</p>
-                    <h3 className="text-xl text-[#fffefe] font-bold mt-1">{selectedBooking.service} — {selectedBooking.id}</h3>
+                    <h3 className="text-2xl text-[#fffefe] font-bold mt-1">NEAT Receipt</h3>
+                    <p className="text-[#fffefe]/60 text-sm mt-1">Premium Field Service Management</p>
                   </div>
                   <button onClick={() => setShowReceiptModal(false)} className="text-[#fffefe]/60">Close</button>
                 </div>
-                <div className="bg-[#191919] border border-[#2a2a2a] rounded-md p-4">
-                  {selectedBooking.receiptUrl ? (
-                    <iframe src={selectedBooking.receiptUrl} className="w-full h-[60vh]" title="receipt" />
+
+                <div className="max-w-2xl mx-auto bg-[#222222] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-2xl">
+                  <div className="bg-[#fcb316] p-6">
+                    <h2 className="text-2xl text-[#191919]">NEAT Receipt</h2>
+                    <p className="text-[#191919]/70 text-sm mt-1">Premium Field Service Management</p>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-[#fffefe]/50 text-sm mb-1">Receipt For</p>
+                        <p className="text-[#fffefe] text-lg">{userAccount?.name || 'Client'}</p>
+                      </div>
+                      <div>
+                        <p className="text-[#fffefe]/50 text-sm mb-1">Date</p>
+                        <p className="text-[#fffefe]">{selectedBooking.date}</p>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-[#2a2a2a] pt-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-[#fffefe]">{selectedBooking.service}</p>
+                          <p className="text-[#fffefe]/50 text-sm mt-1">{selectedBooking.address}</p>
+                        </div>
+                        <p className="text-[#fcb316] text-xl">{selectedBooking.amount || 'PHP 0'}</p>
+                      </div>
+                      <div className="mt-4 border-t border-[#2a2a2a] pt-4 flex justify-between">
+                        <p className="text-[#fffefe]">Transportation Fee</p>
+                        <p className="text-[#fffefe]">PHP 600</p>
+                      </div>
+                      <div className="mt-4 border-t border-[#fcb316]/30 pt-4 flex justify-between">
+                        <p className="text-xl text-[#fffefe]">Total</p>
+                        <p className="text-2xl text-[#fcb316]">{selectedBooking.amount || 'PHP 0'}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 mt-4">
+                      <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919]">Download Receipt</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {showHistoryModal && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[20px] p-6 w-full max-w-3xl max-h-[90vh] overflow-auto">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <p className="text-sm text-[#fffefe]/60">History</p>
+                    <h3 className="text-xl text-[#fffefe] font-bold mt-1">All past bookings</h3>
+                    <p className="text-[#fffefe]/60 text-sm mt-2">All your past bookings will be saved here.</p>
+                  </div>
+                  <button onClick={() => setShowHistoryModal(false)} className="text-[#fffefe]/60">Close</button>
+                </div>
+
+                <div className="mt-4">
+                  {bookings.length === 0 ? (
+                    <div className="rounded-2xl border border-dashed border-[#2a2a2a] p-6 text-center text-[#fffefe]/70">There are no past bookings.</div>
                   ) : (
-                    <p className="text-[#fffefe]/70">No receipt available for this booking.</p>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full text-left">
+                        <thead>
+                          <tr className="text-[#fffefe]/60 text-sm">
+                            <th className="py-3 px-4">Service</th>
+                            <th className="py-3 px-4">Date</th>
+                            <th className="py-3 px-4">Time</th>
+                            <th className="py-3 px-4">Location</th>
+                            <th className="py-3 px-4">Status</th>
+                            <th className="py-3 px-4">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#2a2a2a]">
+                          {bookings.map((b) => (
+                            <tr key={b.id} className="text-[#fffefe]/90">
+                              <td className="py-3 px-4">{b.service}</td>
+                              <td className="py-3 px-4">{b.date}</td>
+                              <td className="py-3 px-4">{b.time}</td>
+                              <td className="py-3 px-4">{b.address}</td>
+                              <td className="py-3 px-4"><span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#fcb316]/10 text-[#fcb316]">{b.status}</span></td>
+                              <td className="py-3 px-4">
+                                <div className="flex gap-2">
+                                  <Button onClick={() => { setSelectedBooking(b); setShowBookingModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#191919] border border-[#2a2a2a] text-[#fffefe]">View</Button>
+                                  <Button onClick={() => { setSelectedBooking(b); setShowReceiptModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#fcb316] text-[#191919]">Receipt</Button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </div>
+
                 <div className="mt-4">
-                  <Button onClick={() => setShowReceiptModal(false)} className="bg-[#fcb316] text-[#191919] w-full">Close</Button>
+                  <Button onClick={() => setShowHistoryModal(false)} className="w-full bg-[#fcb316] text-[#191919]">Close</Button>
                 </div>
               </div>
             </div>
