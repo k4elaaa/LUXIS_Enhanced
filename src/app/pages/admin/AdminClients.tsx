@@ -205,9 +205,10 @@ export default function AdminClients() {
               </div>
               <Button
                 onClick={() => setSelectedClient(null)}
-                className="w-full bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold mt-2"
+                className="w-full bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold mt-2 flex items-center justify-center gap-2"
               >
-                Close
+                <X size={16} />
+                <span className="sr-only">Close</span>
               </Button>
             </div>
           </div>

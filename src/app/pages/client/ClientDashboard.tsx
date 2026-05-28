@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { Calendar, CheckCircle, Clock, Sparkles, ArrowRight, MapPin, ShieldCheck, BadgeCheck, Download } from "lucide-react";
+import { Calendar, CheckCircle, Clock, Sparkles, ArrowRight, MapPin, ShieldCheck, BadgeCheck, Download, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
@@ -69,6 +69,14 @@ export default function ClientDashboard() {
       service: b.service,
     });
     setShowReceiptModal(true);
+  };
+
+  const statusClass = (status: string) => {
+    const s = (status || "").toLowerCase();
+    if (s.includes("pending")) return "px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400";
+    if (s.includes("confirmed") || s.includes("completed")) return "px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400";
+    if (s.includes("scheduled")) return "px-3 py-1 rounded-full text-xs font-semibold bg-[#fcb316]/10 text-[#fcb316]";
+    return "px-3 py-1 rounded-full text-xs font-semibold bg-[#2a2a2a] text-[#fffefe]/70";
   };
 
   return (
@@ -242,7 +250,7 @@ export default function ClientDashboard() {
                       <td className="py-3 px-4">{b.date}</td>
                       <td className="py-3 px-4">{b.time}</td>
                       <td className="py-3 px-4">{b.address}</td>
-                      <td className="py-3 px-4"><span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#fcb316]/10 text-[#fcb316]">{b.status}</span></td>
+                      <td className="py-3 px-4"><span className={statusClass(b.status)}>{b.status}</span></td>
                       <td className="py-3 px-4">
                         <div className="flex gap-2">
                           <Button onClick={() => { setSelectedBooking(b); setShowBookingModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#191919] border border-[#2a2a2a] text-[#fffefe]">View</Button>
@@ -264,7 +272,7 @@ export default function ClientDashboard() {
                     <p className="text-sm text-[#fffefe]/60">Booking</p>
                     <h3 className="text-xl text-[#fffefe] font-bold mt-1">{selectedBooking.service}</h3>
                   </div>
-                  <button onClick={() => setShowBookingModal(false)} className="text-[#fffefe]/60">Close</button>
+                  <button onClick={() => setShowBookingModal(false)} className="text-[#fffefe]/60"><X size={18} /></button>
                 </div>
                 <div className="space-y-2 text-[#fffefe]/90">
                   <p><strong>ID:</strong> {selectedBooking.id}</p>
@@ -273,9 +281,7 @@ export default function ClientDashboard() {
                   <p><strong>Address:</strong> {selectedBooking.address}</p>
                   <p><strong>Status:</strong> {selectedBooking.status}</p>
                 </div>
-                <div className="mt-6">
-                  <Button onClick={() => setShowBookingModal(false)} className="w-full bg-[#fcb316] text-[#191919]">Close</Button>
-                </div>
+                
               </div>
             </div>
           )}
@@ -289,7 +295,7 @@ export default function ClientDashboard() {
                     <h3 className="text-2xl text-[#fffefe] font-bold mt-1">NEAT Receipt</h3>
                     <p className="text-[#fffefe]/60 text-sm mt-1">Premium Field Service Management</p>
                   </div>
-                  <button onClick={() => { setShowReceiptModal(false); setReceiptData(null); }} className="text-[#fffefe]/60">Close</button>
+                  <button onClick={() => { setShowReceiptModal(false); setReceiptData(null); }} className="text-[#fffefe]/60"><X size={18} /></button>
                 </div>
 
                 <div className="max-w-2xl mx-auto bg-[#222222] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-2xl">
@@ -346,7 +352,7 @@ export default function ClientDashboard() {
                     <h3 className="text-xl text-[#fffefe] font-bold mt-1">All past bookings</h3>
                     <p className="text-[#fffefe]/60 text-sm mt-2">All your past bookings will be saved here.</p>
                   </div>
-                  <button onClick={() => setShowHistoryModal(false)} className="text-[#fffefe]/60">Close</button>
+                  <button onClick={() => setShowHistoryModal(false)} className="text-[#fffefe]/60"><X size={18} /></button>
                 </div>
 
                 <div className="mt-4">
@@ -372,7 +378,7 @@ export default function ClientDashboard() {
                               <td className="py-3 px-4">{b.date}</td>
                               <td className="py-3 px-4">{b.time}</td>
                               <td className="py-3 px-4">{b.address}</td>
-                              <td className="py-3 px-4"><span className="px-3 py-1 rounded-full text-xs font-semibold bg-[#fcb316]/10 text-[#fcb316]">{b.status}</span></td>
+                              <td className="py-3 px-4"><span className={statusClass(b.status)}>{b.status}</span></td>
                               <td className="py-3 px-4">
                                 <div className="flex gap-2">
                                   <Button onClick={() => { setSelectedBooking(b); setShowBookingModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#191919] border border-[#2a2a2a] text-[#fffefe]">View</Button>
@@ -387,9 +393,7 @@ export default function ClientDashboard() {
                   )}
                 </div>
 
-                <div className="mt-4">
-                  <Button onClick={() => setShowHistoryModal(false)} className="w-full bg-[#fcb316] text-[#191919]">Close</Button>
-                </div>
+                
               </div>
             </div>
           )}

@@ -70,6 +70,14 @@ export default function ClientTracking() {
     { id: "ST-2003", name: "Maricel Bautista", role: "Inspector", status: "Standby" },
   ];
 
+  const statusClass = (status: string) => {
+    const s = (status || "").toLowerCase();
+    if (s.includes("pending")) return "text-xs px-2 py-1 rounded-full bg-blue-500/20 text-blue-400";
+    if (s.includes("confirmed") || s.includes("completed") || s.includes("active")) return "text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400";
+    if (s.includes("scheduled")) return "text-xs px-2 py-1 rounded-full bg-[#fcb316]/10 text-[#fcb316]";
+    return "text-xs px-2 py-1 rounded-full bg-[#2a2a2a] text-[#fffefe]/70";
+  };
+
   const activeTeamMember = selectedTeamMember || teamMembers[0];
 
   return (
@@ -149,7 +157,7 @@ export default function ClientTracking() {
                         <p className="font-semibold text-base">{booking.service}</p>
                         <p className="text-sm text-[#fffefe]/55 mt-1">{booking.date} • {booking.time}</p>
                       </div>
-                      <span className="text-xs px-3 py-1 bg-[#2a2a2a] rounded-full">{booking.status}</span>
+                      <span className={statusClass(booking.status)}>{booking.status}</span>
                     </div>
                   </button>
                 )) : <p className="text-[#fffefe]/50 text-center py-4">No bookings available</p>}
@@ -263,7 +271,7 @@ export default function ClientTracking() {
                 </p>
               </div>
             </div>
-            <Button onClick={() => setSelectedTeamMember(null)} className="w-full mt-6 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold rounded-xl">Close</Button>
+            
           </div>
         </div>
       )}

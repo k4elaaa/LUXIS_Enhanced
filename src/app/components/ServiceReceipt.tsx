@@ -148,7 +148,7 @@ export default function ServiceReceipt({ service, onClose }: ServiceReceiptProps
               style={{ fontFamily: 'var(--font-subheading)' }}
             >
               <X size={16} />
-              Close
+              <span className="sr-only">Close</span>
             </Button>
         </div>
       </div>

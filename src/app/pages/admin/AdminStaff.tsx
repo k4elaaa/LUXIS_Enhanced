@@ -169,7 +169,8 @@ export default function AdminStaff() {
             </div>
             <div className="flex gap-3 mt-6">
               <Button variant="outline" className="flex-1 border-[#2a2a2a] text-[#fffefe] font-semibold bg-[#222] hover:bg-[#333]" onClick={() => setSelectedStaff(null)}>
-                Close
+                <X size={16} />
+                <span className="sr-only">Close</span>
               </Button>
               <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold">Edit Profile</Button>
             </div>
