@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import ManagerSidebar from "../../components/ManagerSidebar";
 import { BookingCard } from "../../components/BookingCard";
 import { Input } from "../../components/ui/input";
-import { mockBookings, Booking } from "../../../data/mockData";
+import { mockBookings, Booking, formatBookingCode } from "../../../data/mockData";
 import { ChevronLeft, Search } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import {
@@ -94,7 +94,7 @@ export default function ManagerBookings() {
   };
 
   const getReceiptRef = (booking: Booking) => {
-    return `RCPT-${booking.id.replace("booking-", "BK-").toUpperCase()}`;
+    return `RCPT-${formatBookingCode(booking.id)}`;
   };
 
   const filteredBookings = bookingsList.filter(booking => {

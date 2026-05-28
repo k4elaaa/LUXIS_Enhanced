@@ -3,6 +3,7 @@ import { Calendar, CheckCircle, Clock, Sparkles, ArrowRight, MapPin, ShieldCheck
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
+import { formatBookingCode } from "../../../data/mockData";
 
 export default function ClientDashboard() {
   const [currentBooking, setCurrentBooking] = useState<any>(null);
@@ -275,7 +276,7 @@ export default function ClientDashboard() {
                   <button onClick={() => setShowBookingModal(false)} className="text-[#fffefe]/60"><X size={18} /></button>
                 </div>
                 <div className="space-y-2 text-[#fffefe]/90">
-                  <p><strong>ID:</strong> {selectedBooking.id}</p>
+                  <p><strong>ID:</strong> {formatBookingCode(selectedBooking.id)}</p>
                   <p><strong>Date:</strong> {selectedBooking.date}</p>
                   <p><strong>Time:</strong> {selectedBooking.time}</p>
                   <p><strong>Address:</strong> {selectedBooking.address}</p>

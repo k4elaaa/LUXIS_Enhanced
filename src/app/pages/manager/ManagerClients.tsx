@@ -3,6 +3,7 @@ import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import ManagerSidebar from "../../components/ManagerSidebar";
 import { useState } from "react";
+import { formatBookingCode } from "../../../data/mockData";
 
 const clients = [
   {
@@ -155,7 +156,7 @@ export default function ManagerClients() {
               {viewClient.bookings.map((bk) => (
                 <div key={bk.id} className="bg-[#1e1e1e] p-4 rounded-lg">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-[#fffefe] text-sm" style={{ fontFamily: 'var(--font-subheading)' }}>{bk.id}</p>
+                    <p className="text-[#fffefe] text-sm" style={{ fontFamily: 'var(--font-subheading)' }}>{formatBookingCode(bk.id)}</p>
                     <span className={`px-2 py-0.5 text-xs rounded-full ${statusColor[bk.status] || "bg-gray-500/20 text-gray-400"}`}>{bk.status}</span>
                   </div>
                   <p className="text-[#fffefe]/70 text-sm">{bk.service}</p>
@@ -172,7 +173,7 @@ export default function ManagerClients() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[#fffefe] text-sm" style={{ fontFamily: 'var(--font-subheading)' }}>Latest Receipt</p>
-                  <p className="text-[#fffefe]/50 text-xs mt-0.5">{viewClient.bookings[0]?.id} – {viewClient.bookings[0]?.amount}</p>
+                  <p className="text-[#fffefe]/50 text-xs mt-0.5">{viewClient.bookings[0]?.id ? formatBookingCode(viewClient.bookings[0].id) : "-"} – {viewClient.bookings[0]?.amount}</p>
                 </div>
                 <Button size="sm" className="bg-[#fcb316] hover:bg-[#de950c] text-[#191919]">
                   <Download size={14} className="mr-1" />Download

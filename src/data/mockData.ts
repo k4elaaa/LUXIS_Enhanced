@@ -561,6 +561,20 @@ export const formatTime = (timeString: string): string => {
   });
 };
 
+// Helper to format booking identifiers into display code BK-####
+export const formatBookingCode = (bookingId: string): string => {
+  if (!bookingId) return "BK-0000";
+
+  const normalized = bookingId.trim().toUpperCase();
+  if (normalized.startsWith("BK-")) return normalized;
+
+  const digitGroups = normalized.match(/\d+/g);
+  if (!digitGroups || digitGroups.length === 0) return normalized;
+
+  const serial = digitGroups[digitGroups.length - 1].padStart(4, "0");
+  return `BK-${serial}`;
+};
+
 // Helper to calculate booking cost
 export const calculateBookingCost = (
   serviceType: ServiceType,

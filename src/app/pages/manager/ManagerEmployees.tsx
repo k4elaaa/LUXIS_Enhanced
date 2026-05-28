@@ -169,17 +169,15 @@ export default function ManagerEmployees() {
               ))}
             </div>
             <div className="flex gap-3 mt-6">
-              <Button variant="outline" className="flex-1 border-[#2a2a2a] text-[#fffefe] font-semibold bg-[#222] hover:bg-[#333]" onClick={() => setViewEmployee(null)}>
-                <X size={16} />
-                <span className="sr-only">Close</span>
+              <Button
+                variant="outline"
+                className="flex-1 border-[#2a2a2a] text-[#fcb316] font-semibold bg-[#222] hover:bg-[#333]"
+                onClick={() => setShowNbiPreview(true)}
+              >
+                <Eye size={14} className="mr-2" />
+                View NBI Clearance
               </Button>
               <Button className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold">Edit Profile</Button>
-            </div>
-
-            <div className="mt-4">
-              <Button variant="ghost" className="text-[#fcb316]" onClick={() => setShowNbiPreview(true)}>
-                <Eye size={14} className="mr-2" />View NBI Clearance
-              </Button>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import AdminSidebar from "../../components/AdminSidebar";
 import { Clock, CheckCircle, Loader, AlertCircle, Circle, CheckCircle2 } from "lucide-react";
-import { mockBookings, formatDate } from "../../../data/mockData";
+import { mockBookings, formatDate, formatBookingCode } from "../../../data/mockData";
 
 // derive a simplified monitoring list from shared mock bookings so counts remain consistent across pages
 const bookings = Object.values(mockBookings).map((b) => {
@@ -23,7 +23,7 @@ const bookings = Object.values(mockBookings).map((b) => {
   ];
 
   return {
-    id: b.id,
+    id: formatBookingCode(b.id),
     client: b.clientName,
     service: b.serviceType,
     date: formatDate(b.scheduledDate),

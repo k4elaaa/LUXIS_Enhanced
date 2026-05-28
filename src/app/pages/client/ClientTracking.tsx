@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
+import { formatBookingCode } from "../../../data/mockData";
 
 export default function ClientTracking() {
   const [activeBooking, setActiveBooking] = useState<any>(null);
@@ -96,7 +97,7 @@ export default function ClientTracking() {
 
                 <div className="rounded-2xl border border-[#fcb316]/20 bg-[#191919]/50 px-5 py-4 text-left lg:text-right">
                   <p className="text-sm text-[#fffefe]/60">Service ID</p>
-                  <p className="text-lg md:text-xl font-semibold text-[#fcb316]">{activeBooking.id}</p>
+                  <p className="text-lg md:text-xl font-semibold text-[#fcb316]">{formatBookingCode(activeBooking.id)}</p>
                 </div>
               </div>
 
