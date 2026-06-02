@@ -9,9 +9,7 @@ import {
   CalendarDays,
   Package as PackageIcon,
   Ticket,
-  ThumbsUp,
-  Minus,
-  ThumbsDown
+  
 } from "lucide-react";
 import ClientSidebar from "../../components/ClientSidebar";
 import { Button } from "../../components/ui/button";
@@ -124,7 +122,7 @@ interface Message {
   text: string;
 }
 
-type FeedbackChoice = "good" | "okay" | "bad" | "";
+// feedback choice type removed; using numeric `rating` state instead
 
 export default function ClientFeedback() {
   const [services, setServices] = useState<Service[]>(serviceHistory);
@@ -152,7 +150,7 @@ export default function ClientFeedback() {
     localStorage.setItem("serviceHistory", JSON.stringify(updatedServices));
     showMessage("success", "Thank you! Your feedback has been submitted.");
     setSelectedService(null);
-    setFeedbackChoice("");
+    setRating(null);
   };
 
   const downloadReceipt = (service: Service) => {
@@ -377,7 +375,7 @@ export default function ClientFeedback() {
                       </div>
                       <div className="flex gap-2">
                         <Button onClick={handleSubmitFeedback} className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-2 rounded-xl"><Send size={16} className="mr-1" /> Submit</Button>
-                        <Button onClick={() => { setSelectedService(null); setFeedbackChoice(""); }} className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold py-2 rounded-xl">Cancel</Button>
+                        <Button onClick={() => { setSelectedService(null); setRating(null); }} className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold py-2 rounded-xl">Cancel</Button>
                       </div>
                     </>
                   ) : <div className="text-center py-4"><p className="text-[#fffefe]/60 text-sm leading-6">Select a completed service from the list to leave feedback.</p></div>}
