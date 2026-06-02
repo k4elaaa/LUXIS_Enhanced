@@ -36,6 +36,7 @@ jobs:
       - name: Deploy to Firebase Hosting
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/firebase-sa.json
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
           # derive project id from .firebaserc so it stays in sync with the repo
           if [ -f .firebaserc ]; then
@@ -46,4 +47,16 @@ jobs:
             PROJECT_ID=neat-fsmcrm
           fi
           echo "Deploying to Firebase project: $PROJECT_ID"
-          firebase deploy --only hosting --project "$PROJECT_ID"
+
+          # Prefer service account file if present (created earlier), otherwise fallback to token
+          if [ -f /tmp/firebase-sa.json ]; then
+            echo "Found service account file; using service account for auth"
+            firebase deploy --only hosting --project "$PROJECT_ID"
+          elif [ -n "$FIREBASE_TOKEN" ]; then
+            echo "Service account not found; using FIREBASE_TOKEN secret for auth"
+            firebase deploy --only hosting --project "$PROJECT_ID" --token "$FIREBASE_TOKEN"
+          else
+            echo "ERROR: Neither FIREBASE_SERVICE_ACCOUNT nor FIREBASE_TOKEN is set in repository secrets."
+            echo "Add FIREBASE_SERVICE_ACCOUNT (base64-encoded service account JSON) or FIREBASE_TOKEN (firebase login:ci token)."
+            exit 1
+          fi
