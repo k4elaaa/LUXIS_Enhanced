@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { Send, Clock, Users, CheckCircle2, Eye, X } from "lucide-react";
+import { Send, Clock, Users, CheckCircle2, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState, useEffect } from "react";
 import { Input } from "../../components/ui/input";
@@ -14,7 +14,6 @@ export default function ClientTracking() {
   const [messageSubject, setMessageSubject] = useState("");
   const [messageContent, setMessageContent] = useState("");
   const [messageSent, setMessageSent] = useState(false);
-  const [selectedTeamMember, setSelectedTeamMember] = useState<any>(null);
 
   useEffect(() => {
     const booking = localStorage.getItem("currentBooking");
@@ -65,12 +64,6 @@ export default function ClientTracking() {
     { name: "Completion", completed: false },
   ];
 
-  const teamMembers = [
-    { id: "ST-2001", name: "Liza Mendoza", role: "Lead Cleaner", status: "Active" },
-    { id: "ST-2002", name: "Jose Villanueva", role: "Team Member", status: "Active" },
-    { id: "ST-2003", name: "Maricel Bautista", role: "Inspector", status: "Standby" },
-  ];
-
   const statusClass = (status: string) => {
     const s = (status || "").toLowerCase();
     if (s.includes("pending")) return "text-xs px-2 py-1 rounded-full bg-blue-500/20 text-blue-400";
@@ -78,8 +71,6 @@ export default function ClientTracking() {
     if (s.includes("scheduled")) return "text-xs px-2 py-1 rounded-full bg-[#fcb316]/10 text-[#fcb316]";
     return "text-xs px-2 py-1 rounded-full bg-[#2a2a2a] text-[#fffefe]/70";
   };
-
-  const activeTeamMember = selectedTeamMember || teamMembers[0];
 
   return (
     <div className="flex min-h-screen bg-[#191919]">
@@ -172,28 +163,20 @@ export default function ClientTracking() {
                     <Users size={18} className="text-[#fcb316]" />
                     <h3 className="text-lg text-[#fffefe] font-semibold">Team members</h3>
                   </div>
-                  <p className="text-[#fffefe]/55 text-sm mt-2">Tap a button to view the team member's NBI clearance.</p>
+                  <p className="text-[#fffefe]/55 text-sm mt-2">Your assigned team for this booking.</p>
                 </div>
                 <div className="p-6 grid gap-4 md:grid-cols-1">
-                  {teamMembers.map((member, idx) => (
-                    <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-2xl hover:border-[#fcb316]/50 transition-all flex flex-col justify-between">
-                      <div className="flex items-start justify-between gap-3 mb-4">
-                        <div>
-                          <p className="font-semibold text-[#fffefe]">{member.name}</p>
-                          <p className="text-xs text-[#fffefe]/60 mt-1">{member.role}</p>
-                        </div>
-                        <span className={`text-xs px-2 py-1 rounded-full ${member.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{member.status}</span>
-                      </div>
+                  {[
+                    { name: "Liza Mendoza", role: "Lead Cleaner", status: "Active" },
+                    { name: "Jose Villanueva", role: "Team Member", status: "Active" },
+                    { name: "Maricel Bautista", role: "Inspector", status: "Standby" },
+                  ].map((member, idx) => (
+                    <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-2xl hover:border-[#fcb316]/50 transition-all flex items-start justify-between gap-3">
                       <div>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => setSelectedTeamMember(member)}
-                          className="w-full justify-center gap-2 rounded-lg border-[#2a2a2a] bg-[#1e1e1e] text-[#fcb316] hover:bg-[#262626] hover:text-[#ffcf61] py-3"
-                        >
-                          <Eye size={14} /> View NBI Clearance
-                        </Button>
+                        <p className="font-semibold text-[#fffefe]">{member.name}</p>
+                        <p className="text-xs text-[#fffefe]/60 mt-1">{member.role}</p>
                       </div>
+                      <span className={`text-xs px-2 py-1 rounded-full ${member.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{member.status}</span>
                     </div>
                   ))}
                 </div>
@@ -230,52 +213,7 @@ export default function ClientTracking() {
           </div>
         </div>
       )}
-      {selectedTeamMember && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] p-6 md:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto pr-1 shadow-2xl">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <p className="text-[#fffefe]/55 text-sm uppercase tracking-[0.18em]">NBI clearance</p>
-                <h2 className="text-2xl text-[#fffefe] font-bold mt-1">{activeTeamMember.name}</h2>
-              </div>
-              <button type="button" onClick={() => setSelectedTeamMember(null)} className="text-[#fffefe]/50 hover:text-[#fffefe]">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="space-y-6">
-              <div className="rounded-2xl border border-[#2a2a2a] bg-gradient-to-br from-[#fcb316]/10 to-[#191919] p-5">
-                <p className="text-[#fffefe]/55 text-xs uppercase tracking-[0.18em] mb-2">Template</p>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-[#fffefe]/50 text-sm">Name</p>
-                    <p className="text-[#fffefe] font-semibold">{activeTeamMember.name}</p>
-                  </div>
-                  <div>
-                    <p className="text-[#fffefe]/50 text-sm">Clearance number</p>
-                    <p className="text-[#fffefe] font-semibold">NBI-2026-{String(activeTeamMember.id).replace(/\D/g, "")}</p>
-                  </div>
-                  <div>
-                    <p className="text-[#fffefe]/50 text-sm">Issued by</p>
-                    <p className="text-[#fffefe] font-semibold">NEAT Admin</p>
-                  </div>
-                  <div>
-                    <p className="text-[#fffefe]/50 text-sm">Status</p>
-                    <p className="text-[#fffefe] font-semibold">Verified copy</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-[#2a2a2a] bg-[#191919] p-5">
-                <p className="text-sm text-[#fffefe]/60 mb-1">Clearance preview</p>
-                <p className="text-[#fffefe] text-sm leading-6">
-                  This is a sample NBI clearance preview for the assigned team member. It keeps the dashboard simple while still letting you verify who is on site.
-                </p>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 }
