@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import ManagerSidebar from "../../components/ManagerSidebar";
 import { BookingCard } from "../../components/BookingCard";
@@ -34,7 +34,7 @@ import {
 
 export default function ManagerBookings() {
   const navigate = useNavigate();
-  const [bookingRecords, setBookingRecords] = useState<Booking[]>(Object.values(mockBookings));
+  const [bookingRecords, setBookingRecords] = useState<Booking[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [reviewBooking, setReviewBooking] = useState<Booking | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,9 +58,75 @@ export default function ManagerBookings() {
     cancelled: "Cancelled",
   };
 
+  // Merge mockBookings with any persisted bookings from localStorage (bookings_<email> and allBookings)
   const bookingsList = [...bookingRecords].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
+
+  // On mount, load persisted bookings
+  useEffect(() => {
+    try {
+      const persisted: Booking[] = [];
+
+      // allBookings fallback
+      const all = JSON.parse(localStorage.getItem("allBookings") || "[]");
+      if (Array.isArray(all)) persisted.push(...all.map((b: any) => ({
+        id: b.id,
+        clientName: b.clientName || b.clientEmail || "Client",
+        clientPhone: b.clientPhone || "",
+        clientEmail: b.clientEmail || b.clientEmail || "",
+        serviceType: b.serviceId || b.service || "service",
+        scheduledDate: b.date || b.scheduledDate || new Date().toISOString(),
+        scheduledTime: b.time || b.scheduledTime || "",
+        address: b.address || { street: b.address || "" , city: "", state: "" },
+        status: (b.status || "pending_approval").toLowerCase(),
+        createdAt: b.bookedAt || b.createdAt || new Date().toISOString(),
+        estimatedCost: b.amount || 0,
+        specialRequests: b.notes || "",
+      })));
+
+      // keys starting with bookings_
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i) || "";
+        if (key.startsWith("bookings_")) {
+          try {
+            const arr = JSON.parse(localStorage.getItem(key) || "[]");
+            if (Array.isArray(arr)) {
+              arr.forEach((b: any) => {
+                persisted.push({
+                  id: b.id,
+                  clientName: b.clientName || key.replace("bookings_", ""),
+                  clientPhone: b.clientPhone || "",
+                  clientEmail: b.clientEmail || key.replace("bookings_", ""),
+                  serviceType: b.serviceId || b.service || "service",
+                  scheduledDate: b.date || new Date().toISOString(),
+                  scheduledTime: b.time || "",
+                  address: b.address || { street: b.address || "", city: "", state: "" },
+                  status: (b.status || "pending_approval").toLowerCase(),
+                  createdAt: b.bookedAt || b.createdAt || new Date().toISOString(),
+                  estimatedCost: b.amount || 0,
+                  specialRequests: b.notes || "",
+                });
+              });
+            }
+          } catch (e) {
+            // ignore malformed
+          }
+        }
+      }
+
+      // Start with mockBookings then merge persisted (avoid duplicates by id)
+      const base = Object.values(mockBookings).map(b => ({ ...b }));
+      const byId: Record<string, Booking> = {};
+      base.forEach(b => (byId[b.id] = b));
+      persisted.forEach((p: any) => {
+        if (!byId[p.id]) byId[p.id] = p as Booking;
+      });
+      setBookingRecords(Object.values(byId));
+    } catch (err) {
+      setBookingRecords(Object.values(mockBookings));
+    }
+  }, []);
 
   const updateBookingStatus = (bookingId: string, nextStatus: Booking["status"]) => {
     setBookingRecords((prev) =>

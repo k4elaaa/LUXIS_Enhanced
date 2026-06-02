@@ -168,14 +168,7 @@ export default function ManagerEmployees() {
               ))}
             </div>
             <div>
-              <Button
-                variant="outline"
-                className="w-full border-[#2a2a2a] text-[#fcb316] font-semibold bg-[#222] hover:bg-[#333]"
-                onClick={() => setShowNbiPreview(true)}
-              >
-                <Eye size={14} className="mr-2" />
-                View NBI Clearance
-              </Button>
+              <p className="text-sm text-[#fffefe]/60">View cleaner profiles or assigned tasks in the booking details.</p>
             </div>
           </div>
         </div>
