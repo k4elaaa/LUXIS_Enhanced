@@ -451,7 +451,45 @@ export default function ManagerBookings() {
                           <AlertDialogAction
                             className="bg-green-600 hover:bg-green-500 text-white"
                             onClick={() => {
-                              updateBookingStatus(reviewBooking.id, "assigned");
+                              // Move booking to in_progress so client sees tracking
+                              updateBookingStatus(reviewBooking.id, "in_progress");
+
+                              // Persist assigned team info for the booking so client can see team members
+                              try {
+                                const assignedTeam = {
+                                  members: [
+                                    { id: "ST-2001", name: "Liza Mendoza" },
+                                    { id: "ST-2002", name: "Jose Villanueva" },
+                                    { id: "ST-2003", name: "Maricel Bautista" },
+                                  ],
+                                };
+
+                                // Update allBookings if present
+                                const all = JSON.parse(localStorage.getItem("allBookings") || "[]");
+                                if (Array.isArray(all) && all.length) {
+                                  const updated = all.map((b: any) => b.id === reviewBooking.id ? { ...b, status: "in_progress", assignedTeam } : b);
+                                  localStorage.setItem("allBookings", JSON.stringify(updated));
+                                }
+
+                                // Update per-user bookings
+                                for (let i = 0; i < localStorage.length; i++) {
+                                  const key = localStorage.key(i) || "";
+                                  if (key.startsWith("bookings_")) {
+                                    try {
+                                      const arr = JSON.parse(localStorage.getItem(key) || "[]");
+                                      if (Array.isArray(arr) && arr.some((b: any) => b.id === reviewBooking.id)) {
+                                        const updatedArr = arr.map((b: any) => b.id === reviewBooking.id ? { ...b, status: "in_progress", assignedTeam } : b);
+                                        localStorage.setItem(key, JSON.stringify(updatedArr));
+                                      }
+                                    } catch (e) {
+                                      // ignore malformed
+                                    }
+                                  }
+                                }
+                              } catch (e) {
+                                // ignore persistence errors
+                              }
+
                               setReviewBooking(null);
                             }}
                           >
