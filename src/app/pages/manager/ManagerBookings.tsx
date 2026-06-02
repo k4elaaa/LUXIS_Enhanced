@@ -64,7 +64,7 @@ export default function ManagerBookings() {
   );
 
   // On mount, load persisted bookings
-  useEffect(() => {
+  const loadPersistedBookings = () => {
     try {
       const persisted: Booking[] = [];
 
@@ -121,11 +121,37 @@ export default function ManagerBookings() {
       base.forEach(b => (byId[b.id] = b));
       persisted.forEach((p: any) => {
         if (!byId[p.id]) byId[p.id] = p as Booking;
+        else {
+          // if id exists, prefer persisted status/details
+          byId[p.id] = { ...byId[p.id], ...p } as Booking;
+        }
       });
       setBookingRecords(Object.values(byId));
     } catch (err) {
       setBookingRecords(Object.values(mockBookings));
     }
+  };
+
+  useEffect(() => {
+    loadPersistedBookings();
+  }, []);
+
+  // Listen for storage events so manager view updates when bookings change in other tabs
+  useEffect(() => {
+    const handler = (e: StorageEvent) => {
+      if (!e) return;
+      const key = e.key;
+      if (!key) {
+        // localStorage clear
+        loadPersistedBookings();
+        return;
+      }
+      if (key === "allBookings" || key.startsWith("bookings_")) {
+        loadPersistedBookings();
+      }
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
   }, []);
 
   const updateBookingStatus = (bookingId: string, nextStatus: Booking["status"]) => {
