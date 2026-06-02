@@ -15,6 +15,19 @@ export default function ClientTracking() {
   const [messageContent, setMessageContent] = useState("");
   const [messageSent, setMessageSent] = useState(false);
 
+  const isTrackingBooking = (booking: any) => {
+    const status = (booking?.status || "").toLowerCase();
+    return status.includes("confirmed") || status.includes("in progress") || status.includes("active");
+  };
+
+  const getAssignedCleaners = (booking: any) => {
+    const members = booking?.assignedTeam?.members;
+    if (Array.isArray(members) && members.length > 0) {
+      return members.map((member: any) => member?.name).filter(Boolean);
+    }
+    return [];
+  };
+
   useEffect(() => {
     const booking = localStorage.getItem("currentBooking");
     if (booking) {
@@ -30,9 +43,9 @@ export default function ClientTracking() {
         if (saved) {
           const parsed = JSON.parse(saved);
           setBookings(parsed);
-          // If there's an active/in-progress booking, prefer that as activeBooking
-          const inProgress = parsed.find((b: any) => (b.status || "").toLowerCase().includes("in progress") || (b.status || "").toLowerCase().includes("active"));
-          if (inProgress) setActiveBooking(inProgress);
+          // If there's a confirmed or in-progress booking, prefer that as activeBooking
+          const trackingBooking = parsed.find((b: any) => isTrackingBooking(b));
+          if (trackingBooking) setActiveBooking(trackingBooking);
         } else {
           setBookings([]);
         }
@@ -88,7 +101,7 @@ export default function ClientTracking() {
       <ClientSidebar />
       <div className="w-full md:ml-64 flex-1 overflow-y-auto pr-1">
         <div className="p-4 md:p-8 pt-16 md:pt-8 space-y-6">
-          {activeBooking && activeBooking.status === "In Progress" && (
+          {activeBooking && isTrackingBooking(activeBooking) && (
             <div className="rounded-[28px] border border-[#2a2a2a] bg-gradient-to-br from-[#2a2210] via-[#1d1b17] to-[#191919] p-6 md:p-8 shadow-2xl">
               <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
                 <div className="max-w-2xl">
@@ -121,6 +134,28 @@ export default function ClientTracking() {
                     <div className="h-full bg-gradient-to-r from-[#fcb316] to-[#de950c] transition-all duration-500" style={{ width: `${activeBooking.progress}%` }} />
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-6 rounded-2xl border border-[#2a2a2a] bg-[#191919] p-4 md:p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <Users size={18} className="text-[#fcb316]" />
+                  <h3 className="text-lg font-semibold text-[#fffefe]">Assigned cleaners</h3>
+                </div>
+                {getAssignedCleaners(activeBooking).length > 0 ? (
+                  <div className="space-y-3">
+                    {getAssignedCleaners(activeBooking).map((cleanerName: string, index: number) => (
+                      <div key={`${cleanerName}-${index}`} className="flex items-center justify-between rounded-xl border border-[#2a2a2a] bg-[#1e1e1e] px-4 py-3">
+                        <div>
+                          <p className="font-semibold text-[#fffefe]">{cleanerName}</p>
+                          <p className="text-xs text-[#fffefe]/55">Cleaner {index + 1}</p>
+                        </div>
+                        <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">On duty</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-[#fffefe]/55">Cleaners will appear here once the booking is confirmed and assigned.</p>
+                )}
               </div>
             </div>
           )}
@@ -167,7 +202,7 @@ export default function ClientTracking() {
               </div>
             </div>
 
-            {activeBooking && activeBooking.status === "In Progress" && (
+            {activeBooking && isTrackingBooking(activeBooking) && (
               <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[24px] overflow-hidden shadow-xl">
                 <div className="p-6 border-b border-[#2a2a2a] bg-gradient-to-r from-[#fcb316]/10 to-transparent">
                   <div className="flex items-center gap-2">
@@ -177,19 +212,19 @@ export default function ClientTracking() {
                   <p className="text-[#fffefe]/55 text-sm mt-2">Your assigned team for this booking.</p>
                 </div>
                 <div className="p-6 grid gap-4 md:grid-cols-1">
-                  {[
-                    { name: "Liza Mendoza", role: "Lead Cleaner", status: "Active" },
-                    { name: "Jose Villanueva", role: "Team Member", status: "Active" },
-                    { name: "Maricel Bautista", role: "Inspector", status: "Standby" },
-                  ].map((member, idx) => (
-                    <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-2xl hover:border-[#fcb316]/50 transition-all flex items-start justify-between gap-3">
-                      <div>
-                        <p className="font-semibold text-[#fffefe]">{member.name}</p>
-                        <p className="text-xs text-[#fffefe]/60 mt-1">{member.role}</p>
+                  {getAssignedCleaners(activeBooking).length > 0 ? (
+                    getAssignedCleaners(activeBooking).map((cleanerName: string, idx: number) => (
+                      <div key={idx} className="p-4 bg-[#191919] border border-[#2a2a2a] rounded-2xl hover:border-[#fcb316]/50 transition-all flex items-start justify-between gap-3">
+                        <div>
+                          <p className="font-semibold text-[#fffefe]">{cleanerName}</p>
+                          <p className="text-xs text-[#fffefe]/60 mt-1">Assigned cleaner</p>
+                        </div>
+                        <span className="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Active</span>
                       </div>
-                      <span className={`text-xs px-2 py-1 rounded-full ${member.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{member.status}</span>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p className="text-[#fffefe]/55">No cleaners assigned yet.</p>
+                  )}
                 </div>
               </div>
             )}

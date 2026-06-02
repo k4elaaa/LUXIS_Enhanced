@@ -3,9 +3,8 @@ import { useNavigate } from "react-router";
 import ManagerSidebar from "../../components/ManagerSidebar";
 import { BookingCard } from "../../components/BookingCard";
 import { Input } from "../../components/ui/input";
-import { mockBookings, Booking, formatBookingCode } from "../../../data/mockData";
+import { mockBookings } from "../../../data/mockData";
 import { ChevronLeft, Search } from "lucide-react";
-import { Button } from "../../components/ui/button";
 import {
   Select,
   SelectContent,
@@ -13,30 +12,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import { Button } from "../../components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "../../components/ui/dialog";
 import {
   AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
 } from "../../components/ui/alert-dialog";
 
 export default function ManagerBookings() {
   const navigate = useNavigate();
-  const [bookingRecords, setBookingRecords] = useState<Booking[]>([]);
-  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-  const [reviewBooking, setReviewBooking] = useState<Booking | null>(null);
+  const [bookingRecords, setBookingRecords] = useState<any[]>([]);
+  const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
+  const [reviewBooking, setReviewBooking] = useState<any | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
 
@@ -66,7 +66,7 @@ export default function ManagerBookings() {
   // On mount, load persisted bookings
   const loadPersistedBookings = () => {
     try {
-      const persisted: Booking[] = [];
+      const persisted: any[] = [];
 
       // allBookings fallback
       const all = JSON.parse(localStorage.getItem("allBookings") || "[]");
@@ -117,13 +117,13 @@ export default function ManagerBookings() {
 
       // Start with mockBookings then merge persisted (avoid duplicates by id)
       const base = Object.values(mockBookings).map(b => ({ ...b }));
-      const byId: Record<string, Booking> = {};
+      const byId: Record<string, any> = {};
       base.forEach(b => (byId[b.id] = b));
       persisted.forEach((p: any) => {
-        if (!byId[p.id]) byId[p.id] = p as Booking;
+        if (!byId[p.id]) byId[p.id] = p as any;
         else {
           // if id exists, prefer persisted status/details
-          byId[p.id] = { ...byId[p.id], ...p } as Booking;
+          byId[p.id] = { ...byId[p.id], ...p } as any;
         }
       });
       setBookingRecords(Object.values(byId));
@@ -154,9 +154,9 @@ export default function ManagerBookings() {
     return () => window.removeEventListener("storage", handler);
   }, []);
 
-  const updateBookingStatus = (bookingId: string, nextStatus: Booking["status"]) => {
+  const updateBookingStatus = (bookingId: string, nextStatus: any) => {
     setBookingRecords((prev) =>
-      prev.map((booking) =>
+      prev.map((booking: any) =>
         booking.id === bookingId
           ? {
               ...booking,
@@ -166,7 +166,7 @@ export default function ManagerBookings() {
       ),
     );
 
-    setSelectedBooking((prev) =>
+    setSelectedBooking((prev: any) =>
       prev && prev.id === bookingId
         ? {
             ...prev,
@@ -175,32 +175,20 @@ export default function ManagerBookings() {
         : prev,
     );
 
-    setReviewBooking((prev) =>
-      prev && prev.id === bookingId
-        ? {
-            ...prev,
-            status: nextStatus,
-          }
-        : prev,
-    );
-
-    // Persist status change to localStorage: update allBookings and any bookings_<email> arrays
     try {
-      // Update allBookings array if present
       const all = JSON.parse(localStorage.getItem("allBookings") || "[]");
       if (Array.isArray(all) && all.length) {
-        const updated = all.map((b: any) => b.id === bookingId ? { ...b, status: nextStatus } : b);
+        const updated = all.map((b: any) => (b.id === bookingId ? { ...b, status: nextStatus } : b));
         localStorage.setItem("allBookings", JSON.stringify(updated));
       }
 
-      // Update per-user bookings keys
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i) || "";
         if (key.startsWith("bookings_")) {
           try {
             const arr = JSON.parse(localStorage.getItem(key) || "[]");
             if (Array.isArray(arr) && arr.some((b: any) => b.id === bookingId)) {
-              const updatedArr = arr.map((b: any) => b.id === bookingId ? { ...b, status: nextStatus } : b);
+              const updatedArr = arr.map((b: any) => (b.id === bookingId ? { ...b, status: nextStatus } : b));
               localStorage.setItem(key, JSON.stringify(updatedArr));
             }
           } catch (e) {
@@ -213,9 +201,15 @@ export default function ManagerBookings() {
     }
   };
 
-  const getReceiptRef = (booking: Booking) => {
-    return `RCPT-${formatBookingCode(booking.id)}`;
+  const getReceiptRef = (booking: any) => {
+    try {
+      const id = booking?.id?.toString() || "xxxxxx";
+      return `RCPT-${id.slice(0, 6).toUpperCase()}`;
+    } catch (e) {
+      return "RCPT-UNKNOWN";
+    }
   };
+
 
   const filteredBookings = bookingsList.filter(booking => {
     const matchesSearch =
@@ -360,7 +354,7 @@ export default function ManagerBookings() {
                   <div className="bg-green-500/10 rounded-lg p-4 mb-6 border border-green-500/20">
                     <p className="text-xs text-green-400 font-medium mb-3">ASSIGNED STAFF</p>
                     <div className="space-y-2">
-                      {selectedBooking.assignedTeam.members.map((member, index) => (
+                      {selectedBooking.assignedTeam.members.map((member: any, index: number) => (
                         <div
                           key={member.id}
                           className="flex items-center gap-2 text-sm text-[#fffefe]"
@@ -426,7 +420,7 @@ export default function ManagerBookings() {
                 <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg p-4">
                   <p className="text-xs text-[#fffefe]/50 mb-1">Service Address</p>
                   <p className="text-sm text-[#fffefe]">
-                    {reviewBooking.address.street}, {reviewBooking.address.city}, {reviewBooking.address.state}
+                    {reviewBooking.address?.street}, {reviewBooking.address?.city}, {reviewBooking.address?.state}
                   </p>
                 </div>
 
