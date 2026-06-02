@@ -126,24 +126,11 @@ interface Message {
 
 type FeedbackChoice = "good" | "okay" | "bad" | "";
 
-const feedbackChoices: Array<{
-  value: Exclude<FeedbackChoice, "">;
-  label: string;
-  description: string;
-  rating: number;
-  icon: typeof ThumbsUp;
-  accent: string;
-}> = [
-  { value: "good", label: "Good", description: "Fast, clean, and satisfied", rating: 5, icon: ThumbsUp, accent: "border-green-500/40 bg-green-500/10 text-green-400" },
-  { value: "okay", label: "Okay", description: "Service was fine", rating: 3, icon: Minus, accent: "border-[#fcb316]/40 bg-[#fcb316]/10 text-[#fcb316]" },
-  { value: "bad", label: "Bad", description: "Needs improvement", rating: 1, icon: ThumbsDown, accent: "border-red-500/40 bg-red-500/10 text-red-400" },
-];
-
 export default function ClientFeedback() {
   const [services, setServices] = useState<Service[]>(serviceHistory);
   const [message, setMessage] = useState<Message | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [feedbackChoice, setFeedbackChoice] = useState<FeedbackChoice>("");
+  const [rating, setRating] = useState<number | null>(null);
   const [expandedService, setExpandedService] = useState<string | null>(null);
 
   const showMessage = (type: "success" | "error", text: string) => {
@@ -153,19 +140,13 @@ export default function ClientFeedback() {
 
   const handleSubmitFeedback = () => {
     if (!selectedService) { showMessage("error", "Please select a service"); return; }
-    if (!feedbackChoice) { showMessage("error", "Please choose a feedback option"); return; }
+    if (!rating) { showMessage("error", "Please provide a star rating"); return; }
 
-    const selectedOption = feedbackChoices.find((choice) => choice.value === feedbackChoice);
-    const sentimentLabel = selectedOption?.label || "Okay";
-    const chosenRating = selectedOption?.rating || 3;
-    const submittedComment = {
-      good: "Good service.",
-      okay: "Okay service.",
-      bad: "Bad service.",
-    }[feedbackChoice as Exclude<FeedbackChoice, "">];
+    const chosenRating = rating;
+    const submittedComment = `${chosenRating}/5`;
 
     const updatedServices = services.map((s) =>
-      s.id === selectedService ? { ...s, feedback: { rating: chosenRating, comment: `${sentimentLabel}: ${submittedComment}`, submittedDate: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) } } : s
+      s.id === selectedService ? { ...s, feedback: { rating: chosenRating, comment: submittedComment, submittedDate: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) } } : s
     );
     setServices(updatedServices);
     localStorage.setItem("serviceHistory", JSON.stringify(updatedServices));
@@ -375,25 +356,8 @@ export default function ClientFeedback() {
                       </div>
                       <div>
                         <Label className="text-[#fffefe] block mb-3 font-semibold">How was the service?</Label>
-                        <div className="grid grid-cols-1 gap-2">
-                          {feedbackChoices.map((choice) => (
-                            <button
-                              key={choice.value}
-                              type="button"
-                              onClick={() => {
-                                setFeedbackChoice(choice.value);
-                              }}
-                              className={`rounded-2xl border px-4 py-4 text-left transition-all flex items-center gap-4 ${feedbackChoice === choice.value ? choice.accent : "border-[#2a2a2a] bg-[#191919] hover:border-[#fcb316]/35"}`}
-                            >
-                              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border ${feedbackChoice === choice.value ? "border-current" : "border-[#2a2a2a] bg-[#161616]"}`}>
-                                <choice.icon size={22} />
-                              </div>
-                              <div className="flex-1">
-                                <p className="text-[#fffefe] font-semibold">{choice.label}</p>
-                                <p className="text-[#fffefe]/55 text-xs mt-1">{choice.description}</p>
-                              </div>
-                            </button>
-                          ))}
+                        <div className="mt-2">
+                          <p className="text-[#fffefe]/60 text-sm mb-2">Tap to set a star rating for this service.</p>
                         </div>
                       </div>
                       <div>
@@ -403,13 +367,10 @@ export default function ClientFeedback() {
                             <button
                               key={i}
                               type="button"
-                              onClick={() => setFeedbackChoice((prev) => {
-                                // keep feedbackChoice as sentiment but store chosen star via selectedService feedback when submitting
-                                return prev || "good";
-                              })}
+                              onClick={() => setRating(i)}
                               className="p-1"
                             >
-                              <Star size={20} className="text-[#fcb316]" />
+                              <Star size={20} className={i <= (rating || 0) ? "text-[#fcb316] fill-current" : "text-[#2a2a2a]"} />
                             </button>
                           ))}
                         </div>
