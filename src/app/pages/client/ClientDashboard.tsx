@@ -38,6 +38,7 @@ export default function ClientDashboard() {
   }, []);
 
   const quickActions = [
+    { title: "Book a service", description: "Schedule your next cleaning.", icon: ArrowRight, href: "/booking-details", cta: "Book now" },
     { title: "Track your cleaning", description: "View live status.", icon: Clock, href: "/client/tracking", cta: "Track status" },
     { title: "Check your history", description: "See past services.", icon: BadgeCheck, href: "/client/history", cta: "View history" },
   ];
@@ -109,7 +110,7 @@ export default function ClientDashboard() {
                 <div>
                   <p className="text-[#fffefe]/55 text-sm uppercase tracking-[0.18em]">Now serving</p>
                   <h2 className="text-2xl md:text-3xl font-bold text-[#fffefe] mt-2">
-                    {currentBooking ? currentBooking.service : "No active bookings"}
+                    {currentBooking ? (currentBooking.serviceLabel || currentBooking.service) : "No active bookings"}
                   </h2>
                   <p className="text-[#fffefe]/60 mt-2 max-w-xl">
                     {currentBooking ? "View status, date, and location quickly." : "Book your next cleaning."}

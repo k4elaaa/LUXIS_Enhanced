@@ -82,7 +82,7 @@ export default function ClientTracking() {
               <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
                 <div className="max-w-2xl">
                   <p className="text-[#fcb316] text-sm font-semibold uppercase tracking-[0.2em]">Active service</p>
-                  <h1 className="mt-2 text-3xl md:text-4xl text-[#fffefe] font-bold">{activeBooking.service}</h1>
+                  <h1 className="mt-2 text-3xl md:text-4xl text-[#fffefe] font-bold">{activeBooking.serviceLabel || activeBooking.service}</h1>
                   <p className="mt-2 text-[#fffefe]/65">{activeBooking.address}</p>
                 </div>
 

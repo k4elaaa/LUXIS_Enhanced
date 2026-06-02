@@ -144,9 +144,9 @@ export default function ClientSignupPage() {
   };
 
   const handleContinue = () => {
-    // Store client info and redirect to booking details
+    // Store client info and redirect to login so the flow matches signup -> login -> booking
     localStorage.setItem("clientSignupContact", contact);
-    navigate("/booking-details");
+    navigate("/login");
   };
 
   return (

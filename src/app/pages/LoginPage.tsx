@@ -4,12 +4,21 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { useEffect } from "react";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [activeRole, setActiveRole] = useState("admin");
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [clientPin, setClientPin] = useState("");
+
+  useEffect(() => {
+    const signupContact = localStorage.getItem("clientSignupContact");
+    if (signupContact) {
+      setActiveRole("client");
+      setCredentials((prev) => ({ ...prev, email: signupContact }));
+    }
+  }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();

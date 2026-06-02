@@ -81,25 +81,32 @@ export default function ClientBookingDetails() {
       alert("Please fill in all required fields including property/land area size");
       return;
     }
+
+    const selectedServiceDetails = services.find(s => s.id === selectedService);
+    const selectedPackageDetails = packages.find(p => p.id === selectedPackage);
     
     // Store booking details
     const bookingData = {
       id: "BK" + Date.now(),
-      service: selectedService,
-      serviceLabel: services.find(s => s.id === selectedService)?.name,
-      package: selectedPackage,
-      packageLabel: packages.find(p => p.id === selectedPackage)?.name,
-      packagePrice: packages.find(p => p.id === selectedPackage)?.price,
+      serviceId: selectedService,
+      service: selectedServiceDetails?.name || selectedService,
+      packageId: selectedPackage,
+      package: selectedPackageDetails?.name || selectedPackage,
+      amount: selectedPackageDetails?.price || "₱0",
       address: bookingDetails.address,
       landArea: bookingDetails.landArea,
       date: bookingDetails.date,
       time: bookingDetails.time,
       notes: bookingDetails.notes,
-      status: "pending",
+      status: "Confirmed",
       bookedAt: new Date().toISOString()
     };
     
     localStorage.setItem("currentBooking", JSON.stringify(bookingData));
+
+    const existingBookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+    localStorage.setItem("allBookings", JSON.stringify([bookingData, ...existingBookings]));
+
     setStep("confirmation");
     
     // Redirect to client dashboard after 2 seconds
