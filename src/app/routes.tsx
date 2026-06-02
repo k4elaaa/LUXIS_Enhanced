@@ -8,6 +8,7 @@ import ClientBookingDetails from "./pages/ClientBookingDetails";
 import ClientBooking from "./pages/client/ClientBooking";
 import ClientTracking from "./pages/client/ClientTracking";
 import ClientDashboard from "./pages/client/ClientDashboard";
+import ClientBookingHistory from "./pages/client/ClientBookingHistory";
 import ClientFeedback from "./pages/client/ClientFeedback";
 import ClientProfile from "./pages/client/ClientProfile";
 
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
   { path: "/client", Component: ClientDashboard },
   { path: "/client/booking", Component: ClientBooking },
   { path: "/client/booking-summary", Component: ClientDashboard },
+  { path: "/client/history", Component: ClientBookingHistory },
   { path: "/client/tracking", Component: ClientTracking },
   { path: "/client/feedback", Component: ClientFeedback },
   { path: "/client/profile", Component: ClientProfile },

@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { Calendar, CheckCircle, Clock, Sparkles, ArrowRight, MapPin, ShieldCheck, BadgeCheck, Download, X } from "lucide-react";
+import { CheckCircle, Clock, Sparkles, ArrowRight, MapPin, ShieldCheck, BadgeCheck, Download, X } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
@@ -12,7 +12,6 @@ export default function ClientDashboard() {
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showReceiptModal, setShowReceiptModal] = useState(false);
-  const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [receiptData, setReceiptData] = useState<any>(null);
 
   useEffect(() => {
@@ -39,9 +38,8 @@ export default function ClientDashboard() {
   }, []);
 
   const quickActions = [
-    { title: "Book a service", description: "Schedule a cleaning.", icon: Calendar, href: "/client/booking", cta: "Book now" },
     { title: "Track your cleaning", description: "View live status.", icon: Clock, href: "/client/tracking", cta: "Track status" },
-    { title: "Check your history", description: "See past services.", icon: BadgeCheck, href: "/client/booking-details", cta: "View history" },
+    { title: "Check your history", description: "See past services.", icon: BadgeCheck, href: "/client/history", cta: "View history" },
   ];
 
   const serviceSteps = [
@@ -89,7 +87,7 @@ export default function ClientDashboard() {
             <div className="max-w-2xl">
               <p className="text-[#fcb316] text-sm font-semibold uppercase tracking-[0.22em]">Client Dashboard</p>
               <h1 className="mt-2 text-4xl md:text-5xl text-[#fffefe] font-bold leading-tight">Your cleaning services</h1>
-              <p className="mt-3 text-[#fffefe]/65 text-base md:text-lg">See current and upcoming bookings.</p>
+              <p className="mt-3 text-[#fffefe]/65 text-base md:text-lg">See current, upcoming, and past bookings.</p>
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -147,7 +145,7 @@ export default function ClientDashboard() {
                 </div>
               ) : (
                 <div className="mt-6 rounded-2xl border border-dashed border-[#2a2a2a] bg-[#191919] p-5 text-[#fffefe]/70">
-                  No current service. Use "Book a service" to schedule.
+                  No current service. Use the booking page to schedule.
                 </div>
               )}
 
@@ -201,19 +199,11 @@ export default function ClientDashboard() {
                   </div>
                   <h3 className="mt-4 text-xl font-bold text-[#fffefe]">{action.title}</h3>
                   <p className="mt-2 text-[#fffefe]/60 text-sm leading-6">{action.description}</p>
-                  {action.title === "Check your history" ? (
-                    <div className="mt-4">
-                      <Button onClick={() => setShowHistoryModal(true)} variant="ghost" className="px-0 text-[#fcb316] hover:text-[#ffcf61] hover:bg-transparent font-semibold">
-                        {action.cta} <ArrowRight size={16} className="ml-2" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <Link to={action.href}>
-                      <Button variant="ghost" className="mt-4 px-0 text-[#fcb316] hover:text-[#ffcf61] hover:bg-transparent font-semibold">
-                        {action.cta} <ArrowRight size={16} className="ml-2" />
-                      </Button>
-                    </Link>
-                  )}
+                  <Link to={action.href}>
+                    <Button variant="ghost" className="mt-4 px-0 text-[#fcb316] hover:text-[#ffcf61] hover:bg-transparent font-semibold">
+                      {action.cta} <ArrowRight size={16} className="ml-2" />
+                    </Button>
+                  </Link>
                 </div>
               );
             })}
@@ -223,7 +213,7 @@ export default function ClientDashboard() {
             <div className="flex items-center justify-between gap-4 mb-6">
               <div>
                 <p className="text-[#fffefe]/55 text-sm uppercase tracking-[0.18em]">Upcoming</p>
-                <h2 className="mt-2 text-2xl font-bold text-[#fffefe]">Your next bookings</h2>
+                <h2 className="mt-2 text-2xl font-bold text-[#fffefe]">Your active bookings</h2>
               </div>
             </div>
 
@@ -336,60 +326,6 @@ export default function ClientDashboard() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-          {showHistoryModal && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div className="bg-[#1e1e1e] border border-[#2a2a2a] rounded-[20px] p-6 w-full max-w-3xl max-h-[90vh] overflow-auto">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <p className="text-sm text-[#fffefe]/60">History</p>
-                    <h3 className="text-xl text-[#fffefe] font-bold mt-1">All past bookings</h3>
-                    <p className="text-[#fffefe]/60 text-sm mt-2">All your past bookings will be saved here.</p>
-                  </div>
-                  <button onClick={() => setShowHistoryModal(false)} className="text-[#fffefe]/60"><X size={18} /></button>
-                </div>
-
-                <div className="mt-4">
-                  {bookings.length === 0 ? (
-                    <div className="rounded-2xl border border-dashed border-[#2a2a2a] p-6 text-center text-[#fffefe]/70">There are no past bookings.</div>
-                  ) : (
-                    <div className="overflow-x-auto">
-                      <table className="min-w-full text-left">
-                        <thead>
-                          <tr className="text-[#fffefe]/60 text-sm">
-                            <th className="py-3 px-4">Service</th>
-                            <th className="py-3 px-4">Date</th>
-                            <th className="py-3 px-4">Time</th>
-                            <th className="py-3 px-4">Location</th>
-                            <th className="py-3 px-4">Status</th>
-                            <th className="py-3 px-4">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#2a2a2a]">
-                          {bookings.map((b) => (
-                            <tr key={b.id} className="text-[#fffefe]/90">
-                              <td className="py-3 px-4">{b.service}</td>
-                              <td className="py-3 px-4">{b.date}</td>
-                              <td className="py-3 px-4">{b.time}</td>
-                              <td className="py-3 px-4">{b.address}</td>
-                              <td className="py-3 px-4"><span className={statusClass(b.status)}>{b.status}</span></td>
-                              <td className="py-3 px-4">
-                                <div className="flex gap-2">
-                                  <Button onClick={() => { setSelectedBooking(b); setShowBookingModal(true); }} className="px-3 py-2 text-sm rounded-lg bg-[#191919] border border-[#2a2a2a] text-[#fffefe]">View</Button>
-                                  <Button onClick={() => openReceipt(b)} className="px-3 py-2 text-sm rounded-lg bg-[#fcb316] text-[#191919]">Receipt</Button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-
-                
               </div>
             </div>
           )}
