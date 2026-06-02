@@ -45,11 +45,23 @@ export default function ClientBookingHistory() {
   const [historyBookings, setHistoryBookings] = useState<any[]>([]);
 
   useEffect(() => {
-    const savedHistoryBookings = localStorage.getItem("bookingHistory");
-    if (savedHistoryBookings) {
-      setHistoryBookings(JSON.parse(savedHistoryBookings));
-    } else {
-      setHistoryBookings(samplePastBookings);
+    try {
+      const userAccount = JSON.parse(localStorage.getItem("userAccount") || "null");
+      if (userAccount && userAccount.email) {
+        const key = `bookings_${userAccount.email.toLowerCase()}`;
+        const saved = localStorage.getItem(key);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          // Only show completed bookings in history
+          setHistoryBookings(parsed.filter((b: any) => (b.status || "").toLowerCase().includes("completed")));
+        } else {
+          setHistoryBookings([]);
+        }
+      } else {
+        setHistoryBookings([]);
+      }
+    } catch (err) {
+      setHistoryBookings([]);
     }
   }, []);
 

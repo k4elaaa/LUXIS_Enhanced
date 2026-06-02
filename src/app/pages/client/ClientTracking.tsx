@@ -1,5 +1,5 @@
 import ClientSidebar from "../../components/ClientSidebar";
-import { Send, Clock, Users, CheckCircle2, X } from "lucide-react";
+import { Send, Clock, Users, CheckCircle2 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { useState, useEffect } from "react";
 import { Input } from "../../components/ui/input";
@@ -21,15 +21,26 @@ export default function ClientTracking() {
       setActiveBooking(JSON.parse(booking));
     }
 
-    const savedBookings = localStorage.getItem("allBookings");
-    if (savedBookings) {
-      setBookings(JSON.parse(savedBookings));
-    } else {
-      setBookings([
-        { id: "BK-3401", service: "Deep Cleaning", date: "Apr 18, 2026", time: "10:00 AM", status: "In Progress", address: "Quezon City", progress: 65 },
-        { id: "BK-3402", service: "Regular Maintenance", date: "Apr 22, 2026", time: "02:00 PM", status: "Scheduled", address: "456 Oak Ave", progress: 0 },
-      ]);
-      setActiveBooking({ id: "BK-3401", service: "Deep Cleaning", date: "Apr 18, 2026", time: "10:00 AM", status: "In Progress", address: "Quezon City", progress: 65 });
+    // Load only bookings tied to the logged-in user
+    try {
+      const userAccount = JSON.parse(localStorage.getItem("userAccount") || "null");
+      if (userAccount && userAccount.email) {
+        const key = `bookings_${userAccount.email.toLowerCase()}`;
+        const saved = localStorage.getItem(key);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          setBookings(parsed);
+          // If there's an active/in-progress booking, prefer that as activeBooking
+          const inProgress = parsed.find((b: any) => (b.status || "").toLowerCase().includes("in progress") || (b.status || "").toLowerCase().includes("active"));
+          if (inProgress) setActiveBooking(inProgress);
+        } else {
+          setBookings([]);
+        }
+      } else {
+        setBookings([]);
+      }
+    } catch (err) {
+      setBookings([]);
     }
   }, []);
 

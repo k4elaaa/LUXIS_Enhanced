@@ -104,8 +104,22 @@ export default function ClientBookingDetails() {
     
     localStorage.setItem("currentBooking", JSON.stringify(bookingData));
 
-    const existingBookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
-    localStorage.setItem("allBookings", JSON.stringify([bookingData, ...existingBookings]));
+    // Persist booking under the logged-in user's bookings key
+    try {
+      const userAccount = JSON.parse(localStorage.getItem("userAccount") || "null");
+      if (userAccount && userAccount.email) {
+        const key = `bookings_${userAccount.email.toLowerCase()}`;
+        const existingBookings = JSON.parse(localStorage.getItem(key) || "[]");
+        localStorage.setItem(key, JSON.stringify([bookingData, ...existingBookings]));
+      } else {
+        // Fallback for anonymous/demo: keep it local to allBookings but avoid mixing accounts
+        const existingBookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+        localStorage.setItem("allBookings", JSON.stringify([bookingData, ...existingBookings]));
+      }
+    } catch (err) {
+      const existingBookings = JSON.parse(localStorage.getItem("allBookings") || "[]");
+      localStorage.setItem("allBookings", JSON.stringify([bookingData, ...existingBookings]));
+    }
 
     setStep("confirmation");
     

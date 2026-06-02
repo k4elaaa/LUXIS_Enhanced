@@ -23,17 +23,24 @@ export default function ClientDashboard() {
 
     const account = localStorage.getItem("userAccount");
     if (account) {
-      setUserAccount(JSON.parse(account));
-    }
+      const parsed = JSON.parse(account);
+      setUserAccount(parsed);
 
-    const savedBookings = localStorage.getItem("allBookings");
-    if (savedBookings) {
-      setBookings(JSON.parse(savedBookings));
+      // Load bookings specific to this user
+      try {
+        const key = `bookings_${parsed.email.toLowerCase()}`;
+        const saved = localStorage.getItem(key);
+        if (saved) {
+          setBookings(JSON.parse(saved));
+        } else {
+          setBookings([]);
+        }
+      } catch (err) {
+        setBookings([]);
+      }
     } else {
-      setBookings([
-        { id: "BK-3401", service: "Deep Cleaning", date: "Apr 18, 2026", time: "10:00 AM", status: "Confirmed", address: "123 Main St" },
-        { id: "BK-3402", service: "Regular Maintenance", date: "Apr 22, 2026", time: "02:00 PM", status: "Scheduled", address: "456 Oak Ave" },
-      ]);
+      // No logged in user: no bookings shown
+      setBookings([]);
     }
   }, []);
 
