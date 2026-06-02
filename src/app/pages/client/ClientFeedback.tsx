@@ -8,12 +8,14 @@ import {
   MapPin,
   CalendarDays,
   Package as PackageIcon,
-  Ticket
+  Ticket,
+  ThumbsUp,
+  Minus,
+  ThumbsDown
 } from "lucide-react";
 import ClientSidebar from "../../components/ClientSidebar";
 import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
-import { Textarea } from "../../components/ui/textarea";
 
 const neatPackages = {
   "Package 1": {
@@ -122,13 +124,26 @@ interface Message {
   text: string;
 }
 
+type FeedbackChoice = "good" | "okay" | "bad" | "";
+
+const feedbackChoices: Array<{
+  value: Exclude<FeedbackChoice, "">;
+  label: string;
+  description: string;
+  rating: number;
+  icon: typeof ThumbsUp;
+  accent: string;
+}> = [
+  { value: "good", label: "Good", description: "Fast, clean, and satisfied", rating: 5, icon: ThumbsUp, accent: "border-green-500/40 bg-green-500/10 text-green-400" },
+  { value: "okay", label: "Okay", description: "Service was fine", rating: 3, icon: Minus, accent: "border-[#fcb316]/40 bg-[#fcb316]/10 text-[#fcb316]" },
+  { value: "bad", label: "Bad", description: "Needs improvement", rating: 1, icon: ThumbsDown, accent: "border-red-500/40 bg-red-500/10 text-red-400" },
+];
+
 export default function ClientFeedback() {
   const [services, setServices] = useState<Service[]>(serviceHistory);
   const [message, setMessage] = useState<Message | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [comment, setComment] = useState("");
+  const [feedbackChoice, setFeedbackChoice] = useState<FeedbackChoice>("");
   const [expandedService, setExpandedService] = useState<string | null>(null);
 
   const showMessage = (type: "success" | "error", text: string) => {
@@ -138,18 +153,25 @@ export default function ClientFeedback() {
 
   const handleSubmitFeedback = () => {
     if (!selectedService) { showMessage("error", "Please select a service"); return; }
-    if (rating === 0) { showMessage("error", "Please select a rating"); return; }
-    if (!comment.trim()) { showMessage("error", "Please share your feedback"); return; }
+    if (!feedbackChoice) { showMessage("error", "Please choose a feedback option"); return; }
+
+    const selectedOption = feedbackChoices.find((choice) => choice.value === feedbackChoice);
+    const sentimentLabel = selectedOption?.label || "Okay";
+    const chosenRating = selectedOption?.rating || 3;
+    const submittedComment = {
+      good: "Good service.",
+      okay: "Okay service.",
+      bad: "Bad service.",
+    }[feedbackChoice as Exclude<FeedbackChoice, "">];
 
     const updatedServices = services.map((s) =>
-      s.id === selectedService ? { ...s, feedback: { rating, comment, submittedDate: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) } } : s
+      s.id === selectedService ? { ...s, feedback: { rating: chosenRating, comment: `${sentimentLabel}: ${submittedComment}`, submittedDate: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) } } : s
     );
     setServices(updatedServices);
     localStorage.setItem("serviceHistory", JSON.stringify(updatedServices));
     showMessage("success", "Thank you! Your feedback has been submitted.");
     setSelectedService(null);
-    setRating(0);
-    setComment("");
+    setFeedbackChoice("");
   };
 
   const downloadReceipt = (service: Service) => {
@@ -329,7 +351,7 @@ export default function ClientFeedback() {
           <div className="mb-8">
             <p className="text-[#fcb316] text-sm font-semibold uppercase tracking-[0.18em]">Service feedback</p>
             <h1 className="mt-2 text-3xl md:text-4xl font-bold text-[#fffefe]">Review completed services</h1>
-            <p className="mt-2 max-w-2xl text-[#fffefe]/60">Choose a completed service, share your rating, and leave a short note so we can keep improving.</p>
+            <p className="mt-2 max-w-2xl text-[#fffefe]/60">Choose a completed service, tap one quick option, and send feedback in seconds.</p>
           </div>
           {message && (
             <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 border backdrop-blur-sm ${message.type === "success" ? "bg-green-500/10 border-green-500/30 text-green-400" : "bg-red-500/10 border-red-500/30 text-red-400"}`}>
@@ -352,23 +374,34 @@ export default function ClientFeedback() {
                         <p className="text-[#fffefe]/50 text-xs mt-1">{currentService.bookingId}</p>
                       </div>
                       <div>
-                        <Label className="text-[#fffefe] block mb-3 font-semibold">Your Rating</Label>
-                        <div className="flex gap-2 justify-center">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <button key={star} onClick={() => setRating(star)} onMouseEnter={() => setHoverRating(star)} onMouseLeave={() => setHoverRating(0)} className="transition-transform hover:scale-110">
-                              <Star size={32} className={star <= (hoverRating || rating) ? "fill-[#fcb316] text-[#fcb316]" : "text-[#2a2a2a]"} />
+                        <Label className="text-[#fffefe] block mb-3 font-semibold">How was the service?</Label>
+                        <div className="grid grid-cols-1 gap-2">
+                          {feedbackChoices.map((choice) => (
+                            <button
+                              key={choice.value}
+                              type="button"
+                              onClick={() => {
+                                setFeedbackChoice(choice.value);
+                              }}
+                              className={`rounded-2xl border px-4 py-4 text-left transition-all flex items-center gap-4 ${feedbackChoice === choice.value ? choice.accent : "border-[#2a2a2a] bg-[#191919] hover:border-[#fcb316]/35"}`}
+                            >
+                              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border ${feedbackChoice === choice.value ? "border-current" : "border-[#2a2a2a] bg-[#161616]"}`}>
+                                <choice.icon size={22} />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-[#fffefe] font-semibold">{choice.label}</p>
+                                <p className="text-[#fffefe]/55 text-xs mt-1">{choice.description}</p>
+                              </div>
                             </button>
                           ))}
                         </div>
-                        {rating > 0 && <p className="text-center text-[#fcb316] font-semibold mt-2">{rating} / 5</p>}
                       </div>
                       <div>
-                        <Label htmlFor="comment" className="text-[#fffefe] block mb-2 font-semibold text-sm">Your Feedback</Label>
-                        <Textarea id="comment" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Share your experience..." className="bg-[#191919] border-[#2a2a2a] text-[#fffefe] placeholder-[#fffefe]/30 w-full min-h-24 text-sm" />
+                        <p className="text-[#fffefe]/55 text-sm leading-6">One tap is enough, just like a quick review app.</p>
                       </div>
                       <div className="flex gap-2">
                         <Button onClick={handleSubmitFeedback} className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-2 rounded-xl"><Send size={16} className="mr-1" /> Submit</Button>
-                        <Button onClick={() => { setSelectedService(null); setRating(0); setComment(""); }} className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold py-2 rounded-xl">Cancel</Button>
+                        <Button onClick={() => { setSelectedService(null); setFeedbackChoice(""); }} className="flex-1 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-[#fffefe] font-semibold py-2 rounded-xl">Cancel</Button>
                       </div>
                     </>
                   ) : <div className="text-center py-4"><p className="text-[#fffefe]/60 text-sm leading-6">Select a completed service from the list to leave feedback.</p></div>}
