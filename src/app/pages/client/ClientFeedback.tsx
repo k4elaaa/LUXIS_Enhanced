@@ -397,7 +397,22 @@ export default function ClientFeedback() {
                         </div>
                       </div>
                       <div>
-                        <p className="text-[#fffefe]/55 text-sm leading-6">One tap is enough, just like a quick review app.</p>
+                        <Label className="text-[#fffefe] block mb-3 font-semibold">Rating</Label>
+                        <div className="flex items-center gap-2">
+                          {[1, 2, 3, 4, 5].map((i) => (
+                            <button
+                              key={i}
+                              type="button"
+                              onClick={() => setFeedbackChoice((prev) => {
+                                // keep feedbackChoice as sentiment but store chosen star via selectedService feedback when submitting
+                                return prev || "good";
+                              })}
+                              className="p-1"
+                            >
+                              <Star size={20} className="text-[#fcb316]" />
+                            </button>
+                          ))}
+                        </div>
                       </div>
                       <div className="flex gap-2">
                         <Button onClick={handleSubmitFeedback} className="flex-1 bg-[#fcb316] hover:bg-[#de950c] text-[#191919] font-semibold py-2 rounded-xl"><Send size={16} className="mr-1" /> Submit</Button>
