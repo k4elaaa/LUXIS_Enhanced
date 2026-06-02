@@ -37,4 +37,13 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: /tmp/firebase-sa.json
         run: |
-          firebase deploy --only hosting --project neat-fsmcrm
+          # derive project id from .firebaserc so it stays in sync with the repo
+          if [ -f .firebaserc ]; then
+            PROJECT_ID=$(node -e "console.log(require('./.firebaserc').projects.default || '')")
+          fi
+          if [ -z "$PROJECT_ID" ]; then
+            echo "Could not read project id from .firebaserc; falling back to neat-fsmcrm"
+            PROJECT_ID=neat-fsmcrm
+          fi
+          echo "Deploying to Firebase project: $PROJECT_ID"
+          firebase deploy --only hosting --project "$PROJECT_ID"
