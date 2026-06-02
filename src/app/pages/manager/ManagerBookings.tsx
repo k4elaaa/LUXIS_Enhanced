@@ -157,6 +157,34 @@ export default function ManagerBookings() {
           }
         : prev,
     );
+
+    // Persist status change to localStorage: update allBookings and any bookings_<email> arrays
+    try {
+      // Update allBookings array if present
+      const all = JSON.parse(localStorage.getItem("allBookings") || "[]");
+      if (Array.isArray(all) && all.length) {
+        const updated = all.map((b: any) => b.id === bookingId ? { ...b, status: nextStatus } : b);
+        localStorage.setItem("allBookings", JSON.stringify(updated));
+      }
+
+      // Update per-user bookings keys
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i) || "";
+        if (key.startsWith("bookings_")) {
+          try {
+            const arr = JSON.parse(localStorage.getItem(key) || "[]");
+            if (Array.isArray(arr) && arr.some((b: any) => b.id === bookingId)) {
+              const updatedArr = arr.map((b: any) => b.id === bookingId ? { ...b, status: nextStatus } : b);
+              localStorage.setItem(key, JSON.stringify(updatedArr));
+            }
+          } catch (e) {
+            // ignore malformed
+          }
+        }
+      }
+    } catch (e) {
+      // ignore persistence errors
+    }
   };
 
   const getReceiptRef = (booking: Booking) => {
